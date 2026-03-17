@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__context7__query-docs",
+      "Bash(node -e \"const b = require\\(''@vercel/blob''\\); console.log\\(Object.keys\\(b\\).join\\('', ''\\)\\)\")",
+      "Bash(test -f src/app/api/media/route.ts)",
+      "Bash(test -f src/lib/media/blob.ts)",
+      "Bash(test -f src/lib/media/urls.ts)",
+      "Bash(npm run lint -- src/components/nutrition/food-recommendations.tsx)",
+      "Bash(npm run lint:fix)",
+      "Bash(npx tsc --noEmit src/components/nutrition/food-recommendations.tsx)",
+      "Bash(npx tsc --noEmit --pretty)",
+      "Bash(npx tsc --noEmit --project tsconfig.json)",
+      "Bash(npx tsc --noEmit --project /home/manudev/Dev/gymratplus/tsconfig.json)",
+      "Bash(npx tsc --noEmit --skipLibCheck)",
+      "Bash(npm run lint)",
+      "Bash(npx tsc --noEmit --pretty false)",
+      "Bash(npm run type-check)",
+      "Bash(npx eslint src/app/api/cron/check-expired-subscriptions/route.ts src/app/api/cron/workout-streak-reset/route.ts src/app/api/cron/db-cleanup/route.ts)",
+      "Bash(npx prisma generate)",
+      "Read(//home/manudev/Dev/gymratplus/**)",
+      "Bash(sort -k2)",
+      "Bash(node -e \"const { useChat } = require\\(''/home/manudev/Dev/gymratplus/node_modules/@ai-sdk/react''\\); console.log\\(''found''\\);\")",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(npx eslint src/app/\\\\\\(dashboard\\\\\\)/dashboard/chats/page.tsx src/app/api/chats/route.ts src/app/api/chats/\\\\[chatId\\\\]/route.ts src/components/chats/workout-plan-card.tsx src/components/chats/nutrition-plan-card.tsx --max-warnings=0)",
+      "Bash(npx eslint \"src/app/\\(dashboard\\)/dashboard/chats/page.tsx\" \"src/app/api/chats/route.ts\" \"src/components/chats/workout-plan-card.tsx\" \"src/components/chats/nutrition-plan-card.tsx\" --max-warnings=5)",
+      "mcp__hugeicons__search_icons",
+      "Bash(git stash pop)",
+      "Bash(git checkout \"stash@{0}\" -- \"src/app/\\(dashboard\\)/onboarding/page.tsx\" \"src/app/api/user/onboarding-context/route.ts\" \"src/app/api/user/onboarding/route.ts\" \"src/components/onboarding/step-onboarding.tsx\")"
+    ],
+    "additionalDirectories": [
+      "/home/manudev/Dev/gymratplus/src/lib",
+      "/home/manudev/Dev/gymratplus/src/app/(dashboard)/dashboard/workout/[id]/exercises/[exerciseId]",
+      "/home/manudev/Dev/gymratplus/src/app/(dashboard)/dashboard/templates/[id]/workout"
+    ]
+  }
+}
