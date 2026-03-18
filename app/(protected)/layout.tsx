@@ -13,5 +13,15 @@ export default async function ProtectedLayout({
     redirect('/login')
   }
 
-  return <>{children}</>
+  return (
+    <div className="min-h-screen relative overflow-x-hidden">
+      {/* Global Background Decoration */}
+      <div
+        className="fixed inset-0 pointer-events-none opacity-50 dark:opacity-100 transition-opacity duration-1000"
+        style={{ background: 'radial-gradient(ellipse 80% 40% at 50% -10%, var(--color-primary-transparent) 0%, transparent 60%)' }}
+      />
+      
+      {children}
+    </div>
+  )
 }

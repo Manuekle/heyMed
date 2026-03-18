@@ -1,5 +1,4 @@
 import { notFound, redirect } from 'next/navigation'
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { PracticeClient } from './practice-client'
 
@@ -76,9 +75,8 @@ export default async function PracticePage({
 
   let pool: { id: string }[]
   if (mode === 'review') {
-    // Review mode: only pick from cases you got wrong — repeat until mastered
     pool = [...incorrectCases, ...partialCases]
-    if (pool.length === 0) pool = available // fallback
+    if (pool.length === 0) pool = available
   } else {
     pool =
       notAttempted.length > 0 ? notAttempted :
@@ -91,31 +89,19 @@ export default async function PracticePage({
     : null
 
   return (
-    <div className="min-h-screen">
-      <div
-        className="fixed inset-0 pointer-events-none opacity-40 dark:opacity-100"
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 40% at 50% 0%, var(--color-primary-transparent) 0%, transparent 70%)',
-        }}
-      />
-      <div className="relative max-w-4xl mx-auto px-8 py-12 md:py-20">
-
-        <PracticeClient
-          caseData={{
-            id: caseData.id,
-            description: caseData.description,
-            difficulty: caseData.difficulty as 'easy' | 'medium' | 'hard',
-            caseNumber: caseNumber ?? 1,
-            correctDiagnosis: caseData.correct_diagnosis,
-          }}
-          userId={user.id}
-          nextCaseId={nextCaseId}
-          difficultyFilter={difficulty ?? 'all'}
-          attemptNumber={(prevAttempts ?? 0) + 1}
-          mode={mode}
-        />
-      </div>
-    </div>
+    <PracticeClient
+      caseData={{
+        id: caseData.id,
+        description: caseData.description,
+        difficulty: caseData.difficulty as 'easy' | 'medium' | 'hard',
+        caseNumber: caseNumber ?? 1,
+        correctDiagnosis: caseData.correct_diagnosis,
+      }}
+      userId={user.id}
+      nextCaseId={nextCaseId}
+      difficultyFilter={difficulty ?? 'all'}
+      attemptNumber={(prevAttempts ?? 0) + 1}
+      mode={mode}
+    />
   )
 }

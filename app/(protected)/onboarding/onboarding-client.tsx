@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { 
-  HealthIcon, 
-  Brain02Icon, 
-  StethoscopeIcon, 
-  CourseIcon, 
-  DoctorIcon, 
+import {
+  HealthIcon,
+  Brain02Icon,
+  StethoscopeIcon,
+  CourseIcon,
+  DoctorIcon,
   UserCircleIcon,
   ArrowRight01Icon,
   ArrowLeft01Icon,
@@ -77,7 +77,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
       subtitle: 'Practica diagnóstico clínico con IA. Antes de empezar, cuéntanos algo.',
       content: (
         <div className="space-y-6">
-          <label className="block text-text4 font-bold tracking-widest text-foreground/20 uppercase">
+          <label className="block text-text4 font-semibold tracking-[-0.04em] text-foreground/20 ">
             ¿Cómo te llamamos?
           </label>
           <div className="relative group">
@@ -86,7 +86,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
               value={username}
               onChange={e => setUsername(e.target.value)}
               placeholder="Tu nombre o alias"
-              className="w-full bg-transparent text-foreground text-4xl md:text-5xl font-bold focus:outline-none placeholder:text-muted-foreground/20 tracking-tighter"
+              className="w-full bg-transparent text-foreground text-4xl md:text-5xl font-semibold focus:outline-none placeholder:text-muted-foreground/20 tracking-[-0.04em]"
               style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', paddingBottom: '24px' }}
               autoFocus
             />
@@ -109,20 +109,19 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
               <button
                 key={s.id}
                 onClick={() => toggleSystem(s.id)}
-                className={`flex flex-col items-start gap-6 rounded-[2rem] p-8 text-left transition-all duration-700 glass group relative overflow-hidden border ${
-                  active ? 'border-primary/40 bg-white/[0.04]' : 'border-white/[0.03] hover:bg-white/[0.01]'
-                }`}
+                className={`flex flex-col items-start gap-6 rounded-[2rem] p-8 text-left transition-all duration-700 glass group relative overflow-hidden border ${active ? 'border-primary/40 bg-white/[0.04]' : 'border-white/[0.03] hover:bg-white/[0.01]'
+                  }`}
               >
                 <div className={`w-12 h-12 rounded-2xl glass border border-white/[0.05] flex items-center justify-center transition-all duration-700 ${active ? 'text-primary scale-110' : 'text-foreground/10 group-hover:text-foreground/30'}`}>
                   <HugeiconsIcon icon={s.icon} size={22} />
                 </div>
-                <span className={`text-text4 tracking-widest font-bold transition-all duration-700 uppercase ${active ? 'text-foreground' : 'text-foreground/20'}`}>
+                <span className={`text-text4 tracking-[-0.04em] font-semibold transition-all duration-700  ${active ? 'text-foreground' : 'text-foreground/20'}`}>
                   {s.label}
                 </span>
                 {active && (
-                  <motion.div 
+                  <motion.div
                     layoutId="active-dot"
-                    className="absolute top-4 right-4 w-1.5 h-1.5 rounded-full bg-primary" 
+                    className="absolute top-4 right-4 w-1.5 h-1.5 rounded-full bg-primary"
                   />
                 )}
               </button>
@@ -145,15 +144,14 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
               <button
                 key={l.id}
                 onClick={() => setLevel(l.id)}
-                className={`w-full flex items-center justify-between rounded-[2rem] px-10 py-8 text-left transition-all duration-700 glass border ${
-                  active ? 'border-primary/40 bg-white/[0.04]' : 'border-white/[0.03] hover:bg-white/[0.01]'
-                }`}
+                className={`w-full flex items-center justify-between rounded-[2rem] px-10 py-8 text-left transition-all duration-700 glass border ${active ? 'border-primary/40 bg-white/[0.04]' : 'border-white/[0.03] hover:bg-white/[0.01]'
+                  }`}
               >
                 <div className="space-y-1.5">
-                  <p className={`font-bold text-text2 tracking-tight transition-all duration-700 ${active ? 'text-foreground' : 'text-foreground/40'}`}>
+                  <p className={`font-semibold text-text2 tracking-[-0.04em] transition-all duration-700 ${active ? 'text-foreground' : 'text-foreground/40'}`}>
                     {l.label}
                   </p>
-                  <p className="text-text4 font-bold text-foreground/10 tracking-widest uppercase">{l.desc}</p>
+                  <p className="text-text4 font-semibold text-foreground/10 tracking-[-0.04em] ">{l.desc}</p>
                 </div>
                 <div className={`w-8 h-8 rounded-full glass border border-white/[0.05] flex items-center justify-center transition-all duration-700 ${active ? 'bg-primary border-primary text-background' : 'text-foreground/10'}`}>
                   <HugeiconsIcon icon={active ? CheckmarkCircle01Icon : CircleIcon} size={14} />
@@ -173,14 +171,12 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative w-full max-w-xl">
         <BlurFade delay={0.1}>
           {/* Progress Indicator */}
           <div className="flex flex-col items-center gap-6 mb-20">
-             <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3">
               {steps.map((_, i) => (
                 <motion.div
                   key={i}
@@ -194,7 +190,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
                 />
               ))}
             </div>
-            <span className="text-text4 font-bold text-foreground/10 tracking-widest uppercase tabular-nums">
+            <span className="text-text4 font-semibold text-foreground/10 tracking-[-0.04em]  tabular-nums">
               Paso {step + 1} de {steps.length}
             </span>
           </div>
@@ -210,10 +206,10 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
             className="space-y-16"
           >
             <div className="space-y-6">
-              <h1 className="text-5xl md:text-7xl text-foreground font-bold tracking-tighter leading-none">
+              <h1 className="text-5xl md:text-7xl text-foreground font-semibold tracking-[-0.04em] leading-none">
                 {current.title}
               </h1>
-              <p className="text-foreground/40 leading-relaxed text-xl md:text-2xl font-bold tracking-tight italic">
+              <p className="text-foreground/40 leading-relaxed text-xl md:text-2xl font-semibold tracking-[-0.04em] italic">
                 "{current.subtitle}"
               </p>
             </div>
@@ -226,7 +222,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
               {step > 0 ? (
                 <button
                   onClick={() => setStep(s => s - 1)}
-                  className="flex items-center gap-3 text-text4 font-bold text-foreground/20 hover:text-foreground tracking-widest uppercase transition-all duration-500 group"
+                  className="flex items-center gap-3 text-text4 font-semibold text-foreground/20 hover:text-foreground tracking-[-0.04em]  transition-all duration-500 group"
                 >
                   <HugeiconsIcon icon={ArrowLeft01Icon} size={14} className="group-hover:-translate-x-1 transition-transform" />
                   <span>ATRÁS</span>

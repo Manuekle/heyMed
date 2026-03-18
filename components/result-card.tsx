@@ -85,82 +85,82 @@ export function ResultCard({ result, explanation, correctDiagnosis, score, compa
       >
         {/* Border Beam highlight */}
         <BorderBeam size={300} duration={15} colorFrom={config.glow.includes('success') ? '#22C55E' : config.glow.includes('warning') ? '#EAB308' : '#EF4444'} colorTo="#FAFAFA" borderWidth={2} />
-      {/* Ambient glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: `radial-gradient(ellipse at 50% 0%, ${config.glow} 0%, transparent 65%)` }}
-      />
-
-      {/* Score bar */}
-      <div className="relative h-1 w-full" style={{ background: 'var(--border)' }}>
-        <motion.div
-          className={`h-full ${config.bar}`}
-          initial={{ width: '0%' }}
-          animate={{ width: `${score}%` }}
-          transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        {/* Ambient glow */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: `radial-gradient(ellipse at 50% 0%, ${config.glow} 0%, transparent 65%)` }}
         />
-      </div>
 
-      <div className="relative p-8 md:p-10">
-        {/* Score + verdict */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-12">
-          <div>
-            <div className="flex items-baseline gap-2">
-              <span
-                className={`text-heading1 font-bold tracking-[-0.05em] tabular-nums scale-[2.5] origin-left ${config.scoreColor}`}
-              >
-                {displayScore}
-              </span>
-              <span className="text-text4 font-medium text-muted-foreground/30 tracking-[-0.01em] uppercase ml-12">/100</span>
-            </div>
-            <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 uppercase">
-              Precisión clínica
-            </p>
-          </div>
-          <div className="flex flex-col items-start md:items-end gap-3">
-            <span className={`flex items-center gap-2 text-text4 tracking-[-0.01em] font-medium px-4 py-1.5 rounded-full crystal uppercase ${config.badge}`}>
-              <HugeiconsIcon icon={config.icon} size={14} />
-              <span>{config.labelEs}</span>
-            </span>
-            <span className="text-text4 font-medium text-muted-foreground tracking-[-0.01em] uppercase">
-              Evaluación IA
-            </span>
-          </div>
+        {/* Score bar */}
+        <div className="relative h-1 w-full" style={{ background: 'var(--border)' }}>
+          <motion.div
+            className={`h-full ${config.bar}`}
+            initial={{ width: '0%' }}
+            animate={{ width: `${score}%` }}
+            transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          />
         </div>
 
-        {!compact && (
-          <>
-            <div className="w-full h-px mb-10" style={{ background: 'var(--border)' }} />
-
-            {/* Explanation — layered */}
-            <div className="space-y-4">
-              <p className="text-foreground/70 leading-[1.8] text-text1 font-medium tracking-[-0.02em]">
-              {expanded || !isLong ? explanation : firstSentence}
-            </p>
-              {isLong && (
-                <button
-                  onClick={() => setExpanded(v => !v)}
-                  className="text-text4 tracking-[-0.01em] font-medium text-muted-foreground hover:text-muted-foreground transition-all duration-300 border-b border-muted-foreground/20 pb-0.5 uppercase"
+        <div className="relative p-8 md:p-10">
+          {/* Score + verdict */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-12">
+            <div>
+              <div className="flex items-baseline gap-2">
+                <span
+                  className={`text-heading1 font-semibold tracking-[-0.05em] tabular-nums scale-[2.5] origin-left ${config.scoreColor}`}
                 >
-                  {expanded ? 'Leer menos' : 'Leer análisis completo'}
-                </button>
-              )}
-            </div>
-
-            {/* Correct diagnosis */}
-            {correctDiagnosis && result !== 'correct' && (
-              <div className="mt-10 pt-10" style={{ borderTop: '1px solid var(--border)' }}>
-                <p className="text-text4 tracking-[-0.01em] font-medium text-muted-foreground/30 mb-4 uppercase">
-                  Referencia diagnóstica
-                </p>
-                <p className="text-foreground/50 font-medium text-text2 leading-relaxed tracking-[-0.011em]">
-                  {correctDiagnosis}
-                </p>
+                  {displayScore}
+                </span>
+                <span className="text-text4 font-medium text-muted-foreground/30 tracking-[-0.01em]  ml-12">/100</span>
               </div>
-            )}
-          </>
-        )}
-      </div>
+              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 ">
+                Precisión clínica
+              </p>
+            </div>
+            <div className="flex flex-col items-start md:items-end gap-3">
+              <span className={`flex items-center gap-2 text-text4 tracking-[-0.01em] font-medium px-4 py-1.5 rounded-full crystal  ${config.badge}`}>
+                <HugeiconsIcon icon={config.icon} size={14} />
+                <span>{config.labelEs}</span>
+              </span>
+              <span className="text-text4 font-medium text-muted-foreground tracking-[-0.01em] ">
+                Evaluación IA
+              </span>
+            </div>
+          </div>
+
+          {!compact && (
+            <>
+              <div className="w-full h-px mb-10" style={{ background: 'var(--border)' }} />
+
+              {/* Explanation — layered */}
+              <div className="space-y-4">
+                <p className="text-foreground/70 leading-[1.8] text-text1 font-medium tracking-[-0.02em]">
+                  {expanded || !isLong ? explanation : firstSentence}
+                </p>
+                {isLong && (
+                  <button
+                    onClick={() => setExpanded(v => !v)}
+                    className="text-text4 tracking-[-0.01em] font-medium text-muted-foreground hover:text-muted-foreground transition-all duration-300 border-b border-muted-foreground/20 pb-0.5 "
+                  >
+                    {expanded ? 'Leer menos' : 'Leer análisis completo'}
+                  </button>
+                )}
+              </div>
+
+              {/* Correct diagnosis */}
+              {correctDiagnosis && result !== 'correct' && (
+                <div className="mt-10 pt-10" style={{ borderTop: '1px solid var(--border)' }}>
+                  <p className="text-text4 tracking-[-0.01em] font-medium text-muted-foreground/30 mb-4 ">
+                    Referencia diagnóstica
+                  </p>
+                  <p className="text-foreground/50 font-medium text-text2 leading-relaxed tracking-[-0.011em]">
+                    {correctDiagnosis}
+                  </p>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </motion.div>
     </BlurFade>
   )

@@ -9,15 +9,17 @@ import { Confetti, type ConfettiRef } from '@/components/ui/confetti'
 import { createClient } from '@/lib/supabase/client'
 import type { PracticeMode } from './page'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { 
-  AiIdeaIcon, 
-  Cancel01Icon, 
-  SentIcon, 
-  ArrowRight01Icon, 
-  ArrowLeft01Icon 
+import {
+  AiIdeaIcon,
+  Cancel01Icon,
+  SentIcon,
+  ArrowRight01Icon,
+  ArrowLeft01Icon
 } from '@hugeicons/core-free-icons'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { BlurFade } from '@/components/ui/blur-fade'
+import { PageHeader } from '@/components/page-header'
+import { Logout01Icon } from '@hugeicons/core-free-icons'
 
 interface PracticeClientProps {
   caseData: {
@@ -108,7 +110,7 @@ function DifferentialInput({
         className="rounded-[2.5rem] overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-md focus-within:border-primary/30 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.05)] transition-all duration-500"
       >
         <div className="px-8 pt-6 pb-4 opacity-40">
-          <span className="text-text4 font-bold text-foreground tracking-widest uppercase">
+          <span className="text-text4 font-semibold text-foreground tracking-[-0.04em] ">
             Sospecha principal
           </span>
         </div>
@@ -118,7 +120,7 @@ function DifferentialInput({
           disabled={disabled}
           placeholder="¿Cuál es tu diagnóstico más probable?"
           rows={3}
-          className="w-full bg-transparent px-8 py-5 text-foreground placeholder:text-foreground/20 resize-none focus:outline-none leading-relaxed text-text2 disabled:opacity-40 font-medium tracking-tight"
+          className="w-full bg-transparent px-8 py-5 text-foreground placeholder:text-foreground/20 resize-none focus:outline-none leading-relaxed text-text2 disabled:opacity-40 font-medium tracking-[-0.04em]"
         />
       </motion.div>
 
@@ -128,7 +130,7 @@ function DifferentialInput({
         className="rounded-[2.5rem] overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-md focus-within:border-primary/30 transition-all duration-500"
       >
         <div className="px-8 pt-6 pb-6 opacity-40">
-          <span className="text-text4 font-bold text-foreground tracking-widest uppercase">
+          <span className="text-text4 font-semibold text-foreground tracking-[-0.04em] ">
             Diagnósticos diferenciales
           </span>
         </div>
@@ -192,7 +194,7 @@ function ModePreScreen({ initialMode, onSelect }: { initialMode: PracticeMode; o
         <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mb-3">
           Antes de empezar
         </p>
-        <h2 className="text-heading1 text-foreground font-bold tracking-[-0.04em]">
+        <h2 className="text-heading1 text-foreground font-semibold tracking-[-0.04em]">
           ¿Cómo quieres practicar?
         </h2>
       </div>
@@ -218,7 +220,7 @@ function ModePreScreen({ initialMode, onSelect }: { initialMode: PracticeMode; o
                     initial: { opacity: 0.8 },
                     hover: { opacity: 1 }
                   }}
-                  className="font-bold text-heading3 tracking-[-0.04em] text-muted-foreground"
+                  className="font-semibold text-heading3 tracking-[-0.04em] text-muted-foreground"
                 >
                   {m.label}
                 </motion.p>
@@ -450,178 +452,180 @@ export function PracticeClient({
   }
 
   return (
-    <>
-      <Confetti ref={confettiRef} manualstart className="fixed inset-0 z-50 pointer-events-none" style={{ width: '100%', height: '100%' }} />
+    <div className="space-y-20">
+      <PageHeader
+        label={`CASO #${caseData.caseNumber}`}
+        title="PRACTICAR"
+        description="Evalúa este caso clínico y propón el diagnóstico más probable. La IA te dará retroalimentación detallada."
+        backLink="/dashboard"
+      />
+      {/* Quick timer */}
+      {resolvedMode === 'quick' && !result && (
+        <QuickTimer timeLeft={timeLeft} />
+      )}
 
-      <div className="space-y-8">
-        {/* Quick timer */}
-        {resolvedMode === 'quick' && !result && (
-          <QuickTimer timeLeft={timeLeft} />
-        )}
+      {/* Case card */}
+      <div className="pt-2">
+        <CaseCard variant="compact" description={caseData.description} difficulty={caseData.difficulty} caseNumber={caseData.caseNumber} />
+      </div>
 
-        {/* Case card */}
-        <BlurFade delay={0.2} direction="down">
-          <CaseCard variant="compact" description={caseData.description} difficulty={caseData.difficulty} caseNumber={caseData.caseNumber} />
-        </BlurFade>
+      {/* Attempt counter */}
+      {currentAttempt > 1 && !result && (
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-text4 font-medium tracking-[-0.04em] text-muted-foreground text-center pb-2">
+          Intento #{currentAttempt}
+        </motion.p>
+      )}
 
-        {/* Attempt counter */}
-        {currentAttempt > 1 && !result && (
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-text4 font-medium tracking-wide text-muted-foreground text-center pb-2">
-            Intento #{currentAttempt}
-          </motion.p>
-        )}
-
-        {/* Input area */}
-        <AnimatePresence>
-          {!result && (
-            <BlurFade delay={0.4} direction="up" className="w-full">
-              <motion.div exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.4 }} className="space-y-8">
-                {resolvedMode === 'differential' ? (
-                  <DifferentialInput
-                    mainDiagnosis={mainDiagnosis} setMainDiagnosis={setMainDiagnosis}
-                    differentials={differentials} setDifferentials={setDifferentials}
-                    disabled={loading}
-                  />
-                ) : (
-                  <>
-                    <motion.div
-                      transition={{ duration: 0.3 }}
-                      className="relative rounded-[2.5rem] overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-md focus-within:border-primary/30 focus-within:shadow-[0_0_30px_rgba(59,130,246,0.03)] transition-all duration-500"
-                    >
-                      <textarea
-                        value={answer}
-                        onChange={e => setAnswer(e.target.value)}
-                        disabled={loading}
-                        placeholder="Escribe tu diagnóstico..."
-                        rows={5}
-                        className="w-full bg-transparent px-10 py-9 text-foreground placeholder:text-foreground/20 resize-none focus:outline-none leading-relaxed text-heading3 font-medium tracking-tight disabled:opacity-40"
-                      />
-
-                      {/* Inner footer for word count/metadata */}
-                      {answer.length > 0 && resolvedMode !== 'quick' && (
-                        <div className="px-10 pb-8 flex items-center justify-between gap-8">
-                          <div className="flex-1 h-[2px] rounded-full overflow-hidden bg-white/[0.05]">
-                            <motion.div
-                              className="h-full rounded-full bg-primary/40"
-                              animate={{ width: `${completeness}%` }}
-                              transition={{ duration: 0.6 }}
-                            />
-                          </div>
-                          <span className="text-text4 font-bold text-foreground/20 tabular-nums uppercase tracking-widest">
-                            {words} {words === 1 ? 'palabra' : 'palabras'}
-                          </span>
-                        </div>
-                      )}
-                    </motion.div>
-                  </>
-                )}
-              </motion.div>
-            </BlurFade>
-          )}
-        </AnimatePresence>
-
-        {/* Error */}
-        <AnimatePresence>
-          {error && (
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-text4 font-medium text-rose-500 tracking-[-0.01em] text-center">
-              {error}
-            </motion.p>
-          )}
-        </AnimatePresence>
-
-        {/* Unified Action Bar */}
+      {/* Input area */}
+      <AnimatePresence>
         {!result && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-between gap-4 pt-6"
-          >
-            {/* Left: Cancel */}
-            <button
-              onClick={() => router.push('/dashboard')}
-              className="flex items-center gap-2 text-text4 lowercase font-medium text-zinc-300 hover:text-rose-400 transition-colors px-2 py-1"
-            >
-              <HugeiconsIcon icon={Cancel01Icon} size={14} />
-              <span>cancelar</span>
-            </button>
-
-            {/* Right: Hint + Submit */}
-            <div className="flex items-center gap-3">
-              {resolvedMode !== 'quick' && (
-                <button
-                  onClick={requestHint}
-                  disabled={loadingHint || hints.length >= 3}
-                  className="flex items-center gap-2 px-4 py-2 rounded-xl text-text4 border border-border/40 font-medium text-muted-foreground hover:text-primary hover:border-primary/20 transition-all lowercase"
-                >
-                  <HugeiconsIcon icon={AiIdeaIcon} size={14} />
-                  <span>{loadingHint ? '...' : hints.length > 0 ? `pista ${hints.length}/3` : 'pedir pista'}</span>
-                </button>
-              )}
-
-              <ShinyButton
-                onClick={() => handleSubmit()}
-                disabled={!canSubmit || loading}
-                className="rounded-2xl px-10 py-3 disabled:opacity-20"
-              >
-                <div className="flex items-center gap-3">
-                  <HugeiconsIcon icon={SentIcon} size={16} />
-                  <span>{loading ? 'Evaluando...' : 'Evaluar ahora'}</span>
-                </div>
-              </ShinyButton>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Result */}
-        <AnimatePresence>
-          {result && (
-            <div className="pt-8">
-              <ResultCard
-                result={result.result}
-                explanation={result.explanation}
-                correctDiagnosis={caseData.correctDiagnosis}
-                score={result.score}
-                compact={resolvedMode === 'quick'}
-              />
-            </div>
-          )}
-        </AnimatePresence>
-
-        {/* Post-result actions */}
-        <AnimatePresence>
-          {result && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: resolvedMode === 'quick' ? 0.3 : 1.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col items-center gap-8 pt-12"
-            >
-              {resolvedMode === 'quick' && autoAdvanceIn !== null ? (
-                <p className="text-text4 font-medium text-muted-foreground/30 tracking-[-0.02em] tabular-nums">
-                  Siguiente caso en {autoAdvanceIn}...
-                </p>
+          <BlurFade delay={0.4} direction="up" className="w-full">
+            <motion.div exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.4 }} className="space-y-8">
+              {resolvedMode === 'differential' ? (
+                <DifferentialInput
+                  mainDiagnosis={mainDiagnosis} setMainDiagnosis={setMainDiagnosis}
+                  differentials={differentials} setDifferentials={setDifferentials}
+                  disabled={loading}
+                />
               ) : (
                 <>
-                  <button
-                    onClick={handleNextCase}
-                    className="flex items-center gap-3 rounded-2xl px-14 py-5 text-text1 tracking-[-0.01em] font-medium text-foreground glass hover:bg-foreground hover:text-background transition-all duration-700"
+                  <motion.div
+                    transition={{ duration: 0.3 }}
+                    className="relative rounded-[2.5rem] overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-md focus-within:border-primary/30 focus-within:shadow-[0_0_30px_rgba(59,130,246,0.03)] transition-all duration-500"
                   >
-                    <span>{nextCaseId ? 'Siguiente caso' : 'Ver resumen'}</span>
-                    <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
-                  </button>
-                  <button
-                    onClick={handleRetry}
-                    className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground hover:text-muted-foreground transition-all duration-500"
-                  >
-                    Intentar de nuevo
-                  </button>
+                    <textarea
+                      value={answer}
+                      onChange={e => setAnswer(e.target.value)}
+                      disabled={loading}
+                      placeholder="Escribe tu diagnóstico..."
+                      rows={5}
+                      className="w-full bg-transparent px-10 py-9 text-foreground placeholder:text-foreground/20 resize-none focus:outline-none leading-relaxed text-heading3 font-medium tracking-[-0.04em] disabled:opacity-40"
+                    />
+
+                    {/* Inner footer for word count/metadata */}
+                    {answer.length > 0 && resolvedMode !== 'quick' && (
+                      <div className="px-10 pb-8 flex items-center justify-between gap-8">
+                        <div className="flex-1 h-[2px] rounded-full overflow-hidden bg-white/[0.05]">
+                          <motion.div
+                            className="h-full rounded-full bg-primary/40"
+                            animate={{ width: `${completeness}%` }}
+                            transition={{ duration: 0.6 }}
+                          />
+                        </div>
+                        <span className="text-text4 font-semibold text-foreground/20 tabular-nums  tracking-[-0.04em]">
+                          {words} {words === 1 ? 'palabra' : 'palabras'}
+                        </span>
+                      </div>
+                    )}
+                  </motion.div>
                 </>
               )}
             </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </>
+          </BlurFade>
+        )}
+      </AnimatePresence>
+
+      {/* Error */}
+      <AnimatePresence>
+        {error && (
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-text4 font-medium text-rose-500 tracking-[-0.01em] text-center">
+            {error}
+          </motion.p>
+        )}
+      </AnimatePresence>
+
+      {/* Unified Action Bar */}
+      {!result && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center justify-between gap-4 pt-6"
+        >
+          {/* Left: Cancel */}
+          <button
+            onClick={() => router.push('/dashboard')}
+            className="flex items-center gap-2 text-text4 lowercase font-medium text-zinc-300 hover:text-rose-400 transition-colors px-2 py-1"
+          >
+            <HugeiconsIcon icon={Cancel01Icon} size={14} />
+            <span>cancelar</span>
+          </button>
+
+          {/* Right: Hint + Submit */}
+          <div className="flex items-center gap-3">
+            {resolvedMode !== 'quick' && (
+              <button
+                onClick={requestHint}
+                disabled={loadingHint || hints.length >= 3}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl text-text4 border border-border/40 font-medium text-muted-foreground hover:text-primary hover:border-primary/20 transition-all lowercase"
+              >
+                <HugeiconsIcon icon={AiIdeaIcon} size={14} />
+                <span>{loadingHint ? '...' : hints.length > 0 ? `pista ${hints.length}/3` : 'pedir pista'}</span>
+              </button>
+            )}
+
+            <ShinyButton
+              onClick={() => handleSubmit()}
+              disabled={!canSubmit || loading}
+              className="rounded-2xl px-10 py-3 disabled:opacity-20"
+            >
+              <div className="flex items-center gap-3">
+                <HugeiconsIcon icon={SentIcon} size={16} />
+                <span>{loading ? 'Evaluando...' : 'Evaluar ahora'}</span>
+              </div>
+            </ShinyButton>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Result */}
+      <AnimatePresence>
+        {result && (
+          <div className="pt-8">
+            <ResultCard
+              result={result.result}
+              explanation={result.explanation}
+              correctDiagnosis={caseData.correctDiagnosis}
+              score={result.score}
+              compact={resolvedMode === 'quick'}
+            />
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Post-result actions */}
+      <AnimatePresence>
+        {result && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: resolvedMode === 'quick' ? 0.3 : 1.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center gap-8 pt-12"
+          >
+            {resolvedMode === 'quick' && autoAdvanceIn !== null ? (
+              <p className="text-text4 font-medium text-muted-foreground/30 tracking-[-0.02em] tabular-nums">
+                Siguiente caso en {autoAdvanceIn}...
+              </p>
+            ) : (
+              <>
+                <button
+                  onClick={handleNextCase}
+                  className="flex items-center gap-3 rounded-2xl px-14 py-5 text-text1 tracking-[-0.01em] font-medium text-foreground glass hover:bg-foreground hover:text-background transition-all duration-700"
+                >
+                  <span>{nextCaseId ? 'Siguiente caso' : 'Ver resumen'}</span>
+                  <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+                </button>
+                <button
+                  onClick={handleRetry}
+                  className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground hover:text-muted-foreground transition-all duration-500"
+                >
+                  Intentar de nuevo
+                </button>
+              </>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 }
 
@@ -646,21 +650,21 @@ function SessionSummary({ stats, difficultyFilter, mode, onReturn }: {
       >
         <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, var(--color-primary-transparent) 0%, transparent 70%)' }} />
         <div className="relative">
-          <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground/30 mb-20 text-center uppercase tracking-widest">
+          <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground/30 mb-20 text-center  tracking-[-0.04em]">
             Sesión completada {modeLabel && `· ${modeLabel}`}
           </p>
           <div className="grid grid-cols-3 gap-12 mb-16 text-center">
             <div>
-              <p className="text-heading1 text-foreground font-bold tracking-[-0.04em] tabular-nums scale-[1.5] origin-center mb-6">{stats.done}</p>
-              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 uppercase">Casos</p>
+              <p className="text-heading1 text-foreground font-semibold tracking-[-0.04em] tabular-nums scale-[1.5] origin-center mb-6">{stats.done}</p>
+              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 ">Casos</p>
             </div>
             <div>
-              <p className="text-heading1 text-primary font-bold tracking-[-0.04em] tabular-nums scale-[1.5] origin-center mb-6">{accuracy}%</p>
-              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 uppercase">Precisión</p>
+              <p className="text-heading1 text-primary font-semibold tracking-[-0.04em] tabular-nums scale-[1.5] origin-center mb-6">{accuracy}%</p>
+              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 ">Precisión</p>
             </div>
             <div>
-              <p className="text-heading1 text-foreground font-bold tracking-[-0.04em] tabular-nums scale-[1.5] origin-center mb-6">{stats.correct}</p>
-              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 uppercase">Correctos</p>
+              <p className="text-heading1 text-foreground font-semibold tracking-[-0.04em] tabular-nums scale-[1.5] origin-center mb-6">{stats.correct}</p>
+              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 ">Correctos</p>
             </div>
           </div>
           {filterLabel && (
@@ -671,8 +675,8 @@ function SessionSummary({ stats, difficultyFilter, mode, onReturn }: {
         </div>
       </div>
       <div className="flex justify-center">
-        <button 
-          onClick={onReturn} 
+        <button
+          onClick={onReturn}
           className="flex items-center gap-2 text-text4 tracking-[-0.02em] font-medium text-muted-foreground/30 hover:text-foreground transition-all duration-700"
         >
           <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />

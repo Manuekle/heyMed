@@ -3,20 +3,20 @@
 import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { 
-  UserCircleIcon, 
-  UserIcon, 
-  StarIcon, 
-  Mail01Icon, 
-  Moon01Icon, 
-  Sun01Icon, 
-  InformationCircleIcon, 
-  HelpCircleIcon, 
-  Logout01Icon 
+import {
+  UserCircleIcon,
+  UserIcon,
+  StarIcon,
+  Mail01Icon,
+  Moon01Icon,
+  Sun01Icon,
+  InformationCircleIcon,
+  HelpCircleIcon,
+  Logout01Icon
 } from '@hugeicons/core-free-icons'
+import { PageHeader } from '@/components/page-header'
 
 interface Props {
   userId: string
@@ -35,7 +35,6 @@ function Avatar({
   username: string
   size?: number
 }) {
-  const initials = username.slice(0, 2).toLowerCase()
   return (
     <div
       className="rounded-xl overflow-hidden flex items-center justify-center shrink-0 border border-border bg-card"
@@ -99,7 +98,7 @@ function SettingsRow({
 function SettingsSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="space-y-3">
-      <p className="px-2 text-text4 font-semibold text-muted-foreground/30 tracking-wider uppercase">
+      <p className="px-2 text-text4 font-semibold text-muted-foreground/30 tracking-[-0.04em] ">
         {title}
       </p>
       <div className="bg-card border border-border rounded-2xl overflow-hidden px-2 divide-y divide-border/20">
@@ -227,146 +226,124 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
   }
 
   return (
-    <div className="min-h-screen transition-colors duration-500">
-      <div
-        className="fixed inset-0 pointer-events-none opacity-40 dark:opacity-100"
-        style={{
-          background:
-            'radial-gradient(ellipse 80% 40% at 50% -10%, var(--color-primary-transparent) 0%, transparent 60%)',
-        }}
+    <div className="space-y-16">
+      <PageHeader
+        label="AJUSTES"
+        title="Perfil y Cuenta"
+        description="Gestiona tu información personal, preferencias de tema y seguridad de la cuenta."
+        backLink="/dashboard"
       />
 
-      <div className="relative max-w-xl mx-auto px-5 py-20 md:py-32 space-y-16">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        className="space-y-12"
+      >
+        {/* Group 1: Account Hub */}
+        <SettingsSection title="Perfil y Cuenta">
+          <SettingsRow
+            icon={<Avatar url={avatarUrl} username={username} size={24} />}
+            label="Cambiar foto de perfil"
+            onClick={() => fileRef.current?.click()}
+            value={uploadingAvatar ? 'Subiendo...' : ''}
+          />
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="hidden"
+            onChange={handleAvatarChange}
+          />
+          <SettingsRow
+            icon={<HugeiconsIcon icon={UserIcon} size={14} />}
+            label="Nombre de usuario"
+            value={username}
+            onClick={() => { }}
+          />
+          <SettingsRow
+            icon={<HugeiconsIcon icon={StarIcon} size={14} />}
+            label="Puntuación"
+            value={`${score} pts`}
+            showChevron={false}
+          />
+          <SettingsRow
+            icon={<HugeiconsIcon icon={Mail01Icon} size={14} />}
+            label="Email"
+            value={email}
+            showChevron={false}
+          />
+        </SettingsSection>
 
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center justify-between"
-        >
-          <div>
-            <h1 className="text-heading1 text-foreground font-bold tracking-[-0.04em]">Ajustes y Soporte</h1>
-          </div>
-          <Link
-            href="/dashboard"
-            className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground hover:text-foreground transition-all duration-300 group"
-          >
-            <span className="inline-block transition-transform duration-300 group-hover:-translate-x-1">←</span> Inicio
-          </Link>
-        </motion.div>
+        {/* Group 2: Appearance */}
+        <SettingsSection title="Personalización">
+          <SettingsRow
+            icon={theme === 'dark' ? <HugeiconsIcon icon={Moon01Icon} size={14} /> : <HugeiconsIcon icon={Sun01Icon} size={14} />}
+            label="Tema"
+            value={theme === 'dark' ? 'Oscuro' : 'Claro'}
+            onClick={() => toggleTheme(theme === 'dark' ? 'light' : 'dark')}
+          />
+          <SettingsRow
+            icon={<HugeiconsIcon icon={InformationCircleIcon} size={14} />}
+            label="Versión"
+            value="1.0.0"
+            showChevron={false}
+          />
+        </SettingsSection>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="space-y-12"
-        >
-          {/* Group 1: Account Hub */}
-          <SettingsSection title="Perfil y Cuenta">
-            <SettingsRow
-              icon={<Avatar url={avatarUrl} username={username} size={24} />}
-              label="Cambiar foto de perfil"
-              onClick={() => fileRef.current?.click()}
-              value={uploadingAvatar ? 'Subiendo...' : ''}
-            />
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              className="hidden"
-              onChange={handleAvatarChange}
-            />
-            <SettingsRow
-              icon={<HugeiconsIcon icon={UserIcon} size={14} />}
-              label="Nombre de usuario"
-              value={username}
-              onClick={() => {}}
-            />
-            <SettingsRow
-              icon={<HugeiconsIcon icon={StarIcon} size={14} />}
-              label="Puntuación"
-              value={`${score} pts`}
-              showChevron={false}
-            />
-            <SettingsRow
-              icon={<HugeiconsIcon icon={Mail01Icon} size={14} />}
-              label="Email"
-              value={email}
-              showChevron={false}
-            />
-          </SettingsSection>
+        {/* Group 3: Support & Actions */}
+        <SettingsSection title="Soporte y Otros">
+          <SettingsRow
+            icon={<HugeiconsIcon icon={HelpCircleIcon} size={14} />}
+            label="Ayuda y feedback"
+            onClick={() => window.open('https://github.com', '_blank')}
+          />
+          <SettingsRow
+            icon={<HugeiconsIcon icon={Logout01Icon} size={14} />}
+            label="Cerrar sesión"
+            onClick={handleLogout}
+          />
+        </SettingsSection>
 
-          {/* Group 2: Appearance */}
-          <SettingsSection title="Personalización">
-            <SettingsRow
-              icon={theme === 'dark' ? <HugeiconsIcon icon={Moon01Icon} size={14} /> : <HugeiconsIcon icon={Sun01Icon} size={14} />}
-              label="Tema"
-              value={theme === 'dark' ? 'Oscuro' : 'Claro'}
-              onClick={() => toggleTheme(theme === 'dark' ? 'light' : 'dark')}
-            />
-            <SettingsRow
-              icon={<HugeiconsIcon icon={InformationCircleIcon} size={14} />}
-              label="Versión"
-              value="1.0.0"
-              showChevron={false}
-            />
-          </SettingsSection>
-
-          {/* Group 3: Support & Actions */}
-          <SettingsSection title="Soporte y Otros">
-            <SettingsRow
-              icon={<HugeiconsIcon icon={HelpCircleIcon} size={14} />}
-              label="Ayuda y feedback"
-              onClick={() => window.open('https://github.com', '_blank')}
-            />
-            <SettingsRow
-              icon={<HugeiconsIcon icon={Logout01Icon} size={14} />}
-              label="Cerrar sesión"
-              onClick={handleLogout}
-            />
-          </SettingsSection>
-
-          {/* Group 4: Danger */}
-          <SettingsSection title="Gestión de Datos">
-            <div className="p-6 space-y-6">
-              <p className="text-text4 text-muted-foreground leading-relaxed tracking-[-0.01em]">
-                Eliminar tu cuenta borrará permanentemente tu perfil e historial. Esta acción es definitiva. Escribe <span className="text-destructive/50">ELIMINAR</span> para confirmar.
-              </p>
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  value={deleteConfirm}
-                  onChange={e => setDeleteConfirm(e.target.value)}
-                  placeholder="CONFIRMAR"
-                  className="w-full bg-transparent text-destructive/60 font-medium text-text2 focus:outline-none py-3 border-b border-destructive/10 focus:border-destructive/40 transition-all duration-300 placeholder:text-muted-foreground/20 tracking-[-0.01em]"
-                />
-                <button
-                  onClick={handleDeleteAccount}
-                  disabled={deleteConfirm !== 'ELIMINAR' || deleting}
-                  className="w-full py-4 text-text4 tracking-[-0.01em] font-medium transition-all duration-500 bg-destructive/5 border border-destructive/10 text-destructive/60 hover:bg-destructive hover:text-white disabled:opacity-20 rounded-2xl"
-                >
-                  {deleting ? 'Procesando...' : 'Eliminar cuenta definitivamente'}
-                </button>
-              </div>
+        {/* Group 4: Danger */}
+        <SettingsSection title="Gestión de Datos">
+          <div className="p-6 space-y-6">
+            <p className="text-text4 text-muted-foreground leading-relaxed tracking-[-0.01em]">
+              Eliminar tu cuenta borrará permanentemente tu perfil e historial. Esta acción es definitiva. Escribe <span className="text-destructive/50">ELIMINAR</span> para confirmar.
+            </p>
+            <div className="space-y-4">
+              <input
+                type="text"
+                value={deleteConfirm}
+                onChange={e => setDeleteConfirm(e.target.value)}
+                placeholder="CONFIRMAR"
+                className="w-full bg-transparent text-destructive/60 font-medium text-text2 focus:outline-none py-3 border-b border-destructive/10 focus:border-destructive/40 transition-all duration-300 placeholder:text-muted-foreground/20 tracking-[-0.01em]"
+              />
+              <button
+                onClick={handleDeleteAccount}
+                disabled={deleteConfirm !== 'ELIMINAR' || deleting}
+                className="w-full py-4 text-text4 tracking-[-0.01em] font-medium transition-all duration-500 bg-destructive/5 border border-destructive/10 text-destructive/60 hover:bg-destructive hover:text-white disabled:opacity-20 rounded-2xl"
+              >
+                {deleting ? 'Procesando...' : 'Eliminar cuenta definitivamente'}
+              </button>
             </div>
-          </SettingsSection>
-        </motion.div>
+          </div>
+        </SettingsSection>
+      </motion.div>
 
-        {/* Error */}
-        <AnimatePresence>
-          {error && (
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="text-center text-text4 font-medium text-destructive tracking-[-0.01em]"
-            >
-              {error}
-            </motion.p>
-          )}
-        </AnimatePresence>
-      </div>
+      {/* Error */}
+      <AnimatePresence>
+        {error && (
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="text-center text-text4 font-medium text-destructive tracking-[-0.01em]"
+          >
+            {error}
+          </motion.p>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

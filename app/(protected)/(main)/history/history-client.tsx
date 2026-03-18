@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { 
-  CheckmarkCircle01Icon, 
-  CircleIcon, 
-  Settings01Icon, 
-  ArrowDown01Icon, 
+import {
+  CheckmarkCircle01Icon,
+  CircleIcon,
+  Settings01Icon,
+  ArrowDown01Icon,
   Calendar03Icon,
   Search01Icon,
   Tick01Icon,
@@ -18,6 +18,7 @@ import {
   ArrowRight01Icon
 } from '@hugeicons/core-free-icons'
 import { BlurFade } from '@/components/ui/blur-fade'
+import { PageHeader } from '@/components/page-header'
 
 type Verdict = 'correct' | 'partial' | 'incorrect'
 
@@ -69,9 +70,14 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
   }
 
   return (
-    <div className="max-w-4xl mx-auto pb-20">
-      {/* Header section could be here if needed, but assuming it's in the page layout */}
-      
+    <div className="space-y-20">
+      <PageHeader
+        label="HISTORIAL"
+        title="MIS REGISTROS"
+        description="Revisa tus intentos previos y el análisis clínico detallado de cada caso."
+        backLink="/dashboard"
+      />
+
       {/* Filter tabs */}
       <BlurFade delay={0.1}>
         <div className="flex flex-wrap gap-3 mb-16">
@@ -81,11 +87,10 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`text-text4 font-bold tracking-widest uppercase px-8 py-3 rounded-full transition-all duration-700 border ${
-                  active 
-                    ? 'bg-foreground text-background border-foreground shadow-lg' 
-                    : 'glass text-foreground/20 border-white/[0.03] hover:text-foreground/40'
-                }`}
+                className={`text-text4 font-semibold tracking-[-0.04em]  px-8 py-3 rounded-full transition-all duration-700 border ${active
+                  ? 'bg-foreground text-background border-foreground shadow-lg'
+                  : 'glass text-foreground/20 border-white/[0.03] hover:text-foreground/40'
+                  }`}
               >
                 {filterLabels[f]}
               </button>
@@ -100,7 +105,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
             <div className="w-16 h-16 rounded-full glass border border-white/[0.05] flex items-center justify-center mx-auto text-foreground/10">
               <HugeiconsIcon icon={Search01Icon} size={24} />
             </div>
-            <p className="text-text2 font-bold text-foreground/20 tracking-tight uppercase italic">Sin intentos registrados</p>
+            <p className="text-text2 font-semibold text-foreground/20 tracking-[-0.04em]  italic">Sin intentos registrados</p>
           </div>
         </BlurFade>
       ) : (
@@ -112,9 +117,8 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
             return (
               <BlurFade key={a.id} delay={0.1 + i * 0.04}>
                 <div
-                  className={`rounded-[2.5rem] overflow-hidden glass transition-all duration-700 group border ${
-                    isOpen ? 'border-primary/20 bg-white/[0.02]' : 'border-white/[0.03] hover:bg-white/[0.01]'
-                  }`}
+                  className={`rounded-[2.5rem] overflow-hidden glass transition-all duration-700 group border ${isOpen ? 'border-primary/20 bg-white/[0.02]' : 'border-white/[0.03] hover:bg-white/[0.01]'
+                    }`}
                 >
                   {/* Row header */}
                   <button
@@ -124,30 +128,30 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                     <div className={`w-12 h-12 rounded-2xl glass border border-white/[0.05] flex items-center justify-center shrink-0 ${res.color}`}>
                       <HugeiconsIcon icon={res.icon} size={20} />
                     </div>
-                    
+
                     <div className="flex-1 min-w-0 space-y-2">
-                       <span className="text-text4 font-bold text-foreground/10 tracking-widest uppercase flex items-center gap-2">
+                      <span className="text-text4 font-semibold text-foreground/10 tracking-[-0.04em]  flex items-center gap-2">
                         {res.label}
                       </span>
-                      <p className="text-text2 text-foreground/70 font-bold line-clamp-1 group-hover:text-foreground transition-colors tracking-tight">
+                      <p className="text-text2 text-foreground/70 font-semibold line-clamp-1 group-hover:text-foreground transition-colors tracking-[-0.04em]">
                         {a.caseDescription}
                       </p>
                     </div>
 
                     <div className="flex items-center gap-6 shrink-0">
                       <div className="flex flex-col items-end gap-1">
-                        <span className="text-text4 font-bold text-foreground/10 tracking-widest uppercase">
+                        <span className="text-text4 font-semibold text-foreground/10 tracking-[-0.04em] ">
                           {formatDate(a.createdAt)}
                         </span>
                         <div className="flex items-center gap-1.5 text-foreground/20">
                           <HugeiconsIcon icon={Calendar03Icon} size={10} />
-                          <span className="text-[10px] font-bold tracking-widest uppercase">Fecha</span>
+                          <span className="text-[10px] font-semibold tracking-[-0.04em] ">Fecha</span>
                         </div>
                       </div>
-                      <HugeiconsIcon 
-                        icon={ArrowDown01Icon} 
-                        size={18} 
-                        className={`text-foreground/10 transition-transform duration-700 ${isOpen ? 'rotate-180 text-primary' : ''}`} 
+                      <HugeiconsIcon
+                        icon={ArrowDown01Icon}
+                        size={18}
+                        className={`text-foreground/10 transition-transform duration-700 ${isOpen ? 'rotate-180 text-primary' : ''}`}
                       />
                     </div>
                   </button>
@@ -166,18 +170,18 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                           <div className="pt-12 space-y-12">
                             <div className="grid md:grid-cols-2 gap-12">
                               <div className="space-y-6">
-                                <p className="text-text4 tracking-widest font-bold text-foreground/10 uppercase">Tu respuesta</p>
+                                <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/10 ">Tu respuesta</p>
                                 <div className="glass p-8 rounded-[2rem] border border-white/[0.02]">
-                                  <p className="text-foreground/70 text-text2 font-bold leading-relaxed tracking-tight">
+                                  <p className="text-foreground/70 text-text2 font-semibold leading-relaxed tracking-[-0.04em]">
                                     {a.userAnswer}
                                   </p>
                                 </div>
                               </div>
 
                               <div className="space-y-6">
-                                <p className="text-text4 tracking-widest font-bold text-foreground/10 uppercase">Diagnóstico real</p>
+                                <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/10 ">Diagnóstico real</p>
                                 <div className="glass p-8 rounded-[2rem] border border-white/[0.02] bg-emerald-500/[0.01]">
-                                  <p className="text-emerald-500/60 text-text2 font-bold leading-relaxed tracking-tight uppercase">
+                                  <p className="text-emerald-500/60 text-text2 font-semibold leading-relaxed tracking-[-0.04em] ">
                                     {a.correctDiagnosis}
                                   </p>
                                 </div>
@@ -186,10 +190,10 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
 
                             {a.aiExplanation && (
                               <div className="space-y-6">
-                                <p className="text-text4 tracking-widest font-bold text-foreground/10 uppercase flex items-center gap-3">
+                                <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/10  flex items-center gap-3">
                                   Análisis clínico IA
                                 </p>
-                                <p className="text-foreground/50 text-text2 font-medium leading-relaxed tracking-tight italic">
+                                <p className="text-foreground/50 text-text2 font-medium leading-relaxed tracking-[-0.04em] italic">
                                   "{a.aiExplanation}"
                                 </p>
                               </div>
@@ -198,7 +202,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                             <div className="pt-8 border-t border-white/[0.03]">
                               <Link
                                 href={`/practice/${a.caseId}`}
-                                className="inline-flex items-center gap-3 text-text4 font-bold text-primary/40 hover:text-primary tracking-widest uppercase transition-all duration-500 group"
+                                className="inline-flex items-center gap-3 text-text4 font-semibold text-primary/40 hover:text-primary tracking-[-0.04em]  transition-all duration-500 group"
                               >
                                 <span>Practicar de nuevo</span>
                                 <HugeiconsIcon icon={ArrowRight01Icon} size={14} className="group-hover:translate-x-1 transition-transform" />

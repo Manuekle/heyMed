@@ -296,5 +296,4 @@ html.light body {
     background: oklch(var(--foreground) / 8%);
     border-color: oklch(var(--foreground) / 25%);
     transform: scale(1.02);
-  }
-}
+  }}
