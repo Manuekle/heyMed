@@ -38,8 +38,9 @@ serve(async (req: Request) => {
       correct_diagnosis: string
     }
 
-    // Llamar a Claude
-    const aiRes = await fetch('https://api.anthropic.com/v1/messages', {
+    // Llamar a Claude (respeta ANTHROPIC_BASE_URL para proveedores alternativos)
+    const base = (Deno.env.get('ANTHROPIC_BASE_URL') ?? 'https://api.anthropic.com').replace(/\/$/, '')
+    const aiRes = await fetch(`${base}/v1/messages`, {
       method: 'POST',
       headers: {
         'x-api-key': Deno.env.get('ANTHROPIC_API_KEY')!,
@@ -48,7 +49,7 @@ serve(async (req: Request) => {
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 400,
+        max_tokens: 800,
         messages: [
           {
             role: 'user',
@@ -63,13 +64,14 @@ Respuesta del estudiante: ${attempt.user_answer}
 Responde ÚNICAMENTE con este JSON (sin markdown, sin texto extra):
 {
   "result": "correct" | "partial" | "incorrect",
-  "explanation": "Explicación breve en español (máx 120 palabras). Incluye qué acertó, qué faltó y por qué."
+  "score": 85,
+  "explanation": "Explicación breve en español (máx 100 palabras). Menciona qué acertó y qué faltó."
 }
 
-Criterios:
-- correct: diagnóstico esencialmente correcto, puede tener detalles menores incorrectos
-- partial: identifica parte del problema pero falta diagnóstico principal o tiene error importante
-- incorrect: diagnóstico erróneo o vacío`,
+Criterios de result y score:
+- correct (score 75-100): diagnóstico esencialmente correcto; el score refleja nivel de especificidad
+- partial (score 30-74): identifica parte del problema pero falta diagnóstico principal o hay error importante
+- incorrect (score 0-29): diagnóstico erróneo, fuera de contexto o vacío`,
           },
         ],
       }),
@@ -81,7 +83,8 @@ Criterios:
     }
 
     const aiData = await aiRes.json()
-    const rawText = aiData.content?.[0]?.text ?? ''
+    const textBlock = aiData.content?.find((b: { type: string }) => b.type === 'text')
+    const rawText = textBlock?.text ?? ''
 
     let evaluation: { result: string; explanation: string }
     try {
@@ -93,6 +96,13 @@ Criterios:
     if (!['correct', 'partial', 'incorrect'].includes(evaluation.result)) {
       throw new Error(`result inválido: ${evaluation.result}`)
     }
+
+    // Normalizar score: asegurar que esté en el rango correcto para su categoría
+    const rawScore = typeof evaluation.score === 'number' ? evaluation.score : 50
+    const score = evaluation.result === 'correct'   ? Math.max(75, Math.min(100, rawScore))
+                : evaluation.result === 'partial'   ? Math.max(30, Math.min(74,  rawScore))
+                : Math.max(0,  Math.min(29,  rawScore))
+    evaluation.score = score
 
     // Actualizar intento — el trigger award_points_on_evaluation se ejecuta aquí
     const { error: updateError } = await supabase

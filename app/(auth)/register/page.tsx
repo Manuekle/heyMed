@@ -2,8 +2,16 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
+import { GoogleButton } from '@/components/google-button'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { ArrowLeft01Icon, ArrowRight01Icon, CheckmarkCircle01Icon } from '@hugeicons/core-free-icons'
+import { BlurFade } from '@/components/ui/blur-fade'
+import { ShinyButton } from '@/components/ui/shiny-button'
+
+const inputClass =
+  'w-full bg-transparent border-b border-white/[0.08] py-4 text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 transition-all duration-500 font-medium text-text2 tracking-tight'
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('')
@@ -18,7 +26,7 @@ export default function RegisterPage() {
     setError(null)
 
     if (password !== confirm) {
-      setError('Las contrasenas no coinciden')
+      setError('Las contraseñas no coinciden')
       return
     }
 
@@ -36,91 +44,114 @@ export default function RegisterPage() {
     setLoading(false)
   }
 
-  if (success) {
-    return (
-      <main className="flex min-h-screen flex-col items-center justify-center px-4">
-        <div className="w-full max-w-sm space-y-4 text-center">
-          <h1 className="text-2xl font-semibold">Revisa tu email</h1>
-          <p className="text-muted text-sm">
-            Te enviamos un enlace de confirmacion a <strong>{email}</strong>. Por favor verifica tu cuenta para continuar.
-          </p>
-          <Link href="/login" className="text-primary hover:underline text-sm">
-            Volver al inicio de sesion
-          </Link>
-        </div>
-      </main>
-    )
-  }
-
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4">
-      <div className="w-full max-w-sm space-y-6">
-        <div className="space-y-1 text-center">
-          <h1 className="text-2xl font-semibold">Crear cuenta</h1>
-          <p className="text-muted text-sm">Registrate para empezar</p>
-        </div>
+    <div className="min-h-screen flex flex-col items-center justify-center px-5 transition-colors duration-500">
+      <div
+        className="fixed inset-0 pointer-events-none opacity-40 dark:opacity-100"
+        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 50%, var(--color-primary-transparent) 0%, transparent 70%)' }}
+      />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1">
-            <label htmlFor="email" className="text-sm font-medium">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full rounded-md border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="tu@email.com"
-            />
+      <div className="relative w-full max-w-sm">
+        <BlurFade delay={0.1}>
+          <div className="mb-20">
+            <Link href="/" className="flex items-center gap-2 text-text4 tracking-widest font-bold text-foreground/20 hover:text-foreground transition-all duration-500 group uppercase">
+              <HugeiconsIcon 
+                icon={ArrowLeft01Icon} 
+                size={14} 
+                className="transition-transform duration-500 group-hover:-translate-x-1" 
+              />
+              <span>Página inicial</span>
+            </Link>
           </div>
+        </BlurFade>
 
-          <div className="space-y-1">
-            <label htmlFor="password" className="text-sm font-medium">
-              Contrasena
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              className="w-full rounded-md border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="••••••••"
-            />
-          </div>
+        <AnimatePresence mode="wait">
+          {success ? (
+            <BlurFade delay={0.2} key="success">
+              <div className="text-center space-y-12 py-10">
+                <div className="flex justify-center mb-12">
+                  <div className="w-24 h-24 rounded-[2.5rem] glass border border-emerald-500/20 flex items-center justify-center shadow-[0_0_50px_rgba(16,185,129,0.1)]">
+                    <HugeiconsIcon icon={CheckmarkCircle01Icon} size={40} className="text-emerald-500/60" />
+                  </div>
+                </div>
+                <div className="space-y-6">
+                  <p className="text-text4 font-bold text-primary tracking-widest uppercase opacity-50">Registro completo</p>
+                  <h1 className="text-heading1 md:text-[3rem] text-foreground font-bold tracking-tight leading-none">Revisa tu email</h1>
+                  <p className="text-text2 font-medium text-foreground/30 tracking-tight">
+                    Hemos enviado un enlace de confirmación a:
+                  </p>
+                  <p className="text-heading3 text-foreground/50 font-bold tabular-nums tracking-tight pt-4">{email}</p>
+                </div>
+                <div className="pt-16">
+                  <Link href="/login"
+                    className="inline-flex items-center gap-2 text-text4 tracking-widest font-bold text-foreground/20 hover:text-foreground transition-all duration-500 group uppercase">
+                    <HugeiconsIcon 
+                      icon={ArrowLeft01Icon} 
+                      size={14} 
+                      className="transition-transform duration-300 group-hover:-translate-x-1" 
+                    />
+                    <span>Volver al inicio de sesión</span>
+                  </Link>
+                </div>
+              </div>
+            </BlurFade>
+          ) : (
+            <BlurFade delay={0.2} key="form">
+              <div className="mb-20 text-center md:text-left">
+                <p className="text-text4 font-bold text-primary tracking-widest uppercase mb-4 opacity-50">Registro</p>
+                <h1 className="text-heading1 md:text-[3rem] text-foreground font-bold tracking-tight leading-none mb-6">Crear cuenta</h1>
+                <p className="text-text2 font-medium text-foreground/30 tracking-tight">
+                  Comienza tu entrenamiento clínico hoy
+                </p>
+              </div>
 
-          <div className="space-y-1">
-            <label htmlFor="confirm" className="text-sm font-medium">
-              Confirmar contrasena
-            </label>
-            <input
-              id="confirm"
-              type="password"
-              value={confirm}
-              onChange={(e) => setConfirm(e.target.value)}
-              required
-              className="w-full rounded-md border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="••••••••"
-            />
-          </div>
+              <form onSubmit={handleSubmit} className="space-y-10">
+                <div>
+                  <label className="block text-text4 tracking-widest font-bold text-foreground/40 mb-4 uppercase">Email</label>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                    required placeholder="tu@email.com" className={inputClass} />
+                </div>
+                <div>
+                  <label className="block text-text4 tracking-widest font-bold text-foreground/40 mb-4 uppercase">Contraseña</label>
+                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+                    required minLength={6} placeholder="••••••••" className={inputClass} />
+                </div>
+                <div>
+                  <label className="block text-text4 tracking-widest font-bold text-foreground/40 mb-4 uppercase">Confirmar contraseña</label>
+                  <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
+                    required placeholder="••••••••" className={inputClass} />
+                </div>
 
-          {error && <p className="text-destructive text-sm">{error}</p>}
+                {error && <p className="text-text4 font-bold text-destructive tracking-tight uppercase">{error}</p>}
 
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? 'Creando cuenta...' : 'Registrarse'}
-          </Button>
-        </form>
+                <ShinyButton type="submit" disabled={loading}
+                  className="w-full py-4 rounded-[1.25rem]">
+                  <span className="font-bold tracking-widest uppercase py-1">
+                    {loading ? 'Procesando...' : 'Registrarse'}
+                  </span>
+                </ShinyButton>
 
-        <p className="text-center text-sm text-muted">
-          Ya tienes cuenta?{' '}
-          <Link href="/login" className="text-primary hover:underline">
-            Iniciar sesion
-          </Link>
-        </p>
+                {/* Divider */}
+                <div className="flex items-center gap-10 opacity-10">
+                  <div className="flex-1 h-px bg-white" />
+                  <span className="text-text4 font-bold uppercase tracking-widest">o</span>
+                  <div className="flex-1 h-px bg-white" />
+                </div>
+
+                <GoogleButton />
+              </form>
+
+              <p className="mt-20 text-center text-text4 tracking-tight font-medium text-foreground/20">
+                ¿Ya tienes cuenta?{' '}
+                <Link href="/login" className="inline-flex items-center gap-2 text-foreground/40 hover:text-primary transition-all duration-300 ml-3 group">
+                  <span className="font-bold uppercase tracking-widest">Iniciar sesión</span>
+                  <HugeiconsIcon icon={ArrowRight01Icon} size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
+              </p>
+            </BlurFade>
+          )}
+        </AnimatePresence>
       </div>
-    </main>
+    </div>
   )
 }
