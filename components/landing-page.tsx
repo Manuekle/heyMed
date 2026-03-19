@@ -167,7 +167,7 @@ export function LandingPage() {
 
         <div className="hidden md:flex items-center gap-6 pointer-events-auto">
           <BlurFade delay={0.3}>
-            <div className="flex gap-6 text-[11px] font-semibold text-foreground/20 tracking-tight">
+            <div className="flex gap-6 text-[11px] font-semibold text-foreground/20 tracking-[-0.04em]">
               <span className="cursor-pointer hover:text-foreground transition-colors lowercase italic">instagram</span>
             </div>
           </BlurFade>
@@ -328,7 +328,7 @@ export function LandingPage() {
                     <div className="space-y-4">
                       <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground lowercase">{step.title}</h3>
                       <p className="text-[14px] leading-relaxed font-medium text-foreground/40 tracking-[-0.02em]">{step.body}</p>
-                      <p className="text-[10px] font-semibold text-foreground/20 tracking-tight leading-relaxed">{step.detail}</p>
+                      <p className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em] leading-relaxed">{step.detail}</p>
                     </div>
                   </div>
                 </BlurFade>
@@ -401,14 +401,14 @@ export function LandingPage() {
                       <p className={`text-[10px] font-semibold tracking-[-0.04em]  mb-12 italic ${plan.highlight ? 'text-background/40' : 'text-foreground/20'}`}>{plan.name}</p>
                       <div className="mb-14">
                         <p className="text-[3rem] font-semibold tracking-[-0.04em] leading-none">{plan.price}</p>
-                        <p className={`text-[11px] font-semibold mt-4 tracking-tight  ${plan.highlight ? 'text-background/40' : 'text-foreground/20'}`}>{plan.period}</p>
+                        <p className={`text-[11px] font-semibold mt-4 tracking-[-0.04em]  ${plan.highlight ? 'text-background/40' : 'text-foreground/20'}`}>{plan.period}</p>
                       </div>
                       <div className={`w-full h-px mb-14 ${plan.highlight ? 'bg-background/10' : 'bg-foreground/5'}`} />
                       <ul className="space-y-5 flex-1 mb-16">
                         {plan.features.map(f => (
                           <li key={f} className="flex items-start gap-4">
                             <HugeiconsIcon icon={Tick01Icon} size={14} className={plan.highlight ? 'text-primary' : 'text-foreground/20'} />
-                            <span className={`text-[13px] font-medium tracking-tight leading-relaxed ${plan.highlight ? 'text-background/60' : 'text-foreground/60'}`}>{f}</span>
+                            <span className={`text-[13px] font-medium tracking-[-0.04em] leading-relaxed ${plan.highlight ? 'text-background/60' : 'text-foreground/60'}`}>{f}</span>
                           </li>
                         ))}
                       </ul>
@@ -464,12 +464,12 @@ export function LandingPage() {
       {/* ── Simple Footer ─────────────────────────────────────── */}
       <footer className="py-12 px-8 flex flex-col md:flex-row items-center justify-between gap-8 max-w-6xl mx-auto border-t border-foreground/5">
         <BlurFade delay={0.4}>
-          <p className="text-[11px] font-semibold text-foreground/20 tracking-tight  italic whitespace-nowrap">
+          <p className="text-[11px] font-semibold text-foreground/20 tracking-[-0.04em]  italic whitespace-nowrap">
             © {new Date().getFullYear()} heyMed! · ia para medicina
           </p>
         </BlurFade>
 
-        <div className="flex gap-8 text-[11px] font-semibold text-foreground/20 tracking-tight lowercase italic">
+        <div className="flex gap-8 text-[11px] font-semibold text-foreground/20 tracking-[-0.04em] lowercase italic">
           <span className="cursor-pointer hover:text-foreground transition-colors">instagram</span>
         </div>
       </footer>

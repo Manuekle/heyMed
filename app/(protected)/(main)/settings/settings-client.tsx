@@ -49,7 +49,7 @@ function Avatar({
       onClick={onEdit && !uploading ? onEdit : undefined}
     >
       <div
-        className="relative rounded-full overflow-hidden flex items-center justify-center border border-white/[0.05] bg-white/[0.02] glass shadow-2xl transition-all duration-500"
+        className="relative rounded-full overflow-hidden flex items-center justify-center bg-white/[0.02] glass shadow-2xl transition-all duration-500"
         style={{ width: size, height: size }}
       >
         <div className={`w-full h-full transition-all duration-700 ease-out ${onEdit && !uploading ? 'group-hover/avatar:blur-sm group-hover/avatar:scale-110' : ''}`}>
@@ -104,15 +104,15 @@ function SettingsRow({
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center justify-between py-6 px-6 group transition-all duration-500 rounded-[2rem] ${onClick ? 'cursor-pointer hover:bg-white/[0.02]' : 'cursor-default'}`}
+      className={`w-full flex items-center justify-between py-5 px-6 md:px-8 group transition-all duration-500 ${onClick ? 'cursor-pointer hover:bg-white/[0.03]' : 'cursor-default'}`}
     >
       <div className="flex items-center gap-5">
         {icon && (
-          <div className={`w-10 h-10 rounded-lg flex items-center justify-center glass border border-white/[0.05] transition-all duration-500 ${destructive ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' : 'bg-white/[0.03] text-foreground/20 group-hover:text-foreground/40 group-hover:border-white/10'}`}>
+          <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center border border-white/[0.05] transition-all duration-500 bg-white/[0.03] ${destructive ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' : 'text-foreground/20 group-hover:text-foreground/40 group-hover:border-white/10'}`}>
             {icon}
           </div>
         )}
-        <span className={`text-text2 font-semibold tracking-[-0.04em] transition-colors duration-500 ${destructive ? 'text-rose-500/80 hover:text-rose-500' : 'text-foreground/40 group-hover:text-foreground/70'}`}>
+        <span className={`text-[13px] md:text-text2 font-semibold tracking-[-0.04em] transition-colors duration-500 ${destructive ? 'text-rose-500/80 hover:text-rose-500' : 'text-foreground/40 group-hover:text-foreground/70'}`}>
           {label.toLowerCase()}
         </span>
       </div>
@@ -136,7 +136,7 @@ function SettingsSection({ title, children }: { title: string; children: React.R
       <p className="px-6 text-text3 font-semibold tracking-[-0.04em] text-foreground/20">
         {title.toLowerCase()}
       </p>
-      <div className="glass border border-white/[0.03] rounded-[2.5rem] overflow-hidden p-2">
+      <div className="glass rounded-[2rem] md:rounded-[2.5rem] overflow-hidden">
         <div className="divide-y divide-white/[0.02]">
           {children}
         </div>
@@ -276,7 +276,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
           <Avatar
             url={avatarUrl}
             username={username}
-            size={120}
+            size={100}
             onEdit={() => fileRef.current?.click()}
             uploading={uploadingAvatar}
           />
@@ -290,7 +290,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
               {email}
             </span>
             <div className="h-1 w-1 rounded-full bg-white/5" />
-            <div className="flex items-center gap-2 px-3 py-1 rounded-full glass border border-white/[0.05]">
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-white/[0.02]">
               <HugeiconsIcon icon={StarIcon} size={10} className="text-primary/60" />
               <span className="text-[10px] font-semibold text-primary/60 tracking-[-0.04em]">
                 {score} pts
@@ -337,12 +337,12 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
 
         {/* Group 2: Appearance */}
         <SettingsSection title="Personalización">
-          <div className="px-6 py-6 flex items-center justify-between">
-            <div className="flex items-center gap-5">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center glass border border-white/[0.05] transition-all duration-500 bg-white/[0.03] text-foreground/20">
+          <div className="px-6 md:px-8 py-5 flex items-center justify-between">
+            <div className="flex items-center gap-4 md:gap-5">
+              <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center border border-white/[0.05] transition-all duration-500 bg-white/[0.03] text-foreground/20">
                 <HugeiconsIcon icon={theme === 'dark' ? Moon01Icon : Sun01Icon} size={14} />
               </div>
-              <span className="text-text2 font-semibold tracking-[-0.04em] text-foreground/40">tema</span>
+              <span className="text-[13px] md:text-text2 font-semibold tracking-[-0.04em] text-foreground/40">tema</span>
             </div>
 
             <div className="inline-flex rounded-full p-1 bg-white/[0.02] border border-white/[0.05] relative">
@@ -391,7 +391,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
 
         {/* Group 4: Danger */}
         <SettingsSection title="zona de peligro">
-          <div className="p-10 flex flex-col items-center text-center space-y-10 bg-rose-500/[0.01]">
+          <div className="p-6 md:p-10 flex flex-col items-center text-center space-y-8 md:space-y-10 bg-rose-500/[0.01]">
             <div className="space-y-4">
               <div className="mx-auto w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.1)]">
                 <HugeiconsIcon icon={Alert01Icon} size={20} />
@@ -412,7 +412,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
                   value={deleteConfirm}
                   onChange={e => setDeleteConfirm(e.target.value)}
                   placeholder="ELIMINAR"
-                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-text2 focus:outline-none px-8 py-3 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
+                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-[16px] md:text-text2 focus:outline-none px-8 py-3 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
                 />
               </div>
 

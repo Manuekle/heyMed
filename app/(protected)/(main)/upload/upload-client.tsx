@@ -288,7 +288,7 @@ export function UploadClient({ userId }: { userId: string }) {
                         value={raw}
                         onChange={e => setRaw(e.target.value)}
                         placeholder="pega aquí o escribe el caso clínico..."
-                        className="w-full bg-transparent px-10 py-12 min-h-[400px] text-foreground placeholder:text-muted-foreground resize-none focus:outline-none leading-relaxed text-text2 md:text-text1 font-medium tracking-[-0.04em]"
+                        className="w-full bg-transparent px-10 py-12 min-h-[400px] text-foreground placeholder:text-muted-foreground resize-none focus:outline-none leading-relaxed text-[16px] md:text-text1 font-medium tracking-[-0.04em]"
                       />
                       {raw && (
                         <button
@@ -522,7 +522,7 @@ export function UploadClient({ userId }: { userId: string }) {
                   value={preview.description}
                   onChange={e => setPreview({ ...preview, description: e.target.value })}
                   rows={8}
-                  className="w-full bg-transparent text-foreground/60 focus:outline-none leading-relaxed text-text2 md:text-text1 font-medium tracking-[-0.04em] border-none p-0 resize-none min-h-[160px]"
+                  className="w-full bg-transparent text-foreground/60 focus:outline-none leading-relaxed text-[16px] md:text-text1 font-medium tracking-[-0.04em] border-none p-0 resize-none min-h-[160px]"
                 />
 
                 <div className="border-t border-dashed border-border/40" />
@@ -552,7 +552,7 @@ export function UploadClient({ userId }: { userId: string }) {
                         type="text"
                         value={preview.correct_diagnosis}
                         onChange={e => setPreview({ ...preview, correct_diagnosis: e.target.value })}
-                        className="w-full bg-transparent text-foreground/90 font-semibold text-heading3 focus:outline-none tracking-[-0.04em] border-none p-0"
+                        className="w-full bg-transparent text-foreground/90 font-semibold text-[16px] md:text-heading3 focus:outline-none tracking-[-0.04em] border-none p-0"
                         placeholder="Escribe el diagnóstico..."
                         autoFocus
                       />

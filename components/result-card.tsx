@@ -49,13 +49,13 @@ export function ResultCard({
             </div>
             <div>
               <p className="text-[15px] tracking-[-0.04em] text-muted-foreground/60 font-semibold">Análisis</p>
-              <h3 className="text-sm font-medium text-foreground tracking-tight">{current.label}</h3>
+              <h3 className="text-sm font-medium text-foreground tracking-[-0.04em]">{current.label}</h3>
             </div>
           </div>
 
           <div className="text-right flex flex-col">
             <div className="flex items-baseline justify-end">
-              <motion.span className={`text-3xl font-light tracking-tighter tabular-nums ${current.color}`}>
+              <motion.span className={`text-3xl font-light tracking-[-0.04em] tabular-nums ${current.color}`}>
                 {count}
               </motion.span>
               <span className="text-[10px] text-muted-foreground/40 ml-1 font-medium">/100</span>

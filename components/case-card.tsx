@@ -51,21 +51,20 @@ export function CaseCard({ description, difficulty, caseNumber, variant = 'defau
         className="group relative"
       >
         <div
-          className={`glass rounded-[2rem] p-6 md:p-10 relative overflow-hidden flex flex-col border border-white/[0.05] ${isCompact ? 'max-w-3xl mx-auto' : 'h-full'}`}
-          style={!isCompact ? { aspectRatio: '1 / 1.1' } : {}}
+          className={`glass rounded-[1.8rem] p-4 md:p-10 relative overflow-hidden flex flex-col border border-white/[0.05] ${isCompact ? 'max-w-3xl mx-auto' : 'h-full aspect-[1.5/1] md:aspect-[1/1.1]'}`}
         >
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full ${config.bg}`}>
-              <HugeiconsIcon icon={Flag01Icon} size={14} className={config.color} />
-              <span className={`text-[12px] font-semibold tracking-[-0.02em] ${config.color}`}>
+          <div className="flex items-center justify-between mb-3 md:mb-8">
+            <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${config.bg}`}>
+              <HugeiconsIcon icon={Flag01Icon} size={12} className={config.color} />
+              <span className={`text-[11px] font-semibold tracking-[-0.02em] ${config.color}`}>
                 {config.label}
               </span>
             </div>
             {caseNumber !== undefined && (
               <div className="flex items-center gap-2 text-foreground/20">
-                <HugeiconsIcon icon={InformationCircleIcon} size={14} />
-                <span className="text-[11px] font-medium tabular-nums tracking-[-0.02em]">
+                <HugeiconsIcon icon={InformationCircleIcon} size={12} />
+                <span className="text-[10px] font-medium tabular-nums tracking-[-0.02em]">
                   caso #{String(caseNumber).padStart(3, '0')}
                 </span>
               </div>
@@ -73,11 +72,11 @@ export function CaseCard({ description, difficulty, caseNumber, variant = 'defau
           </div>
 
           {/* Content */}
-          <div className="flex-1 space-y-4">
-            <h3 className="text-text2 font-semibold text-foreground/90 tracking-[-0.04em]">
+          <div className="flex-1 space-y-2 md:space-y-4">
+            <h3 className="hidden md:block text-text2 font-semibold text-foreground/90 tracking-[-0.04em]">
               instrucciones de caso
             </h3>
-            <p className={`text-text2 md:text-text1 leading-relaxed text-foreground/50 font-medium tracking-[-0.04em] ${!isCompact ? 'line-clamp-6' : ''}`}>
+            <p className={`text-[13px] md:text-text1 leading-snug md:leading-relaxed text-foreground/50 font-medium tracking-[-0.04em] ${!isCompact ? 'line-clamp-4 md:line-clamp-6' : ''}`}>
               {description}
             </p>
           </div>

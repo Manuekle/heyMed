@@ -103,13 +103,13 @@ function DifferentialInput({
   }
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-8">
       {/* Main diagnosis */}
       <motion.div
         transition={{ duration: 0.3 }}
         className="rounded-[2rem] overflow-hidden border border-border/40 bg-card/30 focus-within:border-yellow-500/20 transition-all duration-700"
       >
-        <div className="px-10 pt-8 pb-4">
+        <div className="px-6 md:px-10 pt-6 md:pt-8 pb-3 md:pb-4">
           <span className="text-text3 font-semibold text-foreground lowercase">
             sospecha principal
           </span>
@@ -120,7 +120,7 @@ function DifferentialInput({
           disabled={disabled}
           placeholder="¿Cuál es tu diagnóstico más probable?"
           rows={3}
-          className="w-full bg-transparent px-10 py-6 text-foreground placeholder:text-foreground/20 resize-none focus:outline-none leading-relaxed text-text2 md:text-text1 font-medium tracking-[-0.04em] disabled:opacity-40"
+          className="w-full bg-transparent px-6 md:px-10 py-4 md:py-6 text-foreground placeholder:text-foreground/20 resize-none focus:outline-none leading-relaxed text-text2 md:text-text1 font-medium tracking-[-0.04em] disabled:opacity-40"
         />
       </motion.div>
 
@@ -129,14 +129,14 @@ function DifferentialInput({
         transition={{ duration: 0.3 }}
         className="rounded-[2rem] overflow-hidden border border-border/40 bg-card/30 focus-within:border-yellow-500/20 transition-all duration-700"
       >
-        <div className="px-10 pt-8 pb-6">
+        <div className="px-6 md:px-10 pt-6 md:pt-8 pb-4 md:pb-6">
           <span className="text-text3 font-semibold text-foreground lowercase">
             diagnósticos diferenciales
           </span>
         </div>
-        <div className="px-10 pb-12 space-y-8">
+        <div className="px-6 md:px-10 pb-8 md:pb-12 space-y-6 md:space-y-8">
           {[0, 1, 2].map(i => (
-            <div key={i} className="flex items-center gap-6">
+            <div key={i} className="flex items-center gap-4 md:gap-6">
               <span className="text-[12px] font-semibold text-foreground/10 w-4 shrink-0 tabular-nums tracking-[-0.04em]">{i + 1}.</span>
               <input
                 type="text"
@@ -144,7 +144,7 @@ function DifferentialInput({
                 onChange={e => updateDiff(i, e.target.value)}
                 disabled={disabled}
                 placeholder={i === 0 ? 'principal alternativa' : i === 1 ? 'segunda opción' : 'tercera opción'}
-                className="flex-1 bg-transparent text-foreground placeholder:text-foreground/20 focus:outline-none font-medium text-text1 md:text-text1 tracking-[-0.04em] disabled:opacity-40 transition-colors border-b border-border/30 focus:border-yellow-500/20 pb-3"
+                className="flex-1 bg-transparent text-foreground placeholder:text-foreground/20 focus:outline-none font-medium text-[14px] md:text-text1 tracking-[-0.04em] disabled:opacity-40 transition-colors border-b border-border/30 focus:border-yellow-500/20 pb-2 md:pb-3"
               />
             </div>
           ))}
@@ -187,11 +187,11 @@ function ModePreScreen({ onSelect, onBack }: { onSelect: (m: PracticeMode) => vo
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.98 }}
-      className="space-y-16"
+      className="space-y-10 md:space-y-16"
     >
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2 md:space-y-4">
-          <p className="text-[10px] md:text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+          <p className="text-[10px] md:text-[11px] font-semibold text-muted-foreground">
             Antes de empezar
           </p>
           <h2 className="text-heading2 md:text-heading1 text-foreground font-semibold tracking-[-0.04em]">
@@ -207,14 +207,14 @@ function ModePreScreen({ onSelect, onBack }: { onSelect: (m: PracticeMode) => vo
         </button>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-6 md:space-y-8">
         {MODES.map(m => (
           <motion.button
             key={m.id}
             onClick={() => onSelect(m.id)}
             onMouseEnter={() => setHovered(m.id)}
             onMouseLeave={() => setHovered(null)}
-            className={`w-full text-left rounded-[2rem] md:rounded-[2.5rem] px-6 md:px-10 py-6 md:py-8 group relative overflow-hidden bg-card/30 border transition-all duration-700 ${m.id === 'normal' ? 'border-border/40 hover:border-green-500/30' :
+            className={`w-full text-left rounded-[2rem] md:rounded-[2.5rem] px-5 md:px-10 py-5 md:py-8 group relative overflow-hidden bg-card/30 border transition-all duration-700 ${m.id === 'normal' ? 'border-border/40 hover:border-green-500/30' :
               m.id === 'differential' ? 'border-border/40 hover:border-yellow-500/30' :
                 'border-border/40 hover:border-red-500/30'
               }`}
@@ -523,7 +523,7 @@ export function PracticeClient({
                     disabled={loading}
                     placeholder="¿cuál es tu diagnóstico?"
                     rows={6}
-                    className="w-full bg-transparent px-6 md:px-12 py-8 md:py-12 text-foreground placeholder:text-foreground/30 resize-none focus:outline-none leading-relaxed text-[1.4rem] md:text-heading3 font-semibold tracking-[-0.04em]"
+                    className="w-full bg-transparent px-5 md:px-12 py-6 md:py-12 text-foreground placeholder:text-foreground/30 resize-none focus:outline-none leading-relaxed text-[1.2rem] md:text-heading3 font-semibold tracking-[-0.04em]"
                   />
 
                   {/* Inner footer for word count/metadata */}
@@ -599,7 +599,7 @@ export function PracticeClient({
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   onClick={() => setShowConfirmExit(true)}
-                  className="flex items-center gap-2 text-[12px] font-semibold text-destructive hover:text-destructive/60 transition-all duration-500 px-2 py-1 tracking-[-0.04em] rounded-full"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 text-[12px] font-semibold text-destructive hover:text-destructive/60 transition-all duration-500 px-6 py-3 md:py-1 tracking-[-0.04em] rounded-full bg-destructive/[0.03] sm:bg-transparent border border-destructive/10 sm:border-none"
                 >
                   <HugeiconsIcon icon={Cancel01Icon} size={14} />
                   <span>abandonar práctica</span>
@@ -610,10 +610,10 @@ export function PracticeClient({
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -10 }}
-                  className="flex items-center gap-4 bg-destructive/[0.03] border border-destructive/10 px-4 py-2 rounded-full"
+                  className="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-4 bg-destructive/[0.03] border border-destructive/10 px-6 py-3 md:py-2 rounded-full"
                 >
                   <span className="text-[12px] font-semibold text-foreground/40 tracking-[-0.04em]">¿seguro?</span>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-6">
                     <button
                       onClick={() => router.push('/dashboard')}
                       className="text-[12px] font-semibold text-destructive hover:underline transition-all tracking-[-0.04em]"
@@ -635,12 +635,12 @@ export function PracticeClient({
 
 
           {/* Right: Hint + Submit */}
-          <div className="flex items-center justify-between sm:justify-end gap-4 md:gap-6 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 w-full sm:w-auto">
             {resolvedMode !== 'quick' && (
               <button
                 onClick={requestHint}
                 disabled={loadingHint || hints.length >= 3}
-                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-2.5 md:py-2 rounded-full text-[12px] font-semibold transition-all duration-500 tracking-[-0.04em] ${hints.length >= 3 ? 'text-foreground/5 cursor-not-allowed' : 'text-foreground/30 hover:text-primary hover:bg-primary/5 bg-foreground/[0.02] sm:bg-transparent'}`}
+                className={`w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 md:py-2 rounded-full text-[12px] font-semibold transition-all duration-500 tracking-[-0.04em] ${hints.length >= 3 ? 'text-foreground/5 cursor-not-allowed' : 'text-foreground/30 hover:text-primary hover:bg-primary/5 bg-foreground/[0.02] sm:bg-transparent'}`}
               >
                 <HugeiconsIcon icon={AiIdeaIcon} size={14} />
                 <span>{loadingHint ? 'buscando...' : hints.length > 0 ? `${hints.length}/3` : 'pista'}</span>
@@ -650,12 +650,12 @@ export function PracticeClient({
             <ShinyButton
               onClick={() => handleSubmit()}
               disabled={!canSubmit || loading}
-              className={`flex-1 sm:flex-none rounded-full px-6 py-2.5 md:py-2 transition-all duration-500 ${resolvedMode === 'quick' ? 'hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
+              className={`w-full sm:w-auto rounded-full px-8 py-3 md:py-2 transition-all duration-500 ${resolvedMode === 'quick' ? 'hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
                 resolvedMode === 'differential' ? 'hover:shadow-[0_0_20px_rgba(234,179,8,0.2)]' :
                   'hover:shadow-[0_0_20px_rgba(34,197,94,0.2)]'
                 }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center gap-3">
                 <span className="font-semibold tracking-[-0.04em]">
                   {loading ? 'evaluando...' : 'evaluar ahora'}
                 </span>
@@ -695,18 +695,18 @@ export function PracticeClient({
               </p>
             ) : (
               <>
-                <div className="flex items-center gap-8">
+                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 w-full sm:w-auto px-6 sm:px-0">
                   <button
                     onClick={handleRetry}
-                    className="text-[15px] font-semibold text-foreground/20 hover:text-foreground transition-all duration-700 tracking-[-0.04em] px-6 py-2 rounded-full hover:bg-foreground/[0.03]"
+                    className="w-full sm:w-auto text-[15px] font-semibold text-foreground/20 hover:text-foreground transition-all duration-700 tracking-[-0.04em] px-8 py-3 rounded-full hover:bg-foreground/[0.03]"
                   >
                     intentar de nuevo
                   </button>
                   <ShinyButton
                     onClick={handleNextCase}
-                    className="px-6 py-2 rounded-full"
+                    className="w-full sm:w-auto px-8 py-3 rounded-full"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center justify-center gap-3">
                       <span className="font-semibold text-[15px] tracking-[-0.04em]">
                         {nextCaseId ? 'siguiente caso' : 'ver resumen'}
                       </span>
@@ -743,26 +743,26 @@ function SessionSummary({ stats, difficultyFilter, mode, onReturn }: {
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-      className="space-y-24"
+      className="space-y-12 md:space-y-24"
     >
-      <div className="rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-24 overflow-hidden bg-card/20 border border-border/40 relative shadow-sm">
+      <div className="rounded-[2.5rem] md:rounded-[3rem] p-6 md:p-24 overflow-hidden bg-card/20 border border-border/40 relative shadow-sm">
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-primary/[0.03] to-transparent" />
         <div className="relative">
-          <p className="text-[11px] font-semibold text-foreground/20 mb-12 md:mb-24 text-center tracking-[-0.04em]">
+          <p className="text-[11px] font-semibold text-foreground/20 mb-8 md:mb-24 text-center tracking-[-0.04em]">
             sesión completada {modeLabel && `· ${modeLabel}`}
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-12 md:mb-24 text-center">
-            <div className="space-y-2 md:space-y-6">
-              <p className="text-[3.5rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.done}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16 mb-8 md:mb-24 text-center">
+            <div className="space-y-1 md:space-y-6">
+              <p className="text-[2.8rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.done}</p>
               <p className="text-[12px] md:text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">casos</p>
             </div>
-            <div className="space-y-2 md:space-y-6">
-              <p className="text-[3.5rem] md:text-[5rem] text-primary font-semibold tracking-[-0.04em] tabular-nums leading-none">{accuracy}%</p>
+            <div className="space-y-1 md:space-y-6">
+              <p className="text-[2.8rem] md:text-[5rem] text-primary font-semibold tracking-[-0.04em] tabular-nums leading-none">{accuracy}%</p>
               <p className="text-[12px] md:text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">precisión</p>
             </div>
-            <div className="space-y-2 md:space-y-6">
-              <p className="text-[3.5rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.correct}</p>
+            <div className="space-y-1 md:space-y-6">
+              <p className="text-[2.8rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.correct}</p>
               <p className="text-[12px] md:text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">correctos</p>
             </div>
           </div>

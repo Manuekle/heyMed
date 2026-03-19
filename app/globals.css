@@ -17,7 +17,6 @@
 
   /* Glass */
   --color-glass: oklch(from var(--foreground) l c h / 5%);
-  --color-glass-border: oklch(from var(--foreground) l c h / 10%);
 
   /* Semantic */
   --color-border: var(--border);
