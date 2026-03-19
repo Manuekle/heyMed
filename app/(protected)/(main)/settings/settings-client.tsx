@@ -17,7 +17,8 @@ import {
   Logout01Icon,
   ArrowRight01Icon,
   Camera01Icon,
-  Alert01Icon
+  Alert01Icon,
+  CodeIcon
 } from '@hugeicons/core-free-icons'
 import { PageHeader } from '@/components/page-header'
 
@@ -161,6 +162,8 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
   const [deleting, setDeleting] = useState(false)
   const [profileSaved, setProfileSaved] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [isEditingUsername, setIsEditingUsername] = useState(false)
+  const [tempUsername, setTempUsername] = useState(username)
 
   // ── Avatar upload ────────────────────────────────────────────
 
@@ -233,6 +236,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
       setError(e.message)
     } else {
       setProfileSaved(true)
+      setIsEditingUsername(false)
       setTimeout(() => setProfileSaved(false), 2000)
     }
     setSavingProfile(false)
@@ -263,7 +267,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
   }
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-12">
       <PageHeader
         label="ajustes"
         title="Configuración"
@@ -319,7 +323,10 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
             icon={<HugeiconsIcon icon={UserIcon} size={14} />}
             label="nombre de usuario"
             value={username}
-            onClick={() => { }}
+            onClick={() => {
+              setTempUsername(username)
+              setIsEditingUsername(true)
+            }}
           />
           <SettingsRow
             icon={<HugeiconsIcon icon={StarIcon} size={14} />}
@@ -373,6 +380,12 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
             value="1.0.0"
             showChevron={false}
           />
+          <SettingsRow
+            icon={<HugeiconsIcon icon={CodeIcon} size={14} />}
+            label="creador"
+            value="manudev"
+            onClick={() => window.open('https://manudev.vercel.app', '_blank')}
+          />
         </SettingsSection>
 
         {/* Group 3: Support & Actions */}
@@ -406,20 +419,20 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
 
             <div className="w-full max-w-sm space-y-8">
               <div className="space-y-3">
-                <p className="text-[10px] font-semibold tracking-[-0.04em] text-rose-500/20">escribe ELIMINAR para confirmar</p>
+                <p className="text-[10px] font-semibold tracking-[-0.04em] text-rose-500/20">escribe "eliminar" para confirmar</p>
                 <input
                   type="text"
                   value={deleteConfirm}
                   onChange={e => setDeleteConfirm(e.target.value)}
-                  placeholder="ELIMINAR"
-                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-[16px] md:text-text2 focus:outline-none px-8 py-2 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
+                  placeholder="eliminar"
+                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-[13px] md:text-text2 focus:outline-none px-8 py-2 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
                 />
               </div>
 
               <button
                 onClick={handleDeleteAccount}
-                disabled={deleteConfirm !== 'ELIMINAR' || deleting}
-                className={`w-full py-2 text-text2 tracking-[-0.04em] font-semibold transition-all duration-700 rounded-full border border-rose-500/20 ${deleteConfirm === 'ELIMINAR'
+                disabled={deleteConfirm !== 'eliminar' || deleting}
+                className={`w-full py-2 text-[13px] tracking-[-0.04em] font-semibold transition-all duration-700 rounded-full border border-rose-500/20 ${deleteConfirm === 'eliminar'
                   ? 'bg-rose-500 text-white shadow-[0_0_30px_rgba(244,63,94,0.4)] hover:scale-[1.02] active:scale-[0.98]'
                   : 'bg-rose-500/5 text-rose-500/40 opacity-50'
                   }`}
@@ -435,6 +448,61 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
           </div>
         </SettingsSection>
       </motion.div>
+
+      {/* Edit Username Modal */}
+      <AnimatePresence>
+        {isEditingUsername && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/40 dark:bg-black/60"
+            onClick={(e) => e.target === e.currentTarget && setIsEditingUsername(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.15, ease: "easeOut" }}
+              className="w-full max-w-[320px] rounded-[2.5rem] p-10 space-y-8 bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 shadow-2xl"
+            >
+              <div className="text-center">
+                <p className="text-[10px] font-semibold tracking-[-0.04em] text-black/40 dark:text-white/40">editar perfil</p>
+                <h3 className="text-text2 font-bold tracking-[-0.04em] text-black/80 dark:text-white/80 mt-1">cambiar nombre</h3>
+              </div>
+
+              <input
+                autoFocus
+                type="text"
+                value={tempUsername}
+                onChange={(e) => setTempUsername(e.target.value)}
+                className="w-full bg-black/[0.03] dark:bg-white/[0.03] border border-transparent focus:border-black/10 dark:focus:border-white/10 rounded-full px-6 py-2 text-center text-text2 font-medium focus:outline-none transition-colors duration-150 placeholder:text-black/30 dark:placeholder:text-white/30 text-black dark:text-white tracking-[-0.02em]"
+                placeholder="nuevo username"
+              />
+
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => {
+                    setUsername(tempUsername)
+                    handleSaveProfile()
+                  }}
+                  disabled={savingProfile || !tempUsername.trim() || tempUsername === username}
+                  className="w-full py-2 rounded-full bg-black dark:bg-white text-white dark:text-black text-text3 font-bold disabled:opacity-30 transition-transform active:scale-95 duration-150"
+                >
+                  {savingProfile ? 'guardando...' : 'guardar cambios'}
+                </button>
+                <button
+                  onClick={() => setIsEditingUsername(false)}
+                  className="w-full py-2 rounded-full text-[11px] font-semibold tracking-[-0.04em] text-destructive hover:opacity-70 transition-opacity duration-150"
+                >
+                  cancelar
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Error */}
       <AnimatePresence>

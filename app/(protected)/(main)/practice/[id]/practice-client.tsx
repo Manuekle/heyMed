@@ -391,28 +391,40 @@ export function PracticeClient({
         if (done) break
         text += dec.decode(value, { stream: true })
 
-        // As soon as first line is complete, show result immediately
-        const nl = text.indexOf('\n')
-        if (nl !== -1 && !evalResult) {
-          const [verdict, scoreStr] = text.slice(0, nl).trim().split('|')
-          if (['correct', 'partial', 'incorrect'].includes(verdict)) {
-            const raw = parseInt(scoreStr) || 50
+        // Robust parsing: Look for verdict and score in the text accumulated so far
+        if (!evalResult) {
+          const firstFewLines = text.split('\n').slice(0, 3).join('\n')
+          const verdictMatch = firstFewLines.match(/(correct|partial|incorrect)/i)
+          const scoreMatch = firstFewLines.match(/(\d+)/)
+
+          if (verdictMatch) {
+            const verdict = verdictMatch[0].toLowerCase() as Verdict
+            const rawScore = scoreMatch ? parseInt(scoreMatch[0]) : (verdict === 'correct' ? 85 : verdict === 'partial' ? 50 : 15)
+
             const score =
-              verdict === 'correct' ? Math.max(75, Math.min(100, raw))
-                : verdict === 'partial' ? Math.max(30, Math.min(74, raw))
-                  : Math.max(0, Math.min(29, raw))
-            evalResult = { result: verdict as Verdict, score, explanation: text.slice(nl + 1).trim() }
+              verdict === 'correct' ? Math.max(75, Math.min(100, rawScore))
+                : verdict === 'partial' ? Math.max(30, Math.min(74, rawScore))
+                  : Math.max(0, Math.min(29, rawScore))
+
+            // Find where the explanation starts (after the line containing the verdict or the first newline)
+            const firstNewline = text.indexOf('\n')
+            const explanationStart = firstNewline !== -1 ? firstNewline + 1 : text.length
+
+            evalResult = { result: verdict, score, explanation: text.slice(explanationStart).trim() }
             setResult(evalResult)
             setLoading(false)
+
             const s = getSession()
             const updated = { ...s, done: s.done + 1, [verdict]: s[verdict as keyof SessionStats] + 1 }
             saveSession(updated)
             setSessionStats(updated)
           }
-        } else if (evalResult) {
+        } else {
           // Stream explanation progressively
-          const nl2 = text.indexOf('\n')
-          setResult(prev => prev ? { ...prev, explanation: text.slice(nl2 + 1).trim() } : prev)
+          const firstNewline = text.indexOf('\n')
+          if (firstNewline !== -1) {
+            setResult(prev => prev ? { ...prev, explanation: text.slice(firstNewline + 1).trim() } : prev)
+          }
         }
       }
 
@@ -635,7 +647,7 @@ export function PracticeClient({
 
 
           {/* Right: Hint + Submit */}
-          <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6 w-full sm:w-auto">
+          <div className="flex flex-row items-center gap-4 md:gap-6 w-full sm:w-auto">
             {resolvedMode !== 'quick' && (
               <button
                 onClick={requestHint}
@@ -695,7 +707,7 @@ export function PracticeClient({
               </p>
             ) : (
               <>
-                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 w-full sm:w-auto px-6 sm:px-0">
+                <div className="flex flex-row items-center gap-4 sm:gap-8 w-full sm:w-auto px-6 sm:px-0">
                   <button
                     onClick={handleRetry}
                     className="w-full sm:w-auto text-[15px] font-semibold text-foreground/20 hover:text-foreground transition-all duration-700 tracking-[-0.04em] px-8 py-3 rounded-full hover:bg-foreground/[0.03]"

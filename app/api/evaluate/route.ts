@@ -57,47 +57,72 @@ Estudiante: ${user_answer}`,
     async start(controller) {
       const reader = aiRes.body!.getReader()
       let accumulated = ''
+      let buffer = ''
 
       try {
+        console.log('--- STARTING AI STREAM ---')
         while (true) {
           const { done, value } = await reader.read()
-
           if (done) {
-            // After stream ends, update DB (fire and forget)
-            const firstNewline = accumulated.indexOf('\n')
-            const firstLine = (firstNewline !== -1 ? accumulated.slice(0, firstNewline) : accumulated).trim()
-            const [verdict, scoreStr] = firstLine.split('|')
-            const explanation = (firstNewline !== -1 ? accumulated.slice(firstNewline + 1) : '').trim()
-
-            if (['correct', 'partial', 'incorrect'].includes(verdict)) {
-              const supabase = await createClient()
-              supabase
-                .from('attempts')
-                .update({ ai_result: verdict, ai_explanation: explanation })
-                .eq('id', attempt_id)
-                .then(() => { })
-            }
-
-            controller.close()
+            console.log('--- AI STREAM DONE ---')
             break
           }
 
-          const chunk = decoder.decode(value, { stream: true })
-          for (const line of chunk.split('\n')) {
-            if (!line.startsWith('data: ')) continue
-            const data = line.slice(6).trim()
+          const decoded = decoder.decode(value, { stream: true })
+          console.log('RAW CHUNK:', decoded)
+          buffer += decoded
+          const lines = buffer.split('\n')
+          buffer = lines.pop() || ''
+
+          for (const line of lines) {
+            const trimmedLine = line.trim()
+            if (!trimmedLine) continue
+            console.log('LINE:', trimmedLine)
+            
+            if (!trimmedLine.startsWith('data: ')) continue
+            
+            const data = trimmedLine.slice(6).trim()
             if (data === '[DONE]') continue
+            
             try {
               const event = JSON.parse(data)
+              console.log('EVENT TYPE:', event.type)
               if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta') {
-                accumulated += event.delta.text
-                controller.enqueue(encoder.encode(event.delta.text))
+                const text = event.delta.text
+                accumulated += text
+                controller.enqueue(encoder.encode(text))
               }
-            } catch { /* ignore malformed SSE */ }
+            } catch (err) {
+              console.error('JSON PARSE ERROR:', err, data)
+            }
           }
         }
+        console.log('ACCUMULATED:', accumulated)
+
+        // After stream ends, update DB (fire and forget)
+        const firstNewline = accumulated.indexOf('\n')
+        const firstLine = (firstNewline !== -1 ? accumulated.slice(0, firstNewline) : accumulated).trim()
+        
+        // Robust extraction: find verdict and score even if line has extra text
+        const verdictMatch = firstLine.match(/(correct|partial|incorrect)/i)
+        const scoreMatch = firstLine.match(/(\d+)/)
+        
+        const verdict = verdictMatch ? verdictMatch[0].toLowerCase() : 'incorrect'
+        const explanation = (firstNewline !== -1 ? accumulated.slice(firstNewline + 1) : '').trim()
+
+        if (['correct', 'partial', 'incorrect'].includes(verdict)) {
+          const supabase = await createClient()
+          supabase
+            .from('attempts')
+            .update({ ai_result: verdict, ai_explanation: explanation })
+            .eq('id', attempt_id)
+            .then(() => { })
+        }
+
+        controller.close()
       } catch (err) {
         controller.error(err)
+      } finally {
         reader.releaseLock()
       }
     },

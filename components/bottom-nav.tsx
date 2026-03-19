@@ -26,7 +26,7 @@ export function BottomNav() {
   // Only show on mobile (hidden on md and up)
   return (
     <div 
-      className="md:hidden fixed bottom-6 left-0 right-0 z-50 px-6 flex items-center justify-center gap-4"
+      className="md:hidden fixed bottom-4 left-0 right-0 z-50 px-6 flex items-center justify-center gap-4"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       {/* Main Nav Pill */}

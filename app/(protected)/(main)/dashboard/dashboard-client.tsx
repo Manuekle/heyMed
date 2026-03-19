@@ -115,102 +115,111 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
   ]
 
   return (
-    <div className="space-y-10 md:space-y-12">
-
-      <PageHeader
-        label="inicio"
-        title="Casos clínicos"
-        showNav={true}
-        avatarUrl={avatarUrl}
-        username={profile.username}
-        score={profile.score}
-      />
+    <div className="space-y-2 md:space-y-12">
+      <div className="px-5">
+        <PageHeader
+          label="inicio"
+          title="Casos clínicos"
+          showNav={true}
+          avatarUrl={avatarUrl}
+          username={profile.username}
+          score={profile.score}
+        />
+      </div>
 
       {/* Metrics */}
       {hasMetrics && (
         <BlurFade delay={0.2}>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-8 md:gap-16 mb-12 md:mb-24 px-1 md:px-4">
-            <div className="flex gap-12 md:gap-16">
-              <div>
-                <p className="text-[2rem] md:text-[2.5rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{accuracy.accuracy}%</p>
-                <p className="text-[10px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">precisión</p>
+          <div className="px-5">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-8 md:gap-16 mb-12 md:mb-24 px-1 md:px-4">
+              <div className="flex gap-12 md:gap-16">
+                <div>
+                  <p className="text-[2rem] md:text-[2.5rem] font-semibold tracking-[-0.04em] leading-none">{accuracy.accuracy}%</p>
+                  <p className="text-[10px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">precisión</p>
+                </div>
+                <div>
+                  <p className="text-[2rem] md:text-[2.5rem] font-semibold tracking-[-0.04em] leading-none">{accuracy.total}</p>
+                  <p className="text-[10px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">intentos</p>
+                </div>
               </div>
-              <div>
-                <p className="text-[2rem] md:text-[2.5rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{accuracy.total}</p>
-                <p className="text-[10px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">intentos</p>
-              </div>
+              {trend.length > 0 && (
+                <div className="flex flex-col items-start sm:items-end gap-3 sm:ml-auto">
+                  <div className="flex items-center gap-1.5 md:gap-2 opacity-40">
+                    {[...trend].reverse().map((r, i) => (
+                      <span key={i} className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-[3px] md:rounded-[4px] ${trendColors[r]}`} />
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[9px] md:text-[10px] font-semibold text-foreground/20 tracking-[-0.02em]">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/50" />
+                      <span>correcto</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-amber-400/50" />
+                      <span>parcial</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-rose-400/50" />
+                      <span>incorrecto</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-            {trend.length > 0 && (
-              <div className="flex flex-col items-start sm:items-end gap-3 sm:ml-auto">
-                <div className="flex items-center gap-1.5 md:gap-2 opacity-40">
-                  {[...trend].reverse().map((r, i) => (
-                    <span key={i} className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-[3px] md:rounded-[4px] ${trendColors[r]}`} />
-                  ))}
-                </div>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[9px] md:text-[10px] font-semibold text-foreground/20 tracking-[-0.02em]">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/50" />
-                    <span>correcto</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-amber-400/50" />
-                    <span>parcial</span>
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-rose-400/50" />
-                    <span>incorrecto</span>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </BlurFade>
       )}
 
-      <motion.div
-        initial={{ scaleX: 0, opacity: 0 }}
-        animate={{ scaleX: 1, opacity: 1 }}
-        transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full h-px mb-8 md:mb-12"
-        style={{ background: 'var(--border)', transformOrigin: 'left' }}
-      />
+      <div className="px-5">
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full h-px mb-8 md:mb-12"
+          style={{ background: 'var(--border)', transformOrigin: 'left' }}
+        />
+      </div>
 
       {/* "Practicar errores" CTA */}
       {firstReviewCase && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.21 }}
-          className="mb-12"
-        >
-          <Link
-            href={`/practice/${firstReviewCase.id}?mode=review`}
-            className="inline-flex items-center gap-3 text-text4 tracking-[-0.01em] font-medium px-5 py-2.5 rounded-xl transition-all duration-300 text-rose-500/80 hover:bg-rose-500/5 hover:text-rose-500"
-            style={{ background: 'oklch(var(--color-destructive) / 5%)', border: '1px solid oklch(var(--color-destructive) / 10%)' }}
+        <div className="px-5">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.21 }}
+            className="mb-12"
           >
-            <span className="lowercase">revisar {reviewCases.length} caso{reviewCases.length !== 1 ? 's' : ''} pendientes</span>
-            <HugeiconsIcon icon={ArrowRight01Icon} size={14} />
-          </Link>
-        </motion.div>
+            <Link
+              href={`/practice/${firstReviewCase.id}?mode=review`}
+              className="inline-flex items-center gap-3 text-text4 tracking-[-0.01em] font-medium  py-2.5 rounded-xl transition-all duration-300 text-rose-500/80 hover:bg-rose-500/5 hover:text-rose-500"
+              style={{ background: 'oklch(var(--color-destructive) / 5%)', border: '1px solid oklch(var(--color-destructive) / 10%)' }}
+            >
+              <span className="lowercase">revisar {reviewCases.length} caso{reviewCases.length !== 1 ? 's' : ''} pendientes</span>
+              <HugeiconsIcon icon={ArrowRight01Icon} size={14} />
+            </Link>
+          </motion.div>
+        </div>
       )}
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 md:mb-12 px-1">
-        <div className="flex flex-wrap items-center gap-2">
-          {(['all', 'cardio', 'neuro', 'gastro', 'urgencias', 'respiratorio'] as SystemFilter[]).map(s => {
-            const active = sysFilter === s
-            return (
-              <button
-                key={s}
-                onClick={() => setSysFilter(s)}
-                className={`text-text4 tracking-[-0.02em] font-medium px-4 md:px-5 py-2 rounded-full transition-all duration-300 ${active ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-muted-foreground hover:bg-foreground/5'}`}
-              >
-                {systemLabels[s]}
-              </button>
-            )
-          })}
+      <div className="px-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 md:mb-12 px-1">
+          <div className="flex flex-wrap items-center gap-2">
+            {(['all', 'cardio', 'neuro', 'gastro', 'urgencias', 'respiratorio'] as SystemFilter[]).map(s => {
+              const active = sysFilter === s
+              return (
+                <button
+                  key={s}
+                  onClick={() => setSysFilter(s)}
+                  className={`text-text4 tracking-[-0.02em] font-medium px-4 md: py-2 rounded-full transition-all duration-300 ${active ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-muted-foreground hover:bg-foreground/5'}`}
+                >
+                  {systemLabels[s]}
+                </button>
+              )
+            })}
+          </div>
+          <span className="text-text4 font-medium text-muted-foreground tabular-nums">{filteredCases.length} casos</span>
         </div>
-        <span className="text-text4 font-medium text-muted-foreground tabular-nums">{filteredCases.length} casos</span>
       </div>
 
       {/* Folders or Cases list */}
@@ -226,11 +235,11 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
               onScroll={(e) => {
                 const target = e.currentTarget;
                 const scrollLeft = target.scrollLeft;
-                const itemWidth = 288; // min-w-240 + gap-12 (48)
+                const itemWidth = isMobile ? 304 : 288; // 240 + gap (64 on mobile, 48 otherwise)
                 const index = Math.round(scrollLeft / itemWidth);
                 setActiveIndex(index);
               }}
-              className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible gap-12 md:gap-24 py-12 md:py-16 md:py-24 mb-20 scrollbar-none snap-x snap-mandatory px-0 md:px-0 scroll-padding-x-12 sm:pb-0 pb-40"
+              className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible gap-16 md:gap-24 py-12 md:py-16 md:py-24 mb-20 scrollbar-none snap-x snap-mandatory px-0 md:px-0 scroll-padding-x-12 sm:pb-0 pb-40"
             >
               {folderData.map((f, i) => (
                 <motion.div
@@ -260,22 +269,26 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <div className="flex items-center justify-between mb-12">
-              <h2 className="text-heading2 font-semibold text-foreground tracking-[-0.04em]">{difficultyLabels[expandedDifficulty]}</h2>
-              <button
-                onClick={() => setExpandedDifficulty(null)}
-                className="flex items-center gap-2 text-text4 font-medium text-muted hover:text-muted/80 transition-all px-5 py-2 rounded-full bg-foreground border border-border"
-              >
-                <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
-                <span>volver a carpetas</span>
-              </button>
+            <div className="px-5">
+              <div className="flex items-center justify-between mb-12">
+                <h2 className="text-heading2 font-semibold tracking-[-0.04em]">{difficultyLabels[expandedDifficulty]}</h2>
+                <button
+                  onClick={() => setExpandedDifficulty(null)}
+                  className="flex items-center gap-2 text-text4 font-medium text-muted hover:text-muted/80 transition-all px-5 py-2 rounded-full bg-foreground border border-border"
+                >
+                  <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
+                  <span>volver a carpetas</span>
+                </button>
+              </div>
             </div>
 
             {filteredCases.length === 0 ? (
-              <div className="text-center py-20">
-                <p className="text-heading3 text-muted-foreground font-medium tracking-[-0.02em]">
-                  {'No hay casos para este filtro.'}
-                </p>
+              <div className="">
+                <div className="text-center py-20">
+                  <p className="text-heading3 text-muted-foreground font-medium tracking-[-0.02em]">
+                    {'No hay casos para este filtro.'}
+                  </p>
+                </div>
               </div>
             ) : (
               <div className="relative">
@@ -308,8 +321,6 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
           </motion.div>
         )}
       </AnimatePresence>
-
-
     </div>
   )
 }
