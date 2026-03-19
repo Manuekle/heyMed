@@ -16,25 +16,26 @@ import {
   ArrowLeft01Icon,
   CheckmarkCircle01Icon,
   CircleIcon,
-  AiIdeaIcon
+  AiIdeaIcon,
+  CheckmarkCircle02Icon
 } from '@hugeicons/core-free-icons'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { ShinyButton } from '@/components/ui/shiny-button'
 
 const SYSTEMS = [
-  { id: 'cardio', label: 'CARDIOLOGÍA', icon: HealthIcon },
-  { id: 'neuro', label: 'NEUROLOGÍA', icon: Brain02Icon },
-  { id: 'gastro', label: 'GASTROENTEROLOGÍA', icon: StethoscopeIcon },
-  { id: 'urgencias', label: 'URGENCIAS', icon: AiIdeaIcon },
-  { id: 'respiratorio', label: 'NEUMOLOGÍA', icon: CourseIcon },
-  { id: 'otro', label: 'OTRAS ÁREAS', icon: DoctorIcon },
+  { id: 'cardio', label: 'cardiología', icon: HealthIcon },
+  { id: 'neuro', label: 'neurología', icon: Brain02Icon },
+  { id: 'gastro', label: 'gastroenterología', icon: StethoscopeIcon },
+  { id: 'urgencias', label: 'urgencias', icon: AiIdeaIcon },
+  { id: 'respiratorio', label: 'neumología', icon: CourseIcon },
+  { id: 'otro', label: 'otras áreas', icon: DoctorIcon },
 ]
 
 const LEVELS = [
-  { id: 'estudiante', label: 'ESTUDIANTE', desc: 'Pregrado o internado' },
-  { id: 'residente', label: 'RESIDENTE', desc: 'Posgrado en curso' },
-  { id: 'medico', label: 'MÉDICO GENERAL', desc: 'Ejercicio profesional' },
-  { id: 'especialista', label: 'ESPECIALISTA', desc: 'Subespecialidad' },
+  { id: 'estudiante', label: 'estudiante', desc: 'Pregrado o internado' },
+  { id: 'residente', label: 'residente', desc: 'Posgrado en curso' },
+  { id: 'medico', label: 'médico general', desc: 'Ejercicio profesional' },
+  { id: 'especialista', label: 'especialista', desc: 'Subespecialidad' },
 ]
 
 const ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
@@ -73,7 +74,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
   const steps = [
     {
       key: 'welcome',
-      title: 'BIENVENIDO A HEYMED!',
+      title: 'bienvenido a heyMed!',
       subtitle: 'Practica diagnóstico clínico con IA. Antes de empezar, cuéntanos algo.',
       content: (
         <div className="space-y-6">
@@ -95,11 +96,11 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
         </div>
       ),
       canNext: username.trim().length > 1,
-      nextLabel: 'CONTINUAR',
+      nextLabel: 'continuar',
     },
     {
       key: 'systems',
-      title: 'ÁREAS DE INTERÉS',
+      title: 'áreas de interés',
       subtitle: 'Selecciona las especialidades que quieres practicar.',
       content: (
         <div className="grid grid-cols-2 gap-4">
@@ -118,23 +119,18 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
                 <span className={`text-text4 tracking-[-0.04em] font-semibold transition-all duration-700  ${active ? 'text-foreground' : 'text-foreground/20'}`}>
                   {s.label}
                 </span>
-                {active && (
-                  <motion.div
-                    layoutId="active-dot"
-                    className="absolute top-4 right-4 w-1.5 h-1.5 rounded-full bg-primary"
-                  />
-                )}
+
               </button>
             )
           })}
         </div>
       ),
       canNext: true,
-      nextLabel: systems.length > 0 ? 'CONTINUAR' : 'SALTAR',
+      nextLabel: systems.length > 0 ? 'continuar' : 'saltar',
     },
     {
       key: 'level',
-      title: 'NIVEL ACADÉMICO',
+      title: 'nivel académico',
       subtitle: 'Usamos esto para orientar tus casos de práctica.',
       content: (
         <div className="space-y-4">
@@ -148,13 +144,13 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
                   }`}
               >
                 <div className="space-y-1.5">
-                  <p className={`font-semibold text-text2 tracking-[-0.04em] transition-all duration-700 ${active ? 'text-foreground' : 'text-foreground/40'}`}>
+                  <p className={`font-semibold text-text2 tracking-[-0.04em] transition-all duration-700 ${active ? 'text-primary' : 'text-foreground/40'}`}>
                     {l.label}
                   </p>
-                  <p className="text-text4 font-semibold text-foreground/10 tracking-[-0.04em] ">{l.desc}</p>
+                  <p className="text-text4 font-semibold text-foreground/50 tracking-[-0.04em] ">{l.desc}</p>
                 </div>
-                <div className={`w-8 h-8 rounded-full glass border border-white/[0.05] flex items-center justify-center transition-all duration-700 ${active ? 'bg-primary border-primary text-background' : 'text-foreground/10'}`}>
-                  <HugeiconsIcon icon={active ? CheckmarkCircle01Icon : CircleIcon} size={14} />
+                <div className={`w-8 h-8 rounded-full glass flex items-center justify-center transition-all duration-700 ${active ? 'bg-primary text-primary' : 'text-foreground/10'}`}>
+                  <HugeiconsIcon icon={active ? CheckmarkCircle02Icon : CircleIcon} size={18} />
                 </div>
               </button>
             )
@@ -162,7 +158,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
         </div>
       ),
       canNext: true,
-      nextLabel: level ? 'COMENZAR' : 'SALTAR',
+      nextLabel: level ? 'comenzar' : 'saltar',
     },
   ]
 
@@ -190,7 +186,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
                 />
               ))}
             </div>
-            <span className="text-text4 font-semibold text-foreground/10 tracking-[-0.04em]  tabular-nums">
+            <span className="text-text4 font-semibold text-foreground tracking-[-0.04em] tabular-nums">
               Paso {step + 1} de {steps.length}
             </span>
           </div>
@@ -225,7 +221,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
                   className="flex items-center gap-3 text-text4 font-semibold text-foreground/20 hover:text-foreground tracking-[-0.04em]  transition-all duration-500 group"
                 >
                   <HugeiconsIcon icon={ArrowLeft01Icon} size={14} className="group-hover:-translate-x-1 transition-transform" />
-                  <span>ATRÁS</span>
+                  <span>atrás</span>
                 </button>
               ) : (
                 <div />
@@ -235,10 +231,10 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
                 <ShinyButton
                   onClick={isLast ? finish : () => setStep(s => s + 1)}
                   disabled={!current.canNext || saving}
-                  className="group"
+                  className="group px-6 py-2 rounded-full"
                 >
                   <span className="flex items-center gap-3">
-                    {saving ? 'GUARDANDO...' : current.nextLabel}
+                    {saving ? 'guardando...' : current.nextLabel}
                     {!saving && <HugeiconsIcon icon={ArrowRight01Icon} size={14} className="group-hover:translate-x-1 transition-transform" />}
                   </span>
                 </ShinyButton>

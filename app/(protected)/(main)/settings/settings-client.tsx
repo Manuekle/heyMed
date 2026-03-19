@@ -14,7 +14,10 @@ import {
   Sun01Icon,
   InformationCircleIcon,
   HelpCircleIcon,
-  Logout01Icon
+  Logout01Icon,
+  ArrowRight01Icon,
+  Camera01Icon,
+  Alert01Icon
 } from '@hugeicons/core-free-icons'
 import { PageHeader } from '@/components/page-header'
 
@@ -30,25 +33,55 @@ function Avatar({
   url,
   username,
   size = 40,
+  onEdit,
+  uploading = false
 }: {
   url: string | null
   username: string
   size?: number
+  onEdit?: () => void
+  uploading?: boolean
 }) {
   return (
     <div
-      className="rounded-xl overflow-hidden flex items-center justify-center shrink-0 border border-border bg-card"
-      style={{
-        width: size,
-        height: size,
-      }}
+      className={`relative group/avatar shrink-0 ${onEdit && !uploading ? 'cursor-pointer' : ''}`}
+      style={{ width: size, height: size }}
+      onClick={onEdit && !uploading ? onEdit : undefined}
     >
-      {url ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={url} alt={username} className="w-full h-full object-cover" />
-      ) : (
-        <HugeiconsIcon icon={UserCircleIcon} size={size * 0.5} className="text-muted-foreground/40" />
-      )}
+      <div
+        className="relative rounded-full overflow-hidden flex items-center justify-center border border-white/[0.05] bg-white/[0.02] glass shadow-2xl transition-all duration-500"
+        style={{ width: size, height: size }}
+      >
+        <div className={`w-full h-full transition-all duration-700 ease-out ${onEdit && !uploading ? 'group-hover/avatar:blur-sm group-hover/avatar:scale-110' : ''}`}>
+          {url ? (
+            <img
+              src={url}
+              alt={username || "Avatar"}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-white/[0.03]">
+              <HugeiconsIcon
+                icon={UserCircleIcon}
+                size={size * 0.5}
+                className="text-foreground/10"
+              />
+            </div>
+          )}
+        </div>
+
+        {onEdit && !uploading && (
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/avatar:opacity-100 transition-all duration-500 bg-background/20 backdrop-blur-[2px] z-10">
+            <HugeiconsIcon icon={Camera01Icon} size={size * 0.3} className="text-white scale-50 group-hover/avatar:scale-100 transition-transform duration-500 ease-out" />
+          </div>
+        )}
+
+        {uploading && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background/60 backdrop-blur-sm z-20">
+            <div className="w-5 h-5 rounded-full border-2 border-primary border-t-transparent animate-spin" />
+          </div>
+        )}
+      </div>
     </div>
   )
 }
@@ -61,7 +94,7 @@ function SettingsRow({
   destructive = false,
   showChevron = true
 }: {
-  icon?: string | React.ReactNode
+  icon?: React.ReactNode
   label: string
   value?: string | React.ReactNode
   onClick?: () => void
@@ -71,24 +104,26 @@ function SettingsRow({
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center justify-between py-4 px-2 group transition-all duration-300 ${onClick ? 'cursor-pointer hover:bg-foreground/[0.02]' : 'cursor-default'}`}
+      className={`w-full flex items-center justify-between py-6 px-6 group transition-all duration-500 rounded-[2rem] ${onClick ? 'cursor-pointer hover:bg-white/[0.02]' : 'cursor-default'}`}
     >
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-5">
         {icon && (
-          <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm ${destructive ? 'bg-destructive/10 text-destructive' : 'bg-foreground/[0.05] text-muted-foreground'}`}>
-            {typeof icon === 'string' ? icon : icon}
+          <div className={`w-10 h-10 rounded-lg flex items-center justify-center glass border border-white/[0.05] transition-all duration-500 ${destructive ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' : 'bg-white/[0.03] text-foreground/20 group-hover:text-foreground/40 group-hover:border-white/10'}`}>
+            {icon}
           </div>
         )}
-        <span className={`text-[13px] font-medium tracking-[-0.01em] ${destructive ? 'text-destructive/80' : 'text-foreground/70'}`}>
-          {label}
+        <span className={`text-[13px] font-semibold tracking-[-0.04em] transition-colors duration-500 ${destructive ? 'text-rose-500/80 hover:text-rose-500' : 'text-foreground/40 group-hover:text-foreground/70'}`}>
+          {label.toLowerCase()}
         </span>
       </div>
-      <div className="flex items-center gap-3">
-        {value && <span className="text-[12px] text-muted-foreground/50 font-medium">{value}</span>}
+      <div className="flex items-center gap-4">
+        {value && <span className="text-[12px] text-foreground/20 font-semibold tracking-[-0.02em]">{typeof value === 'string' ? value.toLowerCase() : value}</span>}
         {showChevron && (
-          <span className="text-[10px] text-muted-foreground/30 transition-transform duration-300 group-hover:translate-x-0.5">
-            →
-          </span>
+          <HugeiconsIcon
+            icon={ArrowRight01Icon}
+            size={14}
+            className="text-foreground/5 transition-all duration-500 group-hover:translate-x-1 group-hover:text-foreground/20"
+          />
         )}
       </div>
     </button>
@@ -97,12 +132,14 @@ function SettingsRow({
 
 function SettingsSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="space-y-3">
-      <p className="px-2 text-text4 font-semibold text-muted-foreground/30 tracking-[-0.04em] ">
-        {title}
+    <div className="space-y-4">
+      <p className="px-6 text-[11px] font-semibold tracking-[-0.04em] text-foreground/20">
+        {title.toLowerCase()}
       </p>
-      <div className="bg-card border border-border rounded-2xl overflow-hidden px-2 divide-y divide-border/20">
-        {children}
+      <div className="glass border border-white/[0.03] rounded-[2.5rem] overflow-hidden p-2">
+        <div className="divide-y divide-white/[0.02]">
+          {children}
+        </div>
       </div>
     </div>
   )
@@ -112,8 +149,8 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
   const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    if (typeof window === 'undefined') return 'dark'
-    return (localStorage.getItem('heymed_theme') as 'dark' | 'light') || 'dark'
+    if (typeof window === 'undefined') return 'light'
+    return (localStorage.getItem('heymed_theme') as 'dark' | 'light') || 'light'
   })
 
   const [avatarUrl, setAvatarUrl] = useState(initialAvatar)
@@ -226,13 +263,42 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
   }
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-20">
       <PageHeader
-        label="AJUSTES"
-        title="Perfil y Cuenta"
+        label="ajustes"
+        title="Configuración"
         description="Gestiona tu información personal, preferencias de tema y seguridad de la cuenta."
         backLink="/dashboard"
       />
+
+      <div className="flex flex-col items-center justify-center space-y-8 py-12">
+        <div className="relative">
+          <Avatar
+            url={avatarUrl}
+            username={username}
+            size={120}
+            onEdit={() => fileRef.current?.click()}
+            uploading={uploadingAvatar}
+          />
+        </div>
+        <div className="text-center space-y-2">
+          <h2 className="text-text1 font-semibold tracking-[-0.04em] text-foreground">
+            {username}
+          </h2>
+          <div className="flex items-center justify-center gap-3">
+            <span className="text-[12px] font-semibold text-foreground/20 tracking-[-0.04em]">
+              {email}
+            </span>
+            <div className="h-1 w-1 rounded-full bg-white/5" />
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full glass border border-white/[0.05]">
+              <HugeiconsIcon icon={StarIcon} size={10} className="text-primary/60" />
+              <span className="text-[10px] font-semibold text-primary/60 tracking-[-0.04em]">
+                {score} pts
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -242,12 +308,6 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
       >
         {/* Group 1: Account Hub */}
         <SettingsSection title="Perfil y Cuenta">
-          <SettingsRow
-            icon={<Avatar url={avatarUrl} username={username} size={24} />}
-            label="Cambiar foto de perfil"
-            onClick={() => fileRef.current?.click()}
-            value={uploadingAvatar ? 'Subiendo...' : ''}
-          />
           <input
             ref={fileRef}
             type="file"
@@ -257,7 +317,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
           />
           <SettingsRow
             icon={<HugeiconsIcon icon={UserIcon} size={14} />}
-            label="Nombre de usuario"
+            label="nombre de usuario"
             value={username}
             onClick={() => { }}
           />
@@ -277,15 +337,39 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
 
         {/* Group 2: Appearance */}
         <SettingsSection title="Personalización">
-          <SettingsRow
-            icon={theme === 'dark' ? <HugeiconsIcon icon={Moon01Icon} size={14} /> : <HugeiconsIcon icon={Sun01Icon} size={14} />}
-            label="Tema"
-            value={theme === 'dark' ? 'Oscuro' : 'Claro'}
-            onClick={() => toggleTheme(theme === 'dark' ? 'light' : 'dark')}
-          />
+          <div className="px-6 py-6 flex items-center justify-between">
+            <div className="flex items-center gap-5">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center glass border border-white/[0.05] transition-all duration-500 bg-white/[0.03] text-foreground/20">
+                <HugeiconsIcon icon={theme === 'dark' ? Moon01Icon : Sun01Icon} size={14} />
+              </div>
+              <span className="text-[13px] font-semibold tracking-[-0.04em] text-foreground/40">tema</span>
+            </div>
+
+            <div className="inline-flex rounded-full p-1 bg-white/[0.02] border border-white/[0.05] relative">
+              {(['light', 'dark'] as const).map(t => {
+                const active = theme === t
+                return (
+                  <button
+                    key={t}
+                    onClick={() => toggleTheme(t)}
+                    className={`relative px-6 py-2 rounded-full text-[11px] font-semibold tracking-[-0.04em] transition-colors duration-500 z-10 ${active ? 'text-background' : 'text-foreground/20 hover:text-foreground'}`}
+                  >
+                    {active && (
+                      <motion.div
+                        layoutId="activeTheme"
+                        className="absolute inset-0 bg-foreground rounded-full -z-10"
+                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                      />
+                    )}
+                    {t === 'light' ? 'claro' : 'oscuro'}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
           <SettingsRow
             icon={<HugeiconsIcon icon={InformationCircleIcon} size={14} />}
-            label="Versión"
+            label="versión"
             value="1.0.0"
             showChevron={false}
           />
@@ -295,36 +379,57 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
         <SettingsSection title="Soporte y Otros">
           <SettingsRow
             icon={<HugeiconsIcon icon={HelpCircleIcon} size={14} />}
-            label="Ayuda y feedback"
+            label="ayuda y feedback"
             onClick={() => window.open('https://github.com', '_blank')}
           />
           <SettingsRow
             icon={<HugeiconsIcon icon={Logout01Icon} size={14} />}
-            label="Cerrar sesión"
+            label="cerrar sesión"
             onClick={handleLogout}
           />
         </SettingsSection>
 
         {/* Group 4: Danger */}
-        <SettingsSection title="Gestión de Datos">
-          <div className="p-6 space-y-6">
-            <p className="text-text4 text-muted-foreground leading-relaxed tracking-[-0.01em]">
-              Eliminar tu cuenta borrará permanentemente tu perfil e historial. Esta acción es definitiva. Escribe <span className="text-destructive/50">ELIMINAR</span> para confirmar.
-            </p>
+        <SettingsSection title="zona de peligro">
+          <div className="p-10 flex flex-col items-center text-center space-y-10 bg-rose-500/[0.01]">
             <div className="space-y-4">
-              <input
-                type="text"
-                value={deleteConfirm}
-                onChange={e => setDeleteConfirm(e.target.value)}
-                placeholder="CONFIRMAR"
-                className="w-full bg-transparent text-destructive/60 font-medium text-text2 focus:outline-none py-3 border-b border-destructive/10 focus:border-destructive/40 transition-all duration-300 placeholder:text-muted-foreground/20 tracking-[-0.01em]"
-              />
+              <div className="mx-auto w-12 h-12 rounded-full bg-rose-500/10 flex items-center justify-center text-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.1)]">
+                <HugeiconsIcon icon={Alert01Icon} size={20} />
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-semibold tracking-[-0.04em] text-rose-500/30 ">atención</p>
+                <p className="text-[13px] text-rose-500/60 leading-relaxed tracking-[-0.04em] font-medium italic max-w-xs mx-auto">
+                  eliminar tu cuenta borrará permanentemente tu perfil e historial.<br />esta acción es definitiva.
+                </p>
+              </div>
+            </div>
+
+            <div className="w-full max-w-sm space-y-8">
+              <div className="space-y-3">
+                <p className="text-[10px] font-semibold tracking-[-0.04em] text-rose-500/20">escribe ELIMINAR para confirmar</p>
+                <input
+                  type="text"
+                  value={deleteConfirm}
+                  onChange={e => setDeleteConfirm(e.target.value)}
+                  placeholder="ELIMINAR"
+                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-[13px] focus:outline-none px-8 py-2 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
+                />
+              </div>
+
               <button
                 onClick={handleDeleteAccount}
                 disabled={deleteConfirm !== 'ELIMINAR' || deleting}
-                className="w-full py-4 text-text4 tracking-[-0.01em] font-medium transition-all duration-500 bg-destructive/5 border border-destructive/10 text-destructive/60 hover:bg-destructive hover:text-white disabled:opacity-20 rounded-2xl"
+                className={`w-full py-2 text-[13px] tracking-[-0.04em] font-semibold transition-all duration-700 rounded-full border border-rose-500/20 ${deleteConfirm === 'ELIMINAR'
+                  ? 'bg-rose-500 text-white shadow-[0_0_30px_rgba(244,63,94,0.4)] hover:scale-[1.02] active:scale-[0.98]'
+                  : 'bg-rose-500/5 text-rose-500/40 opacity-50'
+                  }`}
               >
-                {deleting ? 'Procesando...' : 'Eliminar cuenta definitivamente'}
+                {deleting ? (
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="w-4 h-4 rounded-full border-2 border-current border-t-transparent animate-spin" />
+                    <span>procesando...</span>
+                  </div>
+                ) : 'eliminar cuenta definitivamente'}
               </button>
             </div>
           </div>

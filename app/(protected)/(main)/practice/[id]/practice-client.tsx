@@ -19,7 +19,6 @@ import {
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { BlurFade } from '@/components/ui/blur-fade'
 import { PageHeader } from '@/components/page-header'
-import { Logout01Icon } from '@hugeicons/core-free-icons'
 
 interface PracticeClientProps {
   caseData: {
@@ -34,6 +33,7 @@ interface PracticeClientProps {
   difficultyFilter: string
   attemptNumber: number
   mode: PracticeMode
+  modeFromUrl: boolean
 }
 
 type Verdict = 'correct' | 'partial' | 'incorrect'
@@ -66,17 +66,17 @@ function QuickTimer({ timeLeft }: { timeLeft: number }) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-2"
+      className="space-y-4"
     >
       <div className="flex items-center justify-between">
-        <span className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground">Tiempo</span>
-        <span className={`text-text4 font-medium tabular-nums transition-colors duration-500 ${timeLeft <= 4 ? 'text-rose-500' : 'text-muted-foreground'}`}>
+        <span className="text-[11px] tracking-[-0.02em] font-semibold text-muted-foreground  tracking-[-0.05em]">tiempo</span>
+        <span className={`text-[12px] font-semibold tabular-nums tracking-[-0.04em] transition-colors duration-500 ${timeLeft <= 4 ? 'text-rose-500' : 'text-muted-foreground/40'}`}>
           {timeLeft}s
         </span>
       </div>
-      <div className="h-0.5 w-full rounded-sm overflow-hidden" style={{ background: 'var(--border)' }}>
+      <div className="h-[2px] w-full rounded-full overflow-hidden bg-white/[0.05]">
         <motion.div
-          className="h-full rounded-sm"
+          className="h-full rounded-full"
           style={{ background: color }}
           animate={{ width: `${pct}%` }}
           transition={{ duration: 0.9, ease: 'linear' }}
@@ -103,14 +103,14 @@ function DifferentialInput({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* Main diagnosis */}
       <motion.div
         transition={{ duration: 0.3 }}
-        className="rounded-[2.5rem] overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-md focus-within:border-primary/30 focus-within:shadow-[0_0_20px_rgba(59,130,246,0.05)] transition-all duration-500"
+        className="rounded-[2rem] overflow-hidden border border-border/40 bg-card/30 focus-within:border-yellow-500/20 transition-all duration-700"
       >
-        <div className="px-8 pt-6 pb-4 opacity-40">
-          <span className="text-text4 font-semibold text-foreground tracking-[-0.04em] ">
+        <div className="px-10 pt-8 pb-4">
+          <span className="text-[11px] font-semibold text-foreground">
             Sospecha principal
           </span>
         </div>
@@ -120,31 +120,31 @@ function DifferentialInput({
           disabled={disabled}
           placeholder="¿Cuál es tu diagnóstico más probable?"
           rows={3}
-          className="w-full bg-transparent px-8 py-5 text-foreground placeholder:text-foreground/20 resize-none focus:outline-none leading-relaxed text-text2 disabled:opacity-40 font-medium tracking-[-0.04em]"
+          className="w-full bg-transparent px-10 py-6 text-foreground placeholder:text-foreground/20 resize-none focus:outline-none leading-relaxed text-text2 md:text-text1 font-medium tracking-[-0.04em] disabled:opacity-40"
         />
       </motion.div>
 
       {/* Differentials */}
       <motion.div
         transition={{ duration: 0.3 }}
-        className="rounded-[2.5rem] overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-md focus-within:border-primary/30 transition-all duration-500"
+        className="rounded-[2rem] overflow-hidden border border-border/40 bg-card/30 focus-within:border-yellow-500/20 transition-all duration-700"
       >
-        <div className="px-8 pt-6 pb-6 opacity-40">
-          <span className="text-text4 font-semibold text-foreground tracking-[-0.04em] ">
+        <div className="px-10 pt-8 pb-6">
+          <span className="text-[11px] font-semibold text-foreground">
             Diagnósticos diferenciales
           </span>
         </div>
-        <div className="px-8 pb-10 space-y-6">
+        <div className="px-10 pb-12 space-y-8">
           {[0, 1, 2].map(i => (
-            <div key={i} className="flex items-center gap-4">
-              <span className="text-text4 font-medium text-foreground/20 w-4 shrink-0 tabular-nums">{i + 1}.</span>
+            <div key={i} className="flex items-center gap-6">
+              <span className="text-[12px] font-semibold text-foreground/10 w-4 shrink-0 tabular-nums tracking-[-0.04em]">{i + 1}.</span>
               <input
                 type="text"
                 value={differentials[i]}
                 onChange={e => updateDiff(i, e.target.value)}
                 disabled={disabled}
-                placeholder={i === 0 ? 'Principal alternativa' : i === 1 ? 'Segunda opción' : 'Tercera opción'}
-                className="flex-1 bg-transparent text-foreground placeholder:text-foreground/20 focus:outline-none font-medium text-text2 disabled:opacity-40 transition-colors border-b border-white/[0.05] focus:border-primary/30 pb-2"
+                placeholder={i === 0 ? 'principal alternativa' : i === 1 ? 'segunda opción' : 'tercera opción'}
+                className="flex-1 bg-transparent text-foreground placeholder:text-foreground/20 focus:outline-none font-medium text-text2 md:text-text1 tracking-[-0.04em] disabled:opacity-40 transition-colors border-b border-border/30 focus:border-yellow-500/20 pb-3"
               />
             </div>
           ))}
@@ -158,45 +158,53 @@ function DifferentialInput({
 const MODES: Array<{ id: PracticeMode; label: string; desc: string; detail: string; accent: string }> = [
   {
     id: 'normal',
-    label: 'Normal',
-    desc: 'Diagnóstico libre',
+    label: 'normal',
+    desc: 'diagnóstico libre',
     detail: 'Escribe tu diagnóstico sin restricciones. La IA lo evalúa semánticamente.',
-    accent: 'rgba(59,130,246,0.08)',
+    accent: 'rgba(34,197,94,0.08)',
   },
   {
     id: 'differential',
-    label: 'Diferencial',
-    desc: 'Razonamiento clínico',
+    label: 'diferencial',
+    desc: 'razonamiento clínico',
     detail: 'Escribe tu sospecha principal y hasta tres diagnósticos diferenciales.',
-    accent: 'rgba(139,92,246,0.08)',
+    accent: 'rgba(234,179,8,0.08)',
   },
   {
     id: 'quick',
-    label: 'Modo rápido',
+    label: 'modo rápido',
     desc: '15 segundos',
     detail: 'Cuenta regresiva. Solo acertar o fallar. Perfecto para práctica diaria.',
-    accent: 'rgba(245,158,11,0.08)',
+    accent: 'rgba(239,68,68,0.08)',
   },
 ]
 
-function ModePreScreen({ initialMode, onSelect }: { initialMode: PracticeMode; onSelect: (m: PracticeMode) => void }) {
+function ModePreScreen({ onSelect, onBack }: { onSelect: (m: PracticeMode) => void; onBack: () => void }) {
   const [hovered, setHovered] = useState<PracticeMode | null>(null)
 
-  // If mode was pre-set from URL (review, etc.), skip this screen
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      className="space-y-12"
+      exit={{ opacity: 0, scale: 0.98 }}
+      className="space-y-16"
     >
-      <div>
-        <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mb-3">
-          Antes de empezar
-        </p>
-        <h2 className="text-heading1 text-foreground font-semibold tracking-[-0.04em]">
-          ¿Cómo quieres practicar?
-        </h2>
+      <div className="flex items-center justify-between">
+        <div className="space-y-4">
+          <p className="text-[11px] font-semibold text-muted-foreground">
+            Antes de empezar
+          </p>
+          <h2 className="text-heading1 text-foreground font-semibold tracking-[-0.04em]">
+            ¿Cómo quieres practicar?
+          </h2>
+        </div>
+        <button
+          onClick={onBack}
+          className="group flex items-center gap-2 text-[12px] font-semibold text-foreground/20 hover:text-foreground transition-all duration-500 tracking-[-0.04em]"
+        >
+          <HugeiconsIcon icon={ArrowLeft01Icon} size={14} className="group-hover:-translate-x-1 transition-transform" />
+          <span>atrás</span>
+        </button>
       </div>
 
       <div className="space-y-8">
@@ -206,40 +214,32 @@ function ModePreScreen({ initialMode, onSelect }: { initialMode: PracticeMode; o
             onClick={() => onSelect(m.id)}
             onMouseEnter={() => setHovered(m.id)}
             onMouseLeave={() => setHovered(null)}
-            className="w-full text-left rounded-[2rem] px-8 py-7 group relative overflow-hidden bg-white dark:bg-white border border-border/40 transition-all duration-500"
-            whileHover="hover"
+            className={`w-full text-left rounded-[2.5rem] px-10 py-8 group relative overflow-hidden bg-card/30 border transition-all duration-700 ${m.id === 'normal' ? 'border-border/40 hover:border-green-500/30' :
+              m.id === 'differential' ? 'border-border/40 hover:border-yellow-500/30' :
+                'border-border/40 hover:border-red-500/30'
+              }`}
+            whileHover={{ y: -2 }}
             whileTap={{ scale: 0.98 }}
-            initial="initial"
-            animate={hovered === m.id ? "hover" : "initial"}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           >
             <div className="flex items-center justify-between relative z-10">
               <div className="space-y-1">
-                <motion.p
-                  variants={{
-                    initial: { opacity: 0.8 },
-                    hover: { opacity: 1 }
-                  }}
-                  className="font-semibold text-heading3 tracking-[-0.04em] text-muted-foreground"
-                >
+                <p className={`font-semibold text-heading3 tracking-[-0.04em] text-foreground/90 transition-colors duration-500 ${m.id === 'normal' ? 'group-hover:text-green-500' :
+                  m.id === 'differential' ? 'group-hover:text-yellow-500' :
+                    'group-hover:text-red-500'
+                  }`}>
                   {m.label}
-                </motion.p>
-                <motion.p
-                  variants={{
-                    initial: { opacity: 0.4 },
-                    hover: { opacity: 0.7 }
-                  }}
-                  className="text-text4 tracking-[-0.02em] text-muted-foreground"
-                >
+                </p>
+                <p className="text-[13px] tracking-[-0.02em] font-medium text-foreground/20 group-hover:text-foreground/40 transition-colors duration-500">
                   {m.desc}
-                </motion.p>
+                </p>
               </div>
               <motion.span
-                variants={{
-                  initial: { opacity: 0.2, x: 0 },
-                  hover: { opacity: 1, x: 4, color: 'var(--color-primary)' }
-                }}
-                className="text-muted-foreground"
+                animate={hovered === m.id ? { x: 4, scale: 1.1 } : { x: 0, scale: 1 }}
+                className={`text-foreground/10 transition-colors duration-700 ${m.id === 'normal' ? 'group-hover:text-green-500' :
+                  m.id === 'differential' ? 'group-hover:text-yellow-500' :
+                    'group-hover:text-red-500'
+                  }`}
               >
                 <HugeiconsIcon icon={ArrowRight01Icon} size={20} />
               </motion.span>
@@ -248,10 +248,10 @@ function ModePreScreen({ initialMode, onSelect }: { initialMode: PracticeMode; o
               {hovered === m.id && (
                 <motion.p
                   initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                  animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
+                  animate={{ opacity: 1, height: 'auto', marginTop: 20 }}
                   exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-zinc-500 dark:text-zinc-500 text-text2 leading-relaxed font-medium tracking-[-0.02em] overflow-hidden relative z-10 box-border"
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="text-foreground/40 text-text2 leading-relaxed font-medium tracking-[-0.04em] overflow-hidden"
                 >
                   {m.detail}
                 </motion.p>
@@ -266,7 +266,7 @@ function ModePreScreen({ initialMode, onSelect }: { initialMode: PracticeMode; o
 
 // ── Main component ──────────────────────────────────────────
 export function PracticeClient({
-  caseData, userId, nextCaseId, difficultyFilter, attemptNumber, mode,
+  caseData, userId, nextCaseId, difficultyFilter, attemptNumber, mode, modeFromUrl,
 }: PracticeClientProps) {
   const router = useRouter()
   const confettiRef = useRef<ConfettiRef>(null)
@@ -289,6 +289,7 @@ export function PracticeClient({
   // Quick mode
   const [timeLeft, setTimeLeft] = useState(QUICK_SECONDS)
   const [autoAdvanceIn, setAutoAdvanceIn] = useState<number | null>(null)
+  const [showConfirmExit, setShowConfirmExit] = useState(false)
 
   // Keep answer ref in sync for quick mode auto-submit
   answerRef.current = answer
@@ -309,11 +310,10 @@ export function PracticeClient({
     return () => clearTimeout(t)
   }, [result])
 
-  // Mode selection — show pre-screen only when coming in as 'normal' (no pre-set mode)
+  // Show pre-screen only on first visit (no explicit mode in URL)
   const [activeMode, setActiveMode] = useState<PracticeMode | null>(
-    mode === 'normal' ? null : mode
+    modeFromUrl ? mode : (mode === 'normal' ? null : mode)
   )
-  // Resolve the mode to use throughout (falls back to 'normal' when null — but activeMode null means pre-screen)
   const resolvedMode = activeMode ?? 'normal'
 
   // ── Quick mode timer ──
@@ -346,7 +346,7 @@ export function PracticeClient({
   function buildAnswer(): string {
     if (resolvedMode === 'differential') {
       const diffs = differentials.filter(d => d.trim()).join(', ')
-      return `Sospecha principal: ${mainDiagnosis.trim()}${diffs ? `\nDiferenciales: ${diffs}` : ''}`
+      return `sospecha principal: ${mainDiagnosis.trim()}${diffs ? `\ndiferenciales: ${diffs}` : ''}`
     }
     return answer
   }
@@ -367,33 +367,58 @@ export function PracticeClient({
 
       if (insertError) throw new Error(insertError.message)
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/evaluate-diagnosis`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({ attempt_id: attempt.id }),
+      const res = await fetch('/api/evaluate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          attempt_id: attempt.id,
+          user_answer: submitAnswer.trim(),
+          description: caseData.description,
+          correct_diagnosis: caseData.correctDiagnosis,
+        }),
+      })
+
+      if (!res.ok || !res.body) throw new Error('error al evaluar')
+
+      // Stream response — format: "result|score\nexplanation..."
+      const reader = res.body.getReader()
+      const dec = new TextDecoder()
+      let text = ''
+      let evalResult: EvalResult | null = null
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        text += dec.decode(value, { stream: true })
+
+        // As soon as first line is complete, show result immediately
+        const nl = text.indexOf('\n')
+        if (nl !== -1 && !evalResult) {
+          const [verdict, scoreStr] = text.slice(0, nl).trim().split('|')
+          if (['correct', 'partial', 'incorrect'].includes(verdict)) {
+            const raw = parseInt(scoreStr) || 50
+            const score =
+              verdict === 'correct' ? Math.max(75, Math.min(100, raw))
+                : verdict === 'partial' ? Math.max(30, Math.min(74, raw))
+                  : Math.max(0, Math.min(29, raw))
+            evalResult = { result: verdict as Verdict, score, explanation: text.slice(nl + 1).trim() }
+            setResult(evalResult)
+            setLoading(false)
+            const s = getSession()
+            const updated = { ...s, done: s.done + 1, [verdict]: s[verdict as keyof SessionStats] + 1 }
+            saveSession(updated)
+            setSessionStats(updated)
+          }
+        } else if (evalResult) {
+          // Stream explanation progressively
+          const nl2 = text.indexOf('\n')
+          setResult(prev => prev ? { ...prev, explanation: text.slice(nl2 + 1).trim() } : prev)
         }
-      )
-
-      const data = await res.json()
-      if (data.error) throw new Error(data.error)
-
-      const evalResult = data as EvalResult
-      if (typeof evalResult.score !== 'number') {
-        evalResult.score = evalResult.result === 'correct' ? 85 : evalResult.result === 'partial' ? 50 : 15
       }
 
-      setResult(evalResult)
-      const s = getSession()
-      const updated = { ...s, done: s.done + 1, [evalResult.result]: s[evalResult.result] + 1 }
-      saveSession(updated)
-      setSessionStats(updated)
+      if (!evalResult) throw new Error('No se pudo evaluar la respuesta')
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al evaluar')
+      setError(err instanceof Error ? err.message : 'error al evaluar')
     } finally {
       setLoading(false)
     }
@@ -431,7 +456,7 @@ export function PracticeClient({
     if (!nextCaseId) { setShowSummary(true); return }
     const params = new URLSearchParams()
     if (difficultyFilter !== 'all') params.set('difficulty', difficultyFilter)
-    if (resolvedMode !== 'normal') params.set('mode', resolvedMode)
+    params.set('mode', resolvedMode)
     const qs = params.toString()
     router.push(`/practice/${nextCaseId}${qs ? '?' + qs : ''}`)
   }
@@ -448,17 +473,19 @@ export function PracticeClient({
 
   // Show mode pre-screen before the case
   if (activeMode === null) {
-    return <ModePreScreen initialMode={mode} onSelect={m => setActiveMode(m)} />
+    return (
+      <div className="space-y-16">
+        <ModePreScreen onSelect={m => setActiveMode(m)} onBack={() => router.push('/dashboard')} />
+      </div>
+    )
   }
 
   return (
-    <div className="space-y-20">
-      <PageHeader
-        label={`CASO #${caseData.caseNumber}`}
-        title="PRACTICAR"
-        description="Evalúa este caso clínico y propón el diagnóstico más probable. La IA te dará retroalimentación detallada."
-        backLink="/dashboard"
-      />
+    <div className="space-y-8">
+
+
+      <Confetti ref={confettiRef} manualstart={true} className="fixed inset-0 pointer-events-none z-[100]" />
+
       {/* Quick timer */}
       {resolvedMode === 'quick' && !result && (
         <QuickTimer timeLeft={timeLeft} />
@@ -469,18 +496,14 @@ export function PracticeClient({
         <CaseCard variant="compact" description={caseData.description} difficulty={caseData.difficulty} caseNumber={caseData.caseNumber} />
       </div>
 
-      {/* Attempt counter */}
-      {currentAttempt > 1 && !result && (
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-text4 font-medium tracking-[-0.04em] text-muted-foreground text-center pb-2">
-          Intento #{currentAttempt}
-        </motion.p>
-      )}
+
+
 
       {/* Input area */}
       <AnimatePresence>
         {!result && (
           <BlurFade delay={0.4} direction="up" className="w-full">
-            <motion.div exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.4 }} className="space-y-8">
+            <motion.div exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.6 }} className="space-y-12">
               {resolvedMode === 'differential' ? (
                 <DifferentialInput
                   mainDiagnosis={mainDiagnosis} setMainDiagnosis={setMainDiagnosis}
@@ -488,47 +511,72 @@ export function PracticeClient({
                   disabled={loading}
                 />
               ) : (
-                <>
-                  <motion.div
-                    transition={{ duration: 0.3 }}
-                    className="relative rounded-[2.5rem] overflow-hidden border border-white/[0.08] bg-white/[0.03] backdrop-blur-md focus-within:border-primary/30 focus-within:shadow-[0_0_30px_rgba(59,130,246,0.03)] transition-all duration-500"
-                  >
-                    <textarea
-                      value={answer}
-                      onChange={e => setAnswer(e.target.value)}
-                      disabled={loading}
-                      placeholder="Escribe tu diagnóstico..."
-                      rows={5}
-                      className="w-full bg-transparent px-10 py-9 text-foreground placeholder:text-foreground/20 resize-none focus:outline-none leading-relaxed text-heading3 font-medium tracking-[-0.04em] disabled:opacity-40"
-                    />
+                <motion.div
+                  transition={{ duration: 0.3 }}
+                  className={`relative rounded-[2.5rem] overflow-hidden border bg-card/10 transition-all duration-700 shadow-sm ${resolvedMode === 'quick' ? 'border-border/40 focus-within:border-red-500/20' :
+                    'border-border/40 focus-within:border-green-500/20'
+                    }`}
+                >
+                  <textarea
+                    value={answer}
+                    onChange={e => setAnswer(e.target.value)}
+                    disabled={loading}
+                    placeholder="¿cuál es tu diagnóstico?"
+                    rows={6}
+                    className="w-full bg-transparent px-12 py-12 text-foreground placeholder:text-foreground/30 resize-none focus:outline-none leading-relaxed text-heading4 md:text-heading3 font-semibold tracking-[-0.04em]"
+                  />
 
-                    {/* Inner footer for word count/metadata */}
-                    {answer.length > 0 && resolvedMode !== 'quick' && (
-                      <div className="px-10 pb-8 flex items-center justify-between gap-8">
-                        <div className="flex-1 h-[2px] rounded-full overflow-hidden bg-white/[0.05]">
-                          <motion.div
-                            className="h-full rounded-full bg-primary/40"
-                            animate={{ width: `${completeness}%` }}
-                            transition={{ duration: 0.6 }}
-                          />
-                        </div>
-                        <span className="text-text4 font-semibold text-foreground/20 tabular-nums  tracking-[-0.04em]">
-                          {words} {words === 1 ? 'palabra' : 'palabras'}
-                        </span>
+                  {/* Inner footer for word count/metadata */}
+                  {answer.length > 0 && resolvedMode !== 'quick' && (
+                    <div className="px-12 pb-10 flex items-center justify-between gap-10">
+                      <div className="flex-1 h-[2px] rounded-full overflow-hidden bg-white/[0.05]">
+                        <motion.div
+                          className="h-full rounded-full bg-green-500/30"
+                          animate={{ width: `${completeness}%` }}
+                          transition={{ duration: 0.8, ease: "easeOut" }}
+                        />
                       </div>
-                    )}
-                  </motion.div>
-                </>
+                      <span className="text-[11px] font-semibold text-foreground/20 tabular-nums tracking-[-0.04em]">
+                        {words} {words === 1 ? 'palabra' : 'palabras'}
+                      </span>
+                    </div>
+                  )}
+                </motion.div>
               )}
             </motion.div>
           </BlurFade>
         )}
       </AnimatePresence>
 
+      {/* Zen Hint Tray (Chips) */}
+      <AnimatePresence mode="popLayout">
+        {hints.length > 0 && (
+          <div className="flex flex-wrap justify-center gap-3">
+            {hints.map((hint, i) => (
+              <BlurFade key={i} delay={0.1 + i * 0.1}>
+                <motion.div
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.4 }}
+                  className={`px-5 py-2.5 rounded-full glass border transition-all duration-700 ${resolvedMode === 'quick' ? 'border-red-500/10 shadow-[0_0_20px_rgba(239,68,68,0.02)]' :
+                    resolvedMode === 'differential' ? 'border-yellow-500/10 shadow-[0_0_20px_rgba(234,179,8,0.02)]' :
+                      'border-green-500/10 shadow-[0_0_20px_rgba(34,197,94,0.02)]'
+                    }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <p className="text-[13px] font-medium text-foreground/50 leading-relaxed tracking-[-0.02em]">
+                      {hint.toLowerCase()}
+                    </p>
+                  </div>
+                </motion.div>
+              </BlurFade>
+            ))}
+          </div>
+        )}
+      </AnimatePresence>
       {/* Error */}
       <AnimatePresence>
         {error && (
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-text4 font-medium text-rose-500 tracking-[-0.01em] text-center">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-[12px] font-semibold text-rose-500/60 tracking-[-0.04em] text-center">
             {error}
           </motion.p>
         )}
@@ -539,38 +587,78 @@ export function PracticeClient({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between gap-4 pt-6"
+          className="flex items-center justify-between gap-6 pt-10 border-t border-border/20"
         >
-          {/* Left: Cancel */}
-          <button
-            onClick={() => router.push('/dashboard')}
-            className="flex items-center gap-2 text-text4 lowercase font-medium text-zinc-300 hover:text-rose-400 transition-colors px-2 py-1"
-          >
-            <HugeiconsIcon icon={Cancel01Icon} size={14} />
-            <span>cancelar</span>
-          </button>
+          {/* Left: Exit */}
+          <div className="flex items-center min-w-[140px]">
+            <AnimatePresence mode="wait">
+              {!showConfirmExit ? (
+                <motion.button
+                  key="exit"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setShowConfirmExit(true)}
+                  className="flex items-center gap-2 text-[12px] font-semibold text-destructive hover:text-destructive/60 transition-all duration-500 px-2 py-1 tracking-[-0.04em] rounded-full"
+                >
+                  <HugeiconsIcon icon={Cancel01Icon} size={14} />
+                  <span>abandonar práctica</span>
+                </motion.button>
+              ) : (
+                <motion.div
+                  key="confirm"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="flex items-center gap-4 bg-destructive/[0.03] border border-destructive/10 px-4 py-2 rounded-full"
+                >
+                  <span className="text-[12px] font-semibold text-foreground/40 tracking-[-0.04em]">¿seguro?</span>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => router.push('/dashboard')}
+                      className="text-[12px] font-semibold text-destructive hover:underline transition-all tracking-[-0.04em]"
+                    >
+                      sí, salir
+                    </button>
+                    <button
+                      onClick={() => setShowConfirmExit(false)}
+                      className="text-[12px] font-medium text-foreground/20 hover:text-foreground transition-all tracking-[-0.04em]"
+                    >
+                      no, seguir
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+
 
           {/* Right: Hint + Submit */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-6">
             {resolvedMode !== 'quick' && (
               <button
                 onClick={requestHint}
                 disabled={loadingHint || hints.length >= 3}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl text-text4 border border-border/40 font-medium text-muted-foreground hover:text-primary hover:border-primary/20 transition-all lowercase"
+                className={`flex items-center gap-2.5 px-6 py-2 rounded-full text-[12px] font-semibold transition-all duration-500 tracking-[-0.04em] ${hints.length >= 3 ? 'text-foreground/5 cursor-not-allowed' : 'text-foreground/30 hover:text-primary hover:bg-primary/5'}`}
               >
                 <HugeiconsIcon icon={AiIdeaIcon} size={14} />
-                <span>{loadingHint ? '...' : hints.length > 0 ? `pista ${hints.length}/3` : 'pedir pista'}</span>
+                <span>{loadingHint ? 'buscando...' : hints.length > 0 ? `pista ${hints.length}/3` : 'obtener pista'}</span>
               </button>
             )}
 
             <ShinyButton
               onClick={() => handleSubmit()}
               disabled={!canSubmit || loading}
-              className="rounded-2xl px-10 py-3 disabled:opacity-20"
+              className={`rounded-full px-6 py-2 transition-all duration-500 ${resolvedMode === 'quick' ? 'hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
+                resolvedMode === 'differential' ? 'hover:shadow-[0_0_20px_rgba(234,179,8,0.2)]' :
+                  'hover:shadow-[0_0_20px_rgba(34,197,94,0.2)]'
+                }`}
             >
               <div className="flex items-center gap-3">
-                <HugeiconsIcon icon={SentIcon} size={16} />
-                <span>{loading ? 'Evaluando...' : 'Evaluar ahora'}</span>
+                <span className="font-semibold tracking-[-0.04em]">
+                  {loading ? 'evaluando...' : 'evaluar ahora'}
+                </span>
               </div>
             </ShinyButton>
           </div>
@@ -580,7 +668,7 @@ export function PracticeClient({
       {/* Result */}
       <AnimatePresence>
         {result && (
-          <div className="pt-8">
+          <div className="pt-12">
             <ResultCard
               result={result.result}
               explanation={result.explanation}
@@ -596,29 +684,42 @@ export function PracticeClient({
       <AnimatePresence>
         {result && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: resolvedMode === 'quick' ? 0.3 : 1.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center gap-8 pt-12"
+            transition={{ delay: resolvedMode === 'quick' ? 0.3 : 1.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center gap-12 pt-16"
           >
             {resolvedMode === 'quick' && autoAdvanceIn !== null ? (
-              <p className="text-text4 font-medium text-muted-foreground/30 tracking-[-0.02em] tabular-nums">
-                Siguiente caso en {autoAdvanceIn}...
+              <p className="text-[13px] font-semibold text-foreground/10 tracking-[-0.04em] tabular-nums">
+                siguiente caso en {autoAdvanceIn}...
               </p>
             ) : (
               <>
+                <div className="flex items-center gap-8">
+                  <button
+                    onClick={handleRetry}
+                    className="text-[15px] font-semibold text-foreground/20 hover:text-foreground transition-all duration-700 tracking-[-0.04em] px-6 py-2 rounded-full hover:bg-foreground/[0.03]"
+                  >
+                    intentar de nuevo
+                  </button>
+                  <ShinyButton
+                    onClick={handleNextCase}
+                    className="px-6 py-2 rounded-full"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="font-semibold text-[15px] tracking-[-0.04em]">
+                        {nextCaseId ? 'siguiente caso' : 'ver resumen'}
+                      </span>
+                      <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
+                    </div>
+                  </ShinyButton>
+                </div>
+
                 <button
-                  onClick={handleNextCase}
-                  className="flex items-center gap-3 rounded-2xl px-14 py-5 text-text1 tracking-[-0.01em] font-medium text-foreground glass hover:bg-foreground hover:text-background transition-all duration-700"
+                  onClick={() => router.push('/dashboard')}
+                  className="text-[12px] font-semibold text-foreground/10 hover:text-foreground/40 transition-all duration-700 tracking-[-0.04em]"
                 >
-                  <span>{nextCaseId ? 'Siguiente caso' : 'Ver resumen'}</span>
-                  <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
-                </button>
-                <button
-                  onClick={handleRetry}
-                  className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground hover:text-muted-foreground transition-all duration-500"
-                >
-                  Intentar de nuevo
+                  volver al inicio
                 </button>
               </>
             )}
@@ -634,54 +735,60 @@ function SessionSummary({ stats, difficultyFilter, mode, onReturn }: {
   stats: SessionStats; difficultyFilter: string; mode: PracticeMode; onReturn: () => void
 }) {
   const accuracy = stats.done > 0 ? Math.round((stats.correct / stats.done) * 100) : 0
-  const filterLabel = ({ easy: 'Básico', medium: 'Moderado', hard: 'Complejo' } as Record<string, string>)[difficultyFilter]
-  const modeLabel = ({ quick: 'Modo Rápido', differential: 'Modo Diferencial', review: 'Revisión', normal: '' } as Record<string, string>)[mode]
+  const filterLabel = ({ easy: 'básico', medium: 'moderado', hard: 'complejo' } as Record<string, string>)[difficultyFilter]
+  const modeLabel = ({ quick: 'modo rápido', differential: 'modo diferencial', review: 'revisión', normal: '' } as Record<string, string>)[mode]
 
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-      className="space-y-16"
+      transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+      className="space-y-24"
     >
-      <div
-        className="relative rounded-[2.5rem] p-12 md:p-16 overflow-hidden glass"
-        style={{ border: '1px solid var(--border)' }}
-      >
-        <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, var(--color-primary-transparent) 0%, transparent 70%)' }} />
+      <div className="rounded-[3rem] p-16 md:p-24 overflow-hidden bg-card/20 border border-border/40 relative shadow-sm">
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-primary/[0.03] to-transparent" />
         <div className="relative">
-          <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground/30 mb-20 text-center  tracking-[-0.04em]">
-            Sesión completada {modeLabel && `· ${modeLabel}`}
+          <p className="text-[11px] font-semibold text-foreground/20 mb-24 text-center tracking-[-0.02em]  tracking-[-0.04em]">
+            sesión completada {modeLabel && `· ${modeLabel}`}
           </p>
-          <div className="grid grid-cols-3 gap-12 mb-16 text-center">
-            <div>
-              <p className="text-heading1 text-foreground font-semibold tracking-[-0.04em] tabular-nums scale-[1.5] origin-center mb-6">{stats.done}</p>
-              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 ">Casos</p>
+
+          <div className="grid grid-cols-3 gap-16 mb-24 text-center">
+            <div className="space-y-6">
+              <p className="text-[4rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.done}</p>
+              <p className="text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">casos</p>
             </div>
-            <div>
-              <p className="text-heading1 text-primary font-semibold tracking-[-0.04em] tabular-nums scale-[1.5] origin-center mb-6">{accuracy}%</p>
-              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 ">Precisión</p>
+            <div className="space-y-6">
+              <p className="text-[4rem] md:text-[5rem] text-primary font-semibold tracking-[-0.04em] tabular-nums leading-none">{accuracy}%</p>
+              <p className="text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">precisión</p>
             </div>
-            <div>
-              <p className="text-heading1 text-foreground font-semibold tracking-[-0.04em] tabular-nums scale-[1.5] origin-center mb-6">{stats.correct}</p>
-              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 ">Correctos</p>
+            <div className="space-y-6">
+              <p className="text-[4rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.correct}</p>
+              <p className="text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">correctos</p>
             </div>
           </div>
+
           {filterLabel && (
-            <p className="text-text4 tracking-[-0.01em] font-medium text-muted-foreground text-center">
-              Filtro: {filterLabel}
-            </p>
+            <div className="flex justify-center">
+              <div className="px-5 py-1.5 rounded-full bg-foreground/[0.03] border border-border/40">
+                <p className="text-[11px] font-semibold text-foreground/30 tracking-[-0.04em]">
+                  filtro: {filterLabel}
+                </p>
+              </div>
+            </div>
           )}
         </div>
       </div>
+
       <div className="flex justify-center">
-        <button
+        <ShinyButton
           onClick={onReturn}
-          className="flex items-center gap-2 text-text4 tracking-[-0.02em] font-medium text-muted-foreground/30 hover:text-foreground transition-all duration-700"
+          className="px-6 py-2 rounded-full"
         >
-          <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
-          <span>Volver al inicio</span>
-        </button>
+          <div className="flex items-center gap-3 font-semibold text-[15px] tracking-[-0.04em]">
+            <HugeiconsIcon icon={ArrowLeft01Icon} size={18} />
+            <span>terminar sesión</span>
+          </div>
+        </ShinyButton>
       </div>
     </motion.div>
   )

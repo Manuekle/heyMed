@@ -48,7 +48,7 @@ serve(async (req: Request) => {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'claude-3-5-haiku-20241022',
         max_tokens: 800,
         messages: [
           {
@@ -86,7 +86,7 @@ Criterios de result y score:
     const textBlock = aiData.content?.find((b: { type: string }) => b.type === 'text')
     const rawText = textBlock?.text ?? ''
 
-    let evaluation: { result: string; explanation: string }
+    let evaluation: { result: string; explanation: string; score: number }
     try {
       evaluation = JSON.parse(rawText)
     } catch {
@@ -96,6 +96,8 @@ Criterios de result y score:
     if (!['correct', 'partial', 'incorrect'].includes(evaluation.result)) {
       throw new Error(`result inválido: ${evaluation.result}`)
     }
+
+    evaluation.explanation = evaluation.explanation || 'Análisis no disponible.'
 
     // Normalizar score: asegurar que esté en el rango correcto para su categoría
     const rawScore = typeof evaluation.score === 'number' ? evaluation.score : 50

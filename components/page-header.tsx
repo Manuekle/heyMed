@@ -29,7 +29,7 @@ export function PageHeader({
   description,
   showNav = true,
   backLink,
-  backLabel = 'Inicio',
+  backLabel = 'inicio',
   avatarUrl,
   username,
   score
@@ -38,7 +38,7 @@ export function PageHeader({
     <BlurFade delay={0.1}>
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-20">
         <div className="space-y-4">
-          <h1 className="text-heading1 md:text-[3rem] text-foreground font-semibold tracking-[-0.04em] leading-none ">
+          <h1 className="text-heading1 text-foreground font-semibold tracking-[-0.04em]">
             {title}
           </h1>
           {description && (
@@ -60,21 +60,21 @@ export function PageHeader({
                 size={14}
                 className="group-hover:-translate-x-1 transition-transform"
               />
-              <span>{backLabel}</span>
+              <span suppressHydrationWarning>{backLabel}</span>
             </Link>
           ) : showNav && (
             <div className="flex items-center gap-8 pt-2">
               <Link href="/upload" className="flex items-center gap-2 text-text4 tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
                 <HugeiconsIcon icon={Upload01Icon} size={14} />
-                <span>Subir</span>
+                <span suppressHydrationWarning>subir</span>
               </Link>
               <Link href="/history" className="flex items-center gap-2 text-text4 tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
                 <HugeiconsIcon icon={Clock01Icon} size={14} />
-                <span>Historial</span>
+                <span suppressHydrationWarning>registros</span>
               </Link>
               <Link href="/settings" className="flex items-center gap-2 text-text4 tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
                 <HugeiconsIcon icon={UserCircleIcon} size={14} />
-                <span>Ajustes</span>
+                <span suppressHydrationWarning>ajustes</span>
               </Link>
             </div>
           )}

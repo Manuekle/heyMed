@@ -13,7 +13,7 @@ export default async function HistoryPage({
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const { data: attempts } = await supabase
+  let query = supabase
     .from('attempts')
     .select(`
       id,
@@ -32,6 +32,12 @@ export default async function HistoryPage({
     .not('ai_result', 'is', null)
     .order('created_at', { ascending: false })
     .limit(50)
+
+  if (filter && filter !== 'all') {
+    query = query.eq('ai_result', filter)
+  }
+
+  const { data: attempts } = await query
 
   type CaseRow = {
     id: string

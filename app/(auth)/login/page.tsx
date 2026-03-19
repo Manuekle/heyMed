@@ -56,7 +56,7 @@ export default function LoginPage() {
                 size={14}
                 className="transition-transform duration-500 group-hover:-translate-x-1"
               />
-              <span>Página inicial</span>
+              <span className="lowercase">página inicial</span>
             </Link>
           </div>
         </BlurFade>
@@ -64,10 +64,9 @@ export default function LoginPage() {
         {/* Title */}
         <BlurFade delay={0.2}>
           <div className="mb-20 text-center md:text-left">
-            <p className="text-text4 font-semibold text-primary tracking-[-0.04em]  mb-4 opacity-50">Acceso</p>
             <h1 className="text-heading1 md:text-[3rem] text-foreground font-semibold tracking-[-0.04em] leading-none mb-6">Hola de nuevo</h1>
-            <p className="text-text2 font-medium text-foreground/30 tracking-[-0.04em]">
-              Ingresa a tu cuenta para continuar
+            <p className="text-text2 font-medium text-foreground/30 tracking-[-0.04em] lowercase">
+              ingresa a tu cuenta para continuar
             </p>
           </div>
         </BlurFade>
@@ -76,8 +75,8 @@ export default function LoginPage() {
         <BlurFade delay={0.3}>
           <form onSubmit={handleSubmit} className="space-y-12">
             <div>
-              <label className="block text-text4 tracking-[-0.04em] font-semibold text-foreground/40 mb-4 ">
-                Email
+              <label className="block text-text4 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">
+                email
               </label>
               <input
                 type="email"
@@ -90,8 +89,8 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-text4 tracking-[-0.04em] font-semibold text-foreground/40 mb-4 ">
-                Contraseña
+              <label className="block text-text4 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">
+                contraseña
               </label>
               <input
                 type="password"
@@ -104,24 +103,24 @@ export default function LoginPage() {
             </div>
 
             {error && (
-              <p className="text-text4 font-semibold text-destructive tracking-[-0.04em] ">{error}</p>
+              <p className="text-text4 font-semibold text-destructive tracking-[-0.04em] lowercase">{error}</p>
             )}
 
             <ShinyButton
               type="submit"
               disabled={loading}
-              className="w-full py-4 rounded-[1.25rem]"
+              className="w-full py-2 rounded-full"
             >
-              <span className="font-semibold tracking-[-0.04em]  py-1">
+              <span className="font-semibold tracking-[-0.04em]">
                 {loading ? 'Entrando...' : 'Entrar'}
               </span>
             </ShinyButton>
 
             {/* Divider */}
-            <div className="flex items-center gap-10 opacity-20">
-              <div className="flex-1 h-px bg-white" />
-              <span className="text-text4 font-semibold  tracking-[-0.04em]">o</span>
-              <div className="flex-1 h-px bg-white" />
+            <div className="flex items-center gap-10 opacity-10">
+              <div className="flex-1 h-px bg-foreground" />
+              <span className="text-text4 font-semibold tracking-[-0.04em] lowercase">o</span>
+              <div className="flex-1 h-px bg-foreground" />
             </div>
 
             <GoogleButton />
@@ -130,10 +129,10 @@ export default function LoginPage() {
 
         {/* Footer */}
         <BlurFade delay={0.4}>
-          <p className="mt-20 text-center text-text4 tracking-[-0.04em] font-medium text-foreground/20">
-            ¿No tienes cuenta?{' '}
+          <p className="mt-20 text-center text-text4 tracking-[-0.04em] font-medium text-foreground/20 lowercase">
+            ¿no tienes cuenta?{' '}
             <Link href="/register" className="inline-flex items-center gap-2 text-foreground/40 hover:text-primary transition-all duration-300 ml-3 group">
-              <span className="font-semibold  tracking-[-0.04em]">Registrarse</span>
+              <span className="font-semibold tracking-[-0.04em] lowercase">registrarse</span>
               <HugeiconsIcon icon={ArrowRight01Icon} size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
           </p>

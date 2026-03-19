@@ -23,6 +23,7 @@ import {
 import { BlurFade } from '@/components/ui/blur-fade'
 import { ShinyButton } from '@/components/ui/shiny-button'
 import { BorderBeam } from '@/components/ui/border-beam'
+import Image from 'next/image'
 
 const ease = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const fadeUp = (delay = 0) => ({
@@ -152,321 +153,325 @@ function Divider() {
 
 export function LandingPage() {
   return (
-    <div className="relative transition-colors duration-500">
-      <Particles className="fixed inset-0 z-0 opacity-40 dark:opacity-100" quantity={40} staticity={60} ease={90} size={0.35} color="var(--foreground)" />
+    <div className="relative min-h-screen bg-background text-foreground selection:bg-primary/20 transition-colors duration-500 font-sans">
 
-      {/* ── Hero ──────────────────────────────────────────────── */}
-      <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
-        <nav className="absolute top-0 left-0 right-0 flex items-center justify-between px-8 md:px-16 py-8">
-          <BlurFade delay={0.1}>
-            <span className="text-text4 tracking-[-0.04em] font-semibold text-foreground/20 ">heyMed!</span>
-          </BlurFade>
-          <BlurFade delay={0.1}>
-            <Link href="/login" className="text-text4 tracking-[-0.04em] font-semibold text-foreground/20 hover:text-foreground transition-all duration-500 ">
-              Iniciar sesión
-            </Link>
-          </BlurFade>
-        </nav>
-
-        <div className="text-center space-y-12 max-w-2xl">
+      {/* ── Header ────────────────────────────────────────────── */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-12 py-6 pointer-events-none">
+        <div className="flex gap-2 pointer-events-auto">
           <BlurFade delay={0.2}>
-            <p className="text-text4 font-semibold text-primary tracking-[-0.04em]  opacity-50">
-              Diagnóstico clínico · IA
-            </p>
-          </BlurFade>
-
-          <BlurFade delay={0.3}>
-            <h1 className="text-heading1 md:text-[6rem] lg:text-[8rem] text-foreground font-semibold tracking-[-0.04em] leading-none mb-8">
-              heyMed!
-            </h1>
-          </BlurFade>
-
-          <BlurFade delay={0.4}>
-            <p className="text-text2 md:text-heading3 text-foreground/40 leading-relaxed font-medium tracking-[-0.04em] max-w-lg mx-auto">
-              Practica diagnóstico clínico real.<br />
-              Sin opciones múltiples. La IA evalúa tu respuesta libre.
-            </p>
-          </BlurFade>
-
-          <BlurFade delay={0.5}>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-              <Link href="/register">
-                <ShinyButton className="px-12 py-4 rounded-full">
-                  <span className="font-semibold tracking-[-0.04em]  py-1">Comenzar gratis</span>
-                </ShinyButton>
-              </Link>
-              <Link href="/login" className="text-text4 tracking-[-0.04em] font-semibold text-foreground/20 hover:text-foreground transition-all duration-500 group  flex items-center gap-2">
-                <span>Iniciar sesión</span>
-                <HugeiconsIcon icon={ArrowRight01Icon} size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-              </Link>
-            </div>
-          </BlurFade>
-
-          <BlurFade delay={0.6}>
-            <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/10 ">
-              Sin tarjeta de crédito
-            </p>
+            <Link href="/login" className="px-4 py-1.5 rounded-full bg-foreground text-background text-[11px] font-semibold tracking-[-0.04em] hover:scale-105 transition-all duration-300">
+              entrar
+            </Link>
           </BlurFade>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
-        >
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }} className="text-foreground/20">
-            <span className="text-xs">↓</span>
-          </motion.div>
-        </motion.div>
-      </section>
+        <div className="hidden md:flex items-center gap-6 pointer-events-auto">
+          <BlurFade delay={0.3}>
+            <div className="flex gap-6 text-[11px] font-semibold text-foreground/20 tracking-tight">
+              <span className="cursor-pointer hover:text-foreground transition-colors lowercase italic">instagram</span>
+            </div>
+          </BlurFade>
+        </div>
+      </header>
 
-      <Divider />
+      {/* ── Hero Section ──────────────────────────────────────── */}
+      <section className="pt-32 pb-12 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-card rounded-[3.5rem] md:rounded-[4.5rem] shadow-sm border border-foreground/[0.01] px-6 py-24 md:py-32 flex flex-col items-center text-center relative overflow-hidden">
 
-      {/* ── Mock case preview ──────────────────────────────────── */}
-      <section className="relative z-10 py-32 px-6">
-        <div className="max-w-2xl mx-auto">
-          <BlurFade delay={0.2}>
-            <div className="group relative">
-              <BorderBeam size={250} duration={8} borderWidth={1.5} colorFrom="oklch(var(--color-primary))" colorTo="transparent" />
-
-              {/* Folder Tab */}
-              <div className="flex mb-[-2px] ml-6 relative z-0">
-                <div className="h-9 px-6 rounded-t-2xl bg-amber-500/80 backdrop-blur-md flex items-center shadow-lg">
-                  <span className="text-text4 tracking-[-0.04em] font-semibold text-white ">
-                    Moderado
-                  </span>
-                </div>
+            {/* Avatar Tag */}
+            <BlurFade delay={0.4}>
+              <div className='h-20 w-20 mb-10'>
+                <Image
+                  src="/icon.png"
+                  alt="heyMed! logo"
+                  className="w-full h-full object-contain"
+                  width={712}
+                  height={712}
+                />
               </div>
 
-              {/* Folder Body */}
-              <div className="glass rounded-[3rem] overflow-hidden transition-all duration-700 p-10 md:p-16 space-y-10 group-hover:bg-white/[0.04]">
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-white/[0.05] to-transparent" />
+            </BlurFade>
 
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-10">
-                    <span className="text-text4 tracking-[-0.04em] font-semibold text-foreground/20 ">#04 · Caso clínico</span>
-                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full glass border border-amber-500/20 text-amber-500">
-                      <HugeiconsIcon icon={ActivityIcon} size={12} className="opacity-60" />
-                      <span className="text-text4 font-semibold tracking-[-0.04em] ">Cardio</span>
+            {/* Heading */}
+            <BlurFade delay={0.5}>
+              <h1 className="text-[2.8rem] md:text-[4.5rem] lg:text-[5.5rem] font-semibold tracking-[-0.05em] leading-[0.95] text-foreground max-w-4xl mx-auto mb-10 lowercase">
+                entrena tu razonamiento clínico con inteligencia artificial.
+              </h1>
+            </BlurFade>
+
+            {/* Subheading */}
+            <BlurFade delay={0.6}>
+              <p className="text-foreground/40 text-lg md:text-xl font-medium tracking-[-0.03em] max-w-xl mx-auto mb-14 leading-relaxed lowercase">
+                sin opciones múltiples. la ia evalúa tus diagnósticos en lenguaje natural tal como sucede en la clínica real.
+              </p>
+            </BlurFade>
+
+            {/* CTA */}
+            <BlurFade delay={0.7}>
+              <Link href="/register">
+                <button className="px-10 py-2 rounded-full bg-foreground text-background text-[13px] font-semibold tracking-[-0.04em] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-3 group shadow-xl shadow-foreground/10">
+                  <span>Comenzar gratis</span>
+                  <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="group-hover:translate-x-1 transition-transform" />
+                </button>
+              </Link>
+            </BlurFade>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Specialty Cloud ─────────────────────────────────── */}
+      <section className="py-8 px-6">
+        <BlurFade delay={0.8}>
+          <div className="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-x-10 gap-y-6 text-muted-foreground">
+            {['cardiología', 'neurología', 'gastroenterología', 'neumología', 'urgencias', 'pediatría'].map((specialty) => (
+              <span key={specialty} className="text-[15px] font-semibold tracking-[-0.04em] lowercase italic">
+                {specialty}
+              </span>
+            ))}
+          </div>
+        </BlurFade>
+      </section>
+
+      {/* ── Mock Case Preview ─────────────────────────────────── */}
+      <section className="py-8 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-8 md:px-20 py-16 md:py-24 relative overflow-hidden group">
+            <div className="max-w-3xl mx-auto space-y-12">
+              <BlurFade delay={0.2}>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em] lowercase italic border-b border-foreground/5 pb-1">#04 · caso clínico</span>
+                </div>
+              </BlurFade>
+
+              <BlurFade delay={0.3}>
+                <h2 className="text-[1.8rem] md:text-[2.2rem] font-semibold tracking-[-0.04em] leading-tight text-foreground">
+                  "mujer de 62 años con disnea progresiva de 3 semanas, ortopnea y edemas en miembros inferiores. radiografía: cardiomegalia y redistribución vascular."
+                </h2>
+              </BlurFade>
+
+              <BlurFade delay={0.4}>
+                <div className="space-y-6">
+                  <p className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em] lowercase italic">tu diagnóstico libre</p>
+                  <div className="p-8 rounded-[2rem] bg-muted flex items-center justify-between hover:bg-muted/80 transition-colors duration-500">
+                    <span className="text-foreground/60 font-semibold tracking-[-0.03em] lowercase">insuficiencia cardíaca congestiva...</span>
+                    <div className="flex items-center gap-2 text-emerald-600">
+                      <HugeiconsIcon icon={StarIcon} size={16} />
+                      <span className="text-[13px] font-semibold tracking-[-0.04em]">91/100</span>
                     </div>
                   </div>
-                  <p className="text-text1 leading-relaxed font-semibold tracking-[-0.04em] mb-12">
-                    Mujer de 62 años con disnea progresiva de 3 semanas, ortopnea y edemas en miembros inferiores. Presión arterial 145/90 mmHg, frecuencia cardiaca 98 lpm. Crépitos bibasales. Radiografía: cardiomegalia y redistribución vascular.
-                  </p>
-                  <div className="pt-10 border-t border-white/[0.03]">
-                    <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/20 mb-6 ">Tu diagnóstico</p>
-                    <div className="rounded-[1.5rem] px-8 py-5 flex items-center justify-between glass border border-white/[0.03] group-hover:border-primary/20 transition-all duration-700">
-                      <p className="text-foreground/40 text-text2 font-semibold tracking-[-0.04em]">Insuficiencia cardíaca congestiva...</p>
-                      <div className="flex items-center gap-2 text-emerald-500/60 transition-colors duration-700">
-                        <HugeiconsIcon icon={StarIcon} size={16} />
-                        <span className="text-text4 font-semibold tracking-[-0.04em] ">91/100</span>
+                </div>
+              </BlurFade>
+            </div>
+          </div>
+        </div>
+      </section>      {/* ── Features Section ──────────────────────────────────── */}
+      <section className="py-8 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 md:px-20 py-20 md:py-24">
+            <div className="max-w-3xl mb-20">
+              <BlurFade delay={0.1}>
+                <div className="px-4 py-1.5 rounded-full bg-muted text-foreground/60 text-[10px] font-semibold tracking-[-0.04em] inline-block mb-8 lowercase">
+                  características
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.2}>
+                <h2 className="text-[2.5rem] md:text-[3.5rem] font-semibold tracking-[-0.05em] leading-[1.1] text-foreground mb-8 lowercase">
+                  profundidad clínica,<br />sin opciones múltiples.
+                </h2>
+              </BlurFade>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-16">
+              {features.slice(0, 4).map((f, i) => (
+                <BlurFade key={f.title} delay={0.1 + i * 0.1}>
+                  <div className="space-y-6 group">
+                    <div className="w-12 h-12 rounded-2xl bg-muted flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-all duration-500 text-foreground/20">
+                      <HugeiconsIcon icon={f.icon} size={22} />
+                    </div>
+                    <div className="space-y-3">
+                      <h3 className="text-lg font-semibold tracking-[-0.03em] text-foreground lowercase">{f.title}</h3>
+                      <p className="text-[14px] leading-relaxed font-medium text-foreground/30 tracking-[-0.02em] group-hover:text-foreground/50 transition-colors">
+                        {f.body}
+                      </p>
+                    </div>
+                  </div>
+                </BlurFade>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Steps Section (Cómo funciona) ─────────────────────── */}
+      <section className="py-8 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 md:px-20 py-20 md:py-24">
+            <div className="flex flex-col items-center text-center mb-20">
+              <BlurFade delay={0.1}>
+                <div className="px-4 py-1.5 rounded-full bg-muted text-foreground/60 text-[10px] font-semibold tracking-[-0.04em] mb-8 lowercase">
+                  método heymed!
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.2}>
+                <h2 className="text-[2.2rem] md:text-[3rem] font-semibold tracking-[-0.04em] leading-tight text-foreground max-w-2xl px-4 lowercase">
+                  aprendizaje basado en la evidencia y el razonamiento puro.
+                </h2>
+              </BlurFade>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {steps.map((step, i) => (
+                <BlurFade key={step.n} delay={0.1 + i * 0.1}>
+                  <div className="space-y-8 p-8 rounded-[2.5rem] bg-muted/50 group hover:bg-muted transition-all duration-500">
+                    <span className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em]  italic">{step.n}</span>
+                    <div className="space-y-4">
+                      <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground lowercase">{step.title}</h3>
+                      <p className="text-[14px] leading-relaxed font-medium text-foreground/40 tracking-[-0.02em]">{step.body}</p>
+                      <p className="text-[10px] font-semibold text-foreground/20 tracking-tight leading-relaxed">{step.detail}</p>
+                    </div>
+                  </div>
+                </BlurFade>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Modos Section ─────────────────────────────────────── */}
+      <section className="py-8 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 md:px-20 py-20 md:py-24">
+            <div className="flex flex-col items-center text-center mb-20">
+              <BlurFade delay={0.1}>
+                <div className="px-4 py-1.5 rounded-full bg-muted text-foreground/60 text-[10px] font-semibold tracking-[-0.04em] mb-8 lowercase">
+                  dimensiones
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.2}>
+                <h2 className="text-[2.2rem] md:text-[3rem] font-semibold tracking-[-0.04em] leading-tight text-foreground max-w-2xl lowercase">
+                  el aprendizaje clínico no es lineal. elige tu enfoque.
+                </h2>
+              </BlurFade>
+            </div>
+
+            <div className="grid gap-6">
+              {modes.map((m, i) => (
+                <BlurFade key={m.label} delay={0.1 + i * 0.1}>
+                  <div className="rounded-[2.5rem] p-4 bg-muted hover:bg-muted/80 transition-all duration-500 group cursor-pointer">
+                    <div className="rounded-[2rem] bg-card p-10 flex flex-col md:flex-row md:items-center gap-10">
+                      <div className="flex-1">
+                        <p className="text-xl font-semibold text-foreground mb-3 tracking-[-0.03em] lowercase">{m.label}</p>
+                        <p className="text-foreground/40 text-[15px] leading-relaxed max-w-xl font-medium tracking-[-0.02em]">{m.desc}</p>
+                      </div>
+                      <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center group-hover:translate-x-2 transition-transform duration-500 shrink-0">
+                        <HugeiconsIcon icon={ArrowRight01Icon} size={20} />
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </BlurFade>
+              ))}
             </div>
-          </BlurFade>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* ── Features ──────────────────────────────────────────── */}
-      <section className="relative z-10 py-40 px-6">
-        <div className="max-w-5xl mx-auto">
-          <motion.p {...fadeUp()} className="text-[11px] tracking-[-0.02em] font-medium text-muted-foreground mb-6 text-center">
-            Puntos clave
-          </motion.p>
-          <motion.p {...fadeUp(0.05)} className="text-center text-muted-foreground mb-24 max-w-lg mx-auto text-lg leading-relaxed font-medium tracking-[-0.02em]">
-            Diseñado para estudiantes que buscan profundidad clínica, no puntajes vacíos.
-          </motion.p>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((f, i) => (
-              <BlurFade key={f.title} delay={0.1 + i * 0.05}>
-                <div className="rounded-[2rem] p-12 glass hover:bg-white/[0.03] transition-all duration-500 group border border-white/[0.02]">
-                  <div className="w-14 h-14 rounded-2xl glass border border-white/[0.05] flex items-center justify-center mb-10 group-hover:scale-110 group-hover:border-primary/20 transition-all duration-700">
-                    <HugeiconsIcon icon={f.icon} size={24} className="text-primary opacity-60 group-hover:opacity-100 transition-all duration-700" />
-                  </div>
-                  <h3 className="text-text2 font-semibold text-foreground mb-4 tracking-[-0.04em] ">{f.title}</h3>
-                  <p className="text-foreground/30 text-text3 leading-relaxed font-medium tracking-[-0.04em] group-hover:text-foreground/50 transition-colors duration-700">{f.body}</p>
-                </div>
-              </BlurFade>
-            ))}
           </div>
         </div>
       </section>
 
-      <Divider />
-
-      {/* ── Cómo funciona ─────────────────────────────────────── */}
-      <section className="relative z-10 py-40 px-6">
-        <div className="max-w-3xl mx-auto">
-          <motion.p {...fadeUp()} className="text-[11px] tracking-[-0.02em] font-medium text-muted-foreground mb-16 text-center">
-            Cómo funciona
-          </motion.p>
-
-          <div className="space-y-0">
-            {steps.map((step, i) => (
-              <motion.div
-                key={step.n}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: i * 0.1, ease }}
-                className="flex gap-12 items-start pb-16"
-                style={{ borderBottom: i < steps.length - 1 ? '1px solid var(--border)' : 'none', paddingTop: i > 0 ? '64px' : 0 }}
-              >
-                <span className="text-[11px] font-medium text-muted-foreground/30 pt-1 shrink-0 w-8 tracking-[-0.01em]">
-                  {step.n}
-                </span>
-                <div className="space-y-4">
-                  <p className="text-foreground text-2xl font-semibold tracking-[-0.04em]">{step.title}</p>
-                  <p className="text-muted-foreground leading-relaxed text-lg font-medium tracking-[-0.02em]">{step.body}</p>
-                  <p className="text-[11px] font-medium text-muted-foreground tracking-[-0.01em]">{step.detail}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* ── Modos de práctica ─────────────────────────────────── */}
-      <section className="relative z-10 py-56 px-6">
-        <div className="max-w-4xl mx-auto">
-          <BlurFade delay={0.1}>
-            <p className="text-text4 font-semibold text-primary tracking-[-0.04em]  mb-6 text-center opacity-50">
-              Tres dimensiones
-            </p>
-          </BlurFade>
-          <BlurFade delay={0.2}>
-            <p className="text-center text-foreground/40 mb-32 max-w-lg mx-auto text-heading3 leading-tight font-semibold tracking-[-0.04em]">
-              El aprendizaje clínico no es lineal. Elige tu enfoque.
-            </p>
-          </BlurFade>
-
-          <div className="grid gap-8">
-            {modes.map((m, i) => (
-              <BlurFade key={m.label} delay={0.1 + i * 0.1}>
-                <div className="rounded-[2.5rem] px-12 py-10 flex flex-col md:flex-row md:items-center gap-10 glass hover:bg-white/[0.03] transition-all duration-700 group border border-white/[0.02]">
-                  <div className="flex-1">
-                    <p className="text-text2 font-semibold text-foreground mb-4 tracking-[-0.04em] ">{m.label}</p>
-                    <p className="text-foreground/30 text-text3 leading-relaxed max-w-xl font-medium tracking-[-0.04em] group-hover:text-foreground/50 transition-colors duration-700">{m.desc}</p>
-                  </div>
-                  <HugeiconsIcon icon={ArrowRight01Icon} size={24} className="text-foreground/10 group-hover:text-primary group-hover:translate-x-2 transition-all duration-700" />
-                </div>
-              </BlurFade>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Divider />
-
-      {/* ── Pricing ───────────────────────────────────────────── */}
-      <section className="relative z-10 py-56 px-6">
+      {/* ── Pricing Section ─────────────────────────────────── */}
+      <section className="py-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <BlurFade delay={0.1}>
-            <p className="text-text4 font-semibold text-primary tracking-[-0.04em]  mb-6 text-center opacity-50">
-              Membresía
-            </p>
-          </BlurFade>
-          <BlurFade delay={0.2}>
-            <p className="text-center text-foreground/40 mb-32 text-heading3 font-semibold tracking-[-0.04em]">
-              Empieza hoy mismo. Sin barreras.
-            </p>
-          </BlurFade>
-
-          <div className="grid md:grid-cols-3 gap-10">
-            {plans.map((plan, i) => (
-              <BlurFade key={plan.name} delay={0.1 + i * 0.08}>
-                <div
-                  className="relative rounded-[2.5rem] p-12 flex flex-col glass transition-all duration-700 hover:-translate-y-2 border border-white/[0.02]"
-                  style={
-                    plan.highlight
-                      ? { background: 'oklch(var(--color-primary) / 4%)', borderColor: 'oklch(var(--color-primary) / 20%)' }
-                      : {}
-                  }
-                >
-                  {plan.highlight && (
-                    <BorderBeam size={200} duration={12} borderWidth={1.5} colorFrom="oklch(var(--color-primary))" colorTo="transparent" />
-                  )}
-                  <div className="relative flex flex-col flex-1">
-                    <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/20 mb-12 ">{plan.name}</p>
-                    <div className="mb-14">
-                      <p className="text-[4rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{plan.price}</p>
-                      <p className="text-text4 font-semibold text-foreground/20 mt-4 tracking-[-0.04em] ">{plan.period}</p>
-                      {plan.usd && <p className="text-text4 font-semibold text-foreground/10 mt-2 tracking-[-0.04em] ">{plan.usd}</p>}
-                    </div>
-                    <div className="w-full h-px mb-14 bg-white/[0.03]" />
-                    <ul className="space-y-6 flex-1 mb-16">
-                      {plan.features.map(f => (
-                        <li key={f} className="flex items-start gap-4 group">
-                          <HugeiconsIcon icon={Tick01Icon} size={14} className="text-primary/40 mt-1 shrink-0 group-hover:text-primary transition-colors" />
-                          <span className="text-foreground/40 text-text3 font-medium leading-relaxed tracking-[-0.04em] group-hover:text-foreground/60 transition-colors">{f}</span>
-                        </li>
-                      ))}
-                      {plan.missing.map(f => (
-                        <li key={f} className="flex items-start gap-4 opacity-10">
-                          <HugeiconsIcon icon={CircleIcon} size={14} className="text-foreground/40 mt-1 shrink-0" />
-                          <span className="text-foreground/40 text-text3 font-medium leading-relaxed tracking-[-0.04em] line-through">{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <Link href={plan.href}>
-                      <ShinyButton
-                        className="w-full py-5 rounded-full"
-                      >
-                        <span className="font-semibold tracking-[-0.04em]  transition-all duration-500">{plan.cta}</span>
-                      </ShinyButton>
-                    </Link>
-                  </div>
+          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 md:px-20 py-20 md:py-24">
+            <div className="flex flex-col items-center text-center mb-20">
+              <BlurFade delay={0.1}>
+                <div className="px-4 py-1.5 rounded-full bg-muted text-foreground/60 text-[10px] font-semibold tracking-[-0.04em] mb-8 lowercase">
+                  membresía
                 </div>
               </BlurFade>
-            ))}
+              <BlurFade delay={0.2}>
+                <h2 className="text-[2.2rem] md:text-[3rem] font-semibold tracking-[-0.04em] leading-tight text-foreground max-w-2xl px-4 lowercase">
+                  empieza hoy mismo.<br />sin barreras. claridad pura.
+                </h2>
+              </BlurFade>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {plans.map((plan, i) => (
+                <BlurFade key={plan.name} delay={0.1 + i * 0.08}>
+                  <div className={`relative rounded-[3rem] p-10 flex flex-col border transition-all duration-500 hover:scale-[1.02] ${plan.highlight ? 'bg-foreground text-background border-foreground shadow-2xl shadow-foreground/20' : 'bg-muted/50 text-foreground border-transparent hover:bg-muted'}`}>
+                    <div className="relative flex flex-col flex-1">
+                      <p className={`text-[10px] font-semibold tracking-[-0.04em]  mb-12 italic ${plan.highlight ? 'text-background/40' : 'text-foreground/20'}`}>{plan.name}</p>
+                      <div className="mb-14">
+                        <p className="text-[3rem] font-semibold tracking-[-0.04em] leading-none">{plan.price}</p>
+                        <p className={`text-[11px] font-semibold mt-4 tracking-tight  ${plan.highlight ? 'text-background/40' : 'text-foreground/20'}`}>{plan.period}</p>
+                      </div>
+                      <div className={`w-full h-px mb-14 ${plan.highlight ? 'bg-background/10' : 'bg-foreground/5'}`} />
+                      <ul className="space-y-5 flex-1 mb-16">
+                        {plan.features.map(f => (
+                          <li key={f} className="flex items-start gap-4">
+                            <HugeiconsIcon icon={Tick01Icon} size={14} className={plan.highlight ? 'text-primary' : 'text-foreground/20'} />
+                            <span className={`text-[13px] font-medium tracking-tight leading-relaxed ${plan.highlight ? 'text-background/60' : 'text-foreground/60'}`}>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <Link href={plan.href}>
+                        <button className={`w-full py-2 rounded-full text-[12px] font-semibold tracking-[-0.04em] transition-all duration-300 ${plan.highlight ? 'bg-background text-foreground hover:bg-background/80' : 'bg-foreground text-background hover:bg-foreground/80'}`}>
+                          {plan.cta}
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                </BlurFade>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <Divider />
+      {/* ── Final CTA Section ────────────────────────────────── */}
+      <section className="py-16 px-4 md:px-6 mb-8 text-center">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 py-24 md:py-32 flex flex-col items-center">
 
-      {/* ── CTA final ─────────────────────────────────────────── */}
-      <section className="relative z-10 py-64 px-6 text-center overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+            <BlurFade delay={0.1}>
+              <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-10">
+                <HugeiconsIcon icon={AiIdeaIcon} size={24} className="text-foreground/20" />
+              </div>
+            </BlurFade>
 
-        <div className="max-w-3xl mx-auto space-y-20 relative z-10">
-          <BlurFade delay={0.1}>
-            <h2 className="text-heading1 md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] leading-none mb-10">
-              Eleva tu pensamiento clínica ahora.
-            </h2>
-          </BlurFade>
+            <BlurFade delay={0.2}>
+              <h2 className="text-[2.8rem] md:text-[4rem] font-semibold tracking-[-0.05em] leading-[0.95] text-foreground max-w-2xl mx-auto mb-12 lowercase">
+                eleva tu razonamiento clínico hoy mismo.
+              </h2>
+            </BlurFade>
 
-          <BlurFade delay={0.2}>
-            <p className="text-foreground/40 text-heading3 font-semibold tracking-[-0.04em] mb-16">
-              Gratis. Sin compromiso. Claridad pura.
-            </p>
-          </BlurFade>
-
-          <BlurFade delay={0.3}>
-            <Link href="/register">
-              <ShinyButton className="px-20 py-6 rounded-full inline-block">
-                <span className="font-semibold tracking-[-0.04em]  py-1 text-base">Crear cuenta hoy</span>
-              </ShinyButton>
-            </Link>
-          </BlurFade>
+            <BlurFade delay={0.3}>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="/register">
+                  <button className="px-12 py-2 rounded-full bg-foreground text-background text-[13px] font-semibold tracking-[-0.04em] hover:scale-105 transition-all shadow-xl shadow-foreground/10">
+                    Comenzar gratis
+                  </button>
+                </Link>
+                <Link href="/login">
+                  <button className="px-12 py-2 rounded-full bg-muted text-foreground text-[13px] font-semibold tracking-[-0.04em] hover:bg-accent transition-all">
+                    Iniciar sesión
+                  </button>
+                </Link>
+              </div>
+            </BlurFade>
+          </div>
         </div>
       </section>
 
-      <footer className="relative z-10 py-32 px-6 text-center border-t border-white/[0.02]">
-        <BlurFade delay={0.1}>
-          <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/10 ">
-            heyMed! · IA para medicina zen · {new Date().getFullYear()}
+      {/* ── Simple Footer ─────────────────────────────────────── */}
+      <footer className="py-12 px-8 flex flex-col md:flex-row items-center justify-between gap-8 max-w-6xl mx-auto border-t border-foreground/5">
+        <BlurFade delay={0.4}>
+          <p className="text-[11px] font-semibold text-foreground/20 tracking-tight  italic whitespace-nowrap">
+            © {new Date().getFullYear()} heyMed! · ia para medicina
           </p>
         </BlurFade>
+
+        <div className="flex gap-8 text-[11px] font-semibold text-foreground/20 tracking-tight lowercase italic">
+          <span className="cursor-pointer hover:text-foreground transition-colors">instagram</span>
+        </div>
       </footer>
     </div>
   )

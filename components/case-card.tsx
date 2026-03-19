@@ -58,15 +58,15 @@ export function CaseCard({ description, difficulty, caseNumber, variant = 'defau
           <div className="flex items-center justify-between mb-8">
             <div className={`flex items-center gap-2 px-4 py-1.5 rounded-full ${config.bg}`}>
               <HugeiconsIcon icon={Flag01Icon} size={14} className={config.color} />
-              <span className={`text-[12px] font-semibold ${config.color}`}>
+              <span className={`text-[12px] font-semibold tracking-[-0.02em] ${config.color}`}>
                 {config.label}
               </span>
             </div>
             {caseNumber !== undefined && (
               <div className="flex items-center gap-2 text-foreground/20">
                 <HugeiconsIcon icon={InformationCircleIcon} size={14} />
-                <span className="text-[11px] font-medium tabular-nums">
-                  Caso #{String(caseNumber).padStart(3, '0')}
+                <span className="text-[11px] font-medium tabular-nums tracking-[-0.02em]">
+                  caso #{String(caseNumber).padStart(3, '0')}
                 </span>
               </div>
             )}
@@ -75,33 +75,12 @@ export function CaseCard({ description, difficulty, caseNumber, variant = 'defau
           {/* Content */}
           <div className="flex-1 space-y-4">
             <h3 className="text-text2 font-semibold text-foreground/90 tracking-[-0.04em]">
-              Instrucciones de caso
+              instrucciones de caso
             </h3>
             <p className={`text-text2 md:text-text1 leading-relaxed text-foreground/50 font-medium tracking-[-0.04em] ${!isCompact ? 'line-clamp-6' : ''}`}>
               {description}
             </p>
           </div>
-
-          {/* Dotted Separator */}
-          <div className="my-8 border-t border-dashed border-white/[0.05]" />
-
-          {/* Footer */}
-          {!isCompact && (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-foreground/5 flex items-center justify-center">
-                  <HugeiconsIcon icon={ArrowRight01Icon} size={14} className="text-foreground/20" />
-                </div>
-                <span className="text-[11px] font-semibold text-foreground/20  tracking-[-0.04em]">
-                  Estudiante
-                </span>
-              </div>
-              <div className="flex items-center gap-2 text-foreground/20 group-hover:text-primary transition-colors">
-                <span className="text-[12px] font-semibold">0%</span>
-                <div className="w-4 h-4 rounded-full border-2 border-foreground/10 group-hover:border-primary/40 transition-colors" />
-              </div>
-            </div>
-          )}
         </div>
       </motion.div>
     </BlurFade>

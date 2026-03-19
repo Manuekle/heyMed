@@ -102,6 +102,7 @@ export default async function PracticePage({
       difficultyFilter={difficulty ?? 'all'}
       attemptNumber={(prevAttempts ?? 0) + 1}
       mode={mode}
+      modeFromUrl={!!modeParam}
     />
   )
 }

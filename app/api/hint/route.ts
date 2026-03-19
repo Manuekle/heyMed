@@ -21,12 +21,15 @@ export async function POST(req: NextRequest) {
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 400,
+      model: 'MiniMax-M2.7',
+      max_tokens: 80,
       messages: [
         {
           role: 'user',
-          content: `Eres un tutor médico. Para el siguiente caso clínico, da UNA pista breve al estudiante SIN revelar el diagnóstico. La pista debe orientar el pensamiento clínico.
+          content: `Eres un tutor médico. Para el siguiente caso clínico, da UNA pista breve al estudiante SIN revelar el diagnóstico.
+
+IMPORTANTE: La pista debe ser SOLAMENTE en español.
+PROHIBIDO usar carácteres chinos, cirílicos o de cualquier otro idioma que no sea español.
 
 Caso: ${caseDescription}${previousHints}
 

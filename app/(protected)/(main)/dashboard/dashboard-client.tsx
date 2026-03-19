@@ -22,9 +22,9 @@ import {
 import { PageHeader } from '@/components/page-header'
 
 const difficultyConfig = {
-  easy: { label: 'Básico', dot: 'bg-emerald-400/50', text: 'text-emerald-400/60' },
-  medium: { label: 'Moderado', dot: 'bg-amber-400/50', text: 'text-amber-400/60' },
-  hard: { label: 'Complejo', dot: 'bg-rose-400/50', text: 'text-rose-400/60' },
+  easy: { label: 'básico', dot: 'bg-emerald-400/50', text: 'text-emerald-400/60' },
+  medium: { label: 'moderado', dot: 'bg-amber-400/50', text: 'text-amber-400/60' },
+  hard: { label: 'complejo', dot: 'bg-rose-400/50', text: 'text-rose-400/60' },
 }
 
 const resultConfig = {
@@ -43,12 +43,12 @@ type DifficultyFilter = 'all' | 'easy' | 'medium' | 'hard'
 type SystemFilter = 'all' | 'cardio' | 'neuro' | 'gastro' | 'urgencias' | 'respiratorio'
 
 const difficultyLabels: Record<DifficultyFilter, string> = {
-  all: 'Todos', easy: 'Básico', medium: 'Moderado', hard: 'Complejo',
+  all: 'todos', easy: 'básico', medium: 'moderado', hard: 'complejo',
 }
 
 const systemLabels: Record<SystemFilter, string> = {
-  all: 'Todos', cardio: 'Cardio', neuro: 'Neuro',
-  gastro: 'Gastro', urgencias: 'Urgencias', respiratorio: 'Resp.',
+  all: 'todos', cardio: 'cardio', neuro: 'neuro',
+  gastro: 'gastro', urgencias: 'urgencias', respiratorio: 'resp.',
 }
 
 interface CaseItem {
@@ -99,9 +99,9 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
   const hasMetrics = accuracy && accuracy.total > 0
 
   const folderData = [
-    { id: 'easy' as const, title: 'Básico', diff: 'easy' as const },
-    { id: 'medium' as const, title: 'Moderado', diff: 'medium' as const },
-    { id: 'hard' as const, title: 'Complejo', diff: 'hard' as const },
+    { id: 'easy' as const, title: 'básico', diff: 'easy' as const },
+    { id: 'medium' as const, title: 'moderado', diff: 'medium' as const },
+    { id: 'hard' as const, title: 'complejo', diff: 'hard' as const },
   ]
 
   return (
@@ -122,17 +122,33 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
           <div className="flex items-center gap-16 mb-24 px-4">
             <div>
               <p className="text-[2.5rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{accuracy.accuracy}%</p>
-              <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 ">Precisión</p>
+              <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">precisión</p>
             </div>
             <div>
               <p className="text-[2.5rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{accuracy.total}</p>
-              <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 ">Casos</p>
+              <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">intentos</p>
             </div>
             {trend.length > 0 && (
-              <div className="flex items-center gap-2 ml-auto opacity-40">
-                {[...trend].reverse().map((r, i) => (
-                  <span key={i} className={`w-3 h-3 rounded-[4px] ${trendColors[r]}`} />
-                ))}
+              <div className="flex flex-col items-end gap-2 ml-auto">
+                <div className="flex items-center gap-2 opacity-40">
+                  {[...trend].reverse().map((r, i) => (
+                    <span key={i} className={`w-3 h-3 rounded-[4px] ${trendColors[r]}`} />
+                  ))}
+                </div>
+                <div className="flex items-center gap-4 text-[10px] font-semibold text-foreground/20 tracking-[-0.02em]">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/50" />
+                    <span>correcto</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-amber-400/50" />
+                    <span>parcial</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-1.5 h-1.5 rounded-full bg-rose-400/50" />
+                    <span>incorrecto</span>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -160,7 +176,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
             className="inline-flex items-center gap-3 text-text4 tracking-[-0.01em] font-medium px-5 py-2.5 rounded-xl transition-all duration-300 text-rose-500/80 hover:bg-rose-500/5 hover:text-rose-500"
             style={{ background: 'oklch(var(--color-destructive) / 5%)', border: '1px solid oklch(var(--color-destructive) / 10%)' }}
           >
-            <span>Revisar {reviewCases.length} caso{reviewCases.length !== 1 ? 's' : ''} pendientes</span>
+            <span className="lowercase">revisar {reviewCases.length} caso{reviewCases.length !== 1 ? 's' : ''} pendientes</span>
             <HugeiconsIcon icon={ArrowRight01Icon} size={14} />
           </Link>
         </motion.div>
@@ -228,7 +244,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
                 className="flex items-center gap-2 text-text4 font-medium text-muted hover:text-muted/80 transition-all px-5 py-2 rounded-full bg-foreground border border-border"
               >
                 <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
-                <span>Volver a carpetas</span>
+                <span>volver a carpetas</span>
               </button>
             </div>
 

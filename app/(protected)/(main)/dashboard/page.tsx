@@ -44,7 +44,8 @@ export default async function DashboardPage() {
     supabase
       .from('attempts')
       .select('case_id, ai_result')
-      .eq('user_id', user.id),
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: true }),
   ])
 
   const attemptMap = new Map<string, string>()

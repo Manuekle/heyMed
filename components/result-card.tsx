@@ -1,65 +1,14 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { CheckmarkCircle01Icon, AlertCircleIcon, CancelCircleIcon } from '@hugeicons/core-free-icons'
-import { BorderBeam } from './ui/border-beam'
-import { BlurFade } from './ui/blur-fade'
+import { Alert01Icon, Cancel01Icon, CheckmarkCircle01Icon } from '@hugeicons/core-free-icons'
 
 type Verdict = 'correct' | 'partial' | 'incorrect'
 
-const verdictConfig: Record<
-  Verdict,
-  { labelEs: string; glow: string; badge: string; bar: string; scoreColor: string; icon: any }
-> = {
-  correct: {
-    labelEs: 'Correcto',
-    glow: 'oklch(var(--color-success) / 10%)',
-    badge: 'bg-success/5 text-success/80 border border-success/10',
-    bar: 'bg-success/40',
-    scoreColor: 'text-success/90',
-    icon: CheckmarkCircle01Icon,
-  },
-  partial: {
-    labelEs: 'Parcial',
-    glow: 'oklch(var(--color-warning) / 10%)',
-    badge: 'bg-warning/5 text-warning/80 border border-warning/10',
-    bar: 'bg-warning/40',
-    scoreColor: 'text-warning/90',
-    icon: AlertCircleIcon,
-  },
-  incorrect: {
-    labelEs: 'Incorrecto',
-    glow: 'oklch(var(--color-destructive) / 10%)',
-    badge: 'bg-destructive/5 text-destructive/80 border border-destructive/10',
-    bar: 'bg-destructive/40',
-    scoreColor: 'text-destructive/90',
-    icon: CancelCircleIcon,
-  },
-}
-
-function useCountUp(target: number, delay = 400): number {
-  const [count, setCount] = useState(0)
-  useEffect(() => {
-    setCount(0)
-    const t = setTimeout(() => {
-      const duration = 900
-      const start = performance.now()
-      const tick = (now: number) => {
-        const p = Math.min((now - start) / duration, 1)
-        const eased = 1 - Math.pow(1 - p, 3)
-        setCount(Math.round(eased * target))
-        if (p < 1) requestAnimationFrame(tick)
-      }
-      requestAnimationFrame(tick)
-    }, delay)
-    return () => clearTimeout(t)
-  }, [target, delay])
-  return count
-}
-
-function getFirstSentence(text: string): string {
-  const match = text.match(/^[^.!?]+[.!?]/)
-  return match ? match[0] : text.slice(0, 100) + (text.length > 100 ? '…' : '')
+const config: Record<Verdict, { label: string; color: string; icon: any }> = {
+  correct: { label: 'Correcto', color: 'text-emerald-500/90', icon: CheckmarkCircle01Icon },
+  partial: { label: 'Parcial', color: 'text-amber-500/90', icon: Alert01Icon },
+  incorrect: { label: 'Incorrecto', color: 'text-rose-500/90', icon: Cancel01Icon },
 }
 
 interface ResultCardProps {
@@ -67,101 +16,91 @@ interface ResultCardProps {
   explanation: string
   correctDiagnosis?: string
   score: number
-  compact?: boolean // quick mode: no expand, no correct diagnosis
+  compact?: boolean
 }
 
-export function ResultCard({ result, explanation, correctDiagnosis, score, compact }: ResultCardProps) {
-  const config = verdictConfig[result]
-  const displayScore = useCountUp(score, 500)
-  const [expanded, setExpanded] = useState(false)
+export function ResultCard({
+  result = 'incorrect',
+  explanation = '',
+  correctDiagnosis,
+  score = 0,
+  compact = false
+}: ResultCardProps) {
+  const [count, setCount] = useState(0)
+  const current = config[result]
 
-  const firstSentence = getFirstSentence(explanation)
-  const isLong = explanation.length > firstSentence.length + 15
+  useEffect(() => {
+    const t = setTimeout(() => setCount(score), 400)
+    return () => clearTimeout(t)
+  }, [score])
 
   return (
-    <BlurFade delay={0.2} className="w-full">
+    <div className="w-full max-w-md mx-auto group">
       <motion.div
-        className="relative rounded-[2.5rem] overflow-hidden glass border border-white/[0.08] shadow-2xl"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative overflow-hidden rounded-[2rem] border border-black/[0.05] dark:border-white/[0.05] bg-white/50 dark:bg-black/20 backdrop-blur-xl p-8 shadow-sm transition-all duration-500 hover:shadow-md"
       >
-        {/* Border Beam highlight */}
-        <BorderBeam size={300} duration={15} colorFrom={config.glow.includes('success') ? '#22C55E' : config.glow.includes('warning') ? '#EAB308' : '#EF4444'} colorTo="#FAFAFA" borderWidth={2} />
-        {/* Ambient glow */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: `radial-gradient(ellipse at 50% 0%, ${config.glow} 0%, transparent 65%)` }}
-        />
-
-        {/* Score bar */}
-        <div className="relative h-1 w-full" style={{ background: 'var(--border)' }}>
-          <motion.div
-            className={`h-full ${config.bar}`}
-            initial={{ width: '0%' }}
-            animate={{ width: `${score}%` }}
-            transition={{ duration: 1.2, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          />
-        </div>
-
-        <div className="relative p-8 md:p-10">
-          {/* Score + verdict */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-12">
-            <div>
-              <div className="flex items-baseline gap-2">
-                <span
-                  className={`text-heading1 font-semibold tracking-[-0.05em] tabular-nums scale-[2.5] origin-left ${config.scoreColor}`}
-                >
-                  {displayScore}
-                </span>
-                <span className="text-text4 font-medium text-muted-foreground/30 tracking-[-0.01em]  ml-12">/100</span>
-              </div>
-              <p className="text-text4 tracking-[-0.02em] font-medium text-muted-foreground mt-3 ">
-                Precisión clínica
-              </p>
+        {/* Header */}
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className={`p-2 rounded-full bg-current/10 ${current.color}`}>
+              <HugeiconsIcon icon={current.icon} size={18} strokeWidth={2.5} />
             </div>
-            <div className="flex flex-col items-start md:items-end gap-3">
-              <span className={`flex items-center gap-2 text-text4 tracking-[-0.01em] font-medium px-4 py-1.5 rounded-full crystal  ${config.badge}`}>
-                <HugeiconsIcon icon={config.icon} size={14} />
-                <span>{config.labelEs}</span>
-              </span>
-              <span className="text-text4 font-medium text-muted-foreground tracking-[-0.01em] ">
-                Evaluación IA
-              </span>
+            <div>
+              <p className="text-[15px] tracking-[-0.04em] text-muted-foreground/60 font-semibold">Análisis</p>
+              <h3 className="text-sm font-medium text-foreground tracking-tight">{current.label}</h3>
             </div>
           </div>
 
-          {!compact && (
-            <>
-              <div className="w-full h-px mb-10" style={{ background: 'var(--border)' }} />
-
-              {/* Explanation — layered */}
-              <div className="space-y-4">
-                <p className="text-foreground/70 leading-[1.8] text-text1 font-medium tracking-[-0.02em]">
-                  {expanded || !isLong ? explanation : firstSentence}
-                </p>
-                {isLong && (
-                  <button
-                    onClick={() => setExpanded(v => !v)}
-                    className="text-text4 tracking-[-0.01em] font-medium text-muted-foreground hover:text-muted-foreground transition-all duration-300 border-b border-muted-foreground/20 pb-0.5 "
-                  >
-                    {expanded ? 'Leer menos' : 'Leer análisis completo'}
-                  </button>
-                )}
-              </div>
-
-              {/* Correct diagnosis */}
-              {correctDiagnosis && result !== 'correct' && (
-                <div className="mt-10 pt-10" style={{ borderTop: '1px solid var(--border)' }}>
-                  <p className="text-text4 tracking-[-0.01em] font-medium text-muted-foreground/30 mb-4 ">
-                    Referencia diagnóstica
-                  </p>
-                  <p className="text-foreground/50 font-medium text-text2 leading-relaxed tracking-[-0.011em]">
-                    {correctDiagnosis}
-                  </p>
-                </div>
-              )}
-            </>
-          )}
+          <div className="text-right flex flex-col">
+            <div className="flex items-baseline justify-end">
+              <motion.span className={`text-3xl font-light tracking-tighter tabular-nums ${current.color}`}>
+                {count}
+              </motion.span>
+              <span className="text-[10px] text-muted-foreground/40 ml-1 font-medium">/100</span>
+            </div>
+          </div>
         </div>
+
+        {/* Barra de progreso quirúrgica */}
+        <div className="mt-6 h-[1px] w-full bg-black/[0.05] dark:bg-white/[0.05] overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${score}%` }}
+            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+            className={`h-full bg-current ${current.color}`}
+          />
+        </div>
+
+        {/* Contenido */}
+        {!compact && (
+          <div className="mt-6 space-y-5">
+            {/* Explicación principal */}
+            {explanation && (
+              <p className="text-[13px] leading-relaxed text-muted-foreground/80 font-light group-hover:text-muted-foreground transition-colors duration-300">
+                {explanation}
+              </p>
+            )}
+
+            {/* Diagnóstico de Referencia (Solo si existe y no es correcto) */}
+            {correctDiagnosis && result !== 'correct' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="pt-4 border-t border-black/[0.03] dark:border-white/[0.03]"
+              >
+                <span className="text-[15px] tracking-[-0.04em] text-muted-foreground/40 font-semibold block mb-1">
+                  Referencia Clínica
+                </span>
+                <p className="text-[12px] text-foreground/60 italic font-light leading-snug">
+                  {correctDiagnosis}
+                </p>
+              </motion.div>
+            )}
+          </div>
+        )}
       </motion.div>
-    </BlurFade>
+    </div>
   )
 }
