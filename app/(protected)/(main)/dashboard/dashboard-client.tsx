@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useMemo, useEffect } from 'react'
+import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
@@ -78,6 +78,16 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
   const [filter, setFilter] = useState<DifficultyFilter>('all')
   const [sysFilter, setSysFilter] = useState<SystemFilter>('all')
   const [expandedDifficulty, setExpandedDifficulty] = useState<DifficultyFilter | null>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+  const scrollX = useMotionValue(0)
+
+  useEffect(() => {
+    const checkIsMobile = () => setIsMobile(window.innerWidth < 768)
+    checkIsMobile()
+    window.addEventListener('resize', checkIsMobile)
+    return () => window.removeEventListener('resize', checkIsMobile)
+  }, [])
 
   async function handleSignOut() {
     const supabase = createClient()
@@ -119,23 +129,25 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
       {/* Metrics */}
       {hasMetrics && (
         <BlurFade delay={0.2}>
-          <div className="flex items-center gap-16 mb-24 px-4">
-            <div>
-              <p className="text-[2.5rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{accuracy.accuracy}%</p>
-              <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">precisión</p>
-            </div>
-            <div>
-              <p className="text-[2.5rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{accuracy.total}</p>
-              <p className="text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">intentos</p>
+          <div className="flex flex-col sm:flex-row sm:items-center gap-8 md:gap-16 mb-16 md:mb-24 px-1 md:px-4">
+            <div className="flex gap-12 md:gap-16">
+              <div>
+                <p className="text-[2rem] md:text-[2.5rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{accuracy.accuracy}%</p>
+                <p className="text-[10px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">precisión</p>
+              </div>
+              <div>
+                <p className="text-[2rem] md:text-[2.5rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{accuracy.total}</p>
+                <p className="text-[10px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">intentos</p>
+              </div>
             </div>
             {trend.length > 0 && (
-              <div className="flex flex-col items-end gap-2 ml-auto">
-                <div className="flex items-center gap-2 opacity-40">
+              <div className="flex flex-col items-start sm:items-end gap-3 sm:ml-auto">
+                <div className="flex items-center gap-1.5 md:gap-2 opacity-40">
                   {[...trend].reverse().map((r, i) => (
-                    <span key={i} className={`w-3 h-3 rounded-[4px] ${trendColors[r]}`} />
+                    <span key={i} className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-[3px] md:rounded-[4px] ${trendColors[r]}`} />
                   ))}
                 </div>
-                <div className="flex items-center gap-4 text-[10px] font-semibold text-foreground/20 tracking-[-0.02em]">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[9px] md:text-[10px] font-semibold text-foreground/20 tracking-[-0.02em]">
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/50" />
                     <span>correcto</span>
@@ -183,7 +195,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
       )}
 
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-x-8 gap-y-4 mb-12 px-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-12 px-1">
         <div className="flex flex-wrap items-center gap-2">
           {(['all', 'cardio', 'neuro', 'gastro', 'urgencias', 'respiratorio'] as SystemFilter[]).map(s => {
             const active = sysFilter === s
@@ -191,44 +203,61 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
               <button
                 key={s}
                 onClick={() => setSysFilter(s)}
-                className={`text-text4 tracking-[-0.02em] font-medium px-5 py-2 rounded-full transition-all duration-300 ${active ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-muted-foreground hover:bg-foreground/5'}`}
+                className={`text-text4 tracking-[-0.02em] font-medium px-4 md:px-5 py-2 rounded-full transition-all duration-300 ${active ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-muted-foreground hover:bg-foreground/5'}`}
               >
                 {systemLabels[s]}
               </button>
             )
           })}
         </div>
-        <span className="ml-auto text-text4 font-medium text-muted-foreground tabular-nums">{filteredCases.length} casos</span>
+        <span className="text-text4 font-medium text-muted-foreground tabular-nums">{filteredCases.length} casos</span>
       </div>
 
       {/* Folders or Cases list */}
       <AnimatePresence mode="wait">
         {expandedDifficulty === null ? (
-          <motion.div
-            key="folder-view"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-24 py-24 mb-20"
-          >
-            {folderData.map((f, i) => (
-              <motion.div
-                key={f.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <CaseFolder
-                  title={f.title}
-                  difficulty={f.diff}
-                  count={cases.filter(c => c.difficulty === f.diff).length}
-                  previewCases={cases.filter(c => c.difficulty === f.diff).slice(0, 3)}
-                  onOpen={() => setExpandedDifficulty(f.id)}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+          <div className="relative">
+            <motion.div
+              key="folder-view"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              onScroll={(e) => {
+                const target = e.currentTarget;
+                const scrollLeft = target.scrollLeft;
+                const itemWidth = 264; // min-w-240 + gap-6 (24)
+                const index = Math.round(scrollLeft / itemWidth);
+                setActiveIndex(index);
+              }}
+              className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible gap-6 md:gap-24 py-12 md:py-16 md:py-24 mb-20 scrollbar-none snap-x snap-mandatory px-0 md:px-0 scroll-padding-x-12 mobile-mask sm:pb-0 pb-40"
+              style={{
+                WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+                maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+              }}
+            >
+              {folderData.map((f, i) => (
+                <motion.div
+                  key={f.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="min-w-[240px] md:min-w-0 snap-center first:ml-12 md:first:ml-0 last:mr-12 md:last:mr-0"
+                >
+                  <CaseFolder
+                    title={f.title}
+                    difficulty={f.diff}
+                    count={cases.filter(c => c.difficulty === f.diff).length}
+                    previewCases={cases.filter(c => c.difficulty === f.diff).slice(0, 3)}
+                    onOpen={() => setExpandedDifficulty(f.id)}
+                    isFocused={isMobile && activeIndex === i}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+
+
+          </div>
         ) : (
           <motion.div
             key="grid-view"

@@ -110,8 +110,8 @@ function DifferentialInput({
         className="rounded-[2rem] overflow-hidden border border-border/40 bg-card/30 focus-within:border-yellow-500/20 transition-all duration-700"
       >
         <div className="px-10 pt-8 pb-4">
-          <span className="text-[11px] font-semibold text-foreground">
-            Sospecha principal
+          <span className="text-text3 font-semibold text-foreground lowercase">
+            sospecha principal
           </span>
         </div>
         <textarea
@@ -130,8 +130,8 @@ function DifferentialInput({
         className="rounded-[2rem] overflow-hidden border border-border/40 bg-card/30 focus-within:border-yellow-500/20 transition-all duration-700"
       >
         <div className="px-10 pt-8 pb-6">
-          <span className="text-[11px] font-semibold text-foreground">
-            Diagnósticos diferenciales
+          <span className="text-text3 font-semibold text-foreground lowercase">
+            diagnósticos diferenciales
           </span>
         </div>
         <div className="px-10 pb-12 space-y-8">
@@ -144,7 +144,7 @@ function DifferentialInput({
                 onChange={e => updateDiff(i, e.target.value)}
                 disabled={disabled}
                 placeholder={i === 0 ? 'principal alternativa' : i === 1 ? 'segunda opción' : 'tercera opción'}
-                className="flex-1 bg-transparent text-foreground placeholder:text-foreground/20 focus:outline-none font-medium text-text2 md:text-text1 tracking-[-0.04em] disabled:opacity-40 transition-colors border-b border-border/30 focus:border-yellow-500/20 pb-3"
+                className="flex-1 bg-transparent text-foreground placeholder:text-foreground/20 focus:outline-none font-medium text-text1 md:text-text1 tracking-[-0.04em] disabled:opacity-40 transition-colors border-b border-border/30 focus:border-yellow-500/20 pb-3"
               />
             </div>
           ))}
@@ -189,18 +189,18 @@ function ModePreScreen({ onSelect, onBack }: { onSelect: (m: PracticeMode) => vo
       exit={{ opacity: 0, scale: 0.98 }}
       className="space-y-16"
     >
-      <div className="flex items-center justify-between">
-        <div className="space-y-4">
-          <p className="text-[11px] font-semibold text-muted-foreground">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="space-y-2 md:space-y-4">
+          <p className="text-[10px] md:text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
             Antes de empezar
           </p>
-          <h2 className="text-heading1 text-foreground font-semibold tracking-[-0.04em]">
+          <h2 className="text-heading2 md:text-heading1 text-foreground font-semibold tracking-[-0.04em]">
             ¿Cómo quieres practicar?
           </h2>
         </div>
         <button
           onClick={onBack}
-          className="group flex items-center gap-2 text-[12px] font-semibold text-foreground/20 hover:text-foreground transition-all duration-500 tracking-[-0.04em]"
+          className="group flex items-center gap-2 text-[12px] font-semibold text-foreground/20 hover:text-foreground transition-all duration-500 tracking-[-0.04em] self-start"
         >
           <HugeiconsIcon icon={ArrowLeft01Icon} size={14} className="group-hover:-translate-x-1 transition-transform" />
           <span>atrás</span>
@@ -214,7 +214,7 @@ function ModePreScreen({ onSelect, onBack }: { onSelect: (m: PracticeMode) => vo
             onClick={() => onSelect(m.id)}
             onMouseEnter={() => setHovered(m.id)}
             onMouseLeave={() => setHovered(null)}
-            className={`w-full text-left rounded-[2.5rem] px-10 py-8 group relative overflow-hidden bg-card/30 border transition-all duration-700 ${m.id === 'normal' ? 'border-border/40 hover:border-green-500/30' :
+            className={`w-full text-left rounded-[2rem] md:rounded-[2.5rem] px-6 md:px-10 py-6 md:py-8 group relative overflow-hidden bg-card/30 border transition-all duration-700 ${m.id === 'normal' ? 'border-border/40 hover:border-green-500/30' :
               m.id === 'differential' ? 'border-border/40 hover:border-yellow-500/30' :
                 'border-border/40 hover:border-red-500/30'
               }`}
@@ -523,12 +523,12 @@ export function PracticeClient({
                     disabled={loading}
                     placeholder="¿cuál es tu diagnóstico?"
                     rows={6}
-                    className="w-full bg-transparent px-12 py-12 text-foreground placeholder:text-foreground/30 resize-none focus:outline-none leading-relaxed text-heading4 md:text-heading3 font-semibold tracking-[-0.04em]"
+                    className="w-full bg-transparent px-6 md:px-12 py-8 md:py-12 text-foreground placeholder:text-foreground/30 resize-none focus:outline-none leading-relaxed text-[1.4rem] md:text-heading3 font-semibold tracking-[-0.04em]"
                   />
 
                   {/* Inner footer for word count/metadata */}
                   {answer.length > 0 && resolvedMode !== 'quick' && (
-                    <div className="px-12 pb-10 flex items-center justify-between gap-10">
+                    <div className="px-6 md:px-12 pb-8 md:pb-10 flex items-center justify-between gap-6 md:gap-10">
                       <div className="flex-1 h-[2px] rounded-full overflow-hidden bg-white/[0.05]">
                         <motion.div
                           className="h-full rounded-full bg-green-500/30"
@@ -536,7 +536,7 @@ export function PracticeClient({
                           transition={{ duration: 0.8, ease: "easeOut" }}
                         />
                       </div>
-                      <span className="text-[11px] font-semibold text-foreground/20 tabular-nums tracking-[-0.04em]">
+                      <span className="text-[10px] md:text-[11px] font-semibold text-foreground/20 tabular-nums tracking-[-0.04em]">
                         {words} {words === 1 ? 'palabra' : 'palabras'}
                       </span>
                     </div>
@@ -587,7 +587,7 @@ export function PracticeClient({
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between gap-6 pt-10 border-t border-border/20"
+          className="flex flex-col sm:flex-row sm:items-center justify-between gap-8 pt-10 border-t border-border/20"
         >
           {/* Left: Exit */}
           <div className="flex items-center min-w-[140px]">
@@ -635,22 +635,22 @@ export function PracticeClient({
 
 
           {/* Right: Hint + Submit */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center justify-between sm:justify-end gap-4 md:gap-6 w-full sm:w-auto">
             {resolvedMode !== 'quick' && (
               <button
                 onClick={requestHint}
                 disabled={loadingHint || hints.length >= 3}
-                className={`flex items-center gap-2.5 px-6 py-2 rounded-full text-[12px] font-semibold transition-all duration-500 tracking-[-0.04em] ${hints.length >= 3 ? 'text-foreground/5 cursor-not-allowed' : 'text-foreground/30 hover:text-primary hover:bg-primary/5'}`}
+                className={`flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-6 py-2.5 md:py-2 rounded-full text-[12px] font-semibold transition-all duration-500 tracking-[-0.04em] ${hints.length >= 3 ? 'text-foreground/5 cursor-not-allowed' : 'text-foreground/30 hover:text-primary hover:bg-primary/5 bg-foreground/[0.02] sm:bg-transparent'}`}
               >
                 <HugeiconsIcon icon={AiIdeaIcon} size={14} />
-                <span>{loadingHint ? 'buscando...' : hints.length > 0 ? `pista ${hints.length}/3` : 'obtener pista'}</span>
+                <span>{loadingHint ? 'buscando...' : hints.length > 0 ? `${hints.length}/3` : 'pista'}</span>
               </button>
             )}
 
             <ShinyButton
               onClick={() => handleSubmit()}
               disabled={!canSubmit || loading}
-              className={`rounded-full px-6 py-2 transition-all duration-500 ${resolvedMode === 'quick' ? 'hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
+              className={`flex-1 sm:flex-none rounded-full px-6 py-2.5 md:py-2 transition-all duration-500 ${resolvedMode === 'quick' ? 'hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
                 resolvedMode === 'differential' ? 'hover:shadow-[0_0_20px_rgba(234,179,8,0.2)]' :
                   'hover:shadow-[0_0_20px_rgba(34,197,94,0.2)]'
                 }`}
@@ -745,25 +745,25 @@ function SessionSummary({ stats, difficultyFilter, mode, onReturn }: {
       transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
       className="space-y-24"
     >
-      <div className="rounded-[3rem] p-16 md:p-24 overflow-hidden bg-card/20 border border-border/40 relative shadow-sm">
+      <div className="rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-24 overflow-hidden bg-card/20 border border-border/40 relative shadow-sm">
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-primary/[0.03] to-transparent" />
         <div className="relative">
-          <p className="text-[11px] font-semibold text-foreground/20 mb-24 text-center tracking-[-0.02em]  tracking-[-0.04em]">
+          <p className="text-[11px] font-semibold text-foreground/20 mb-12 md:mb-24 text-center tracking-[-0.04em]">
             sesión completada {modeLabel && `· ${modeLabel}`}
           </p>
 
-          <div className="grid grid-cols-3 gap-16 mb-24 text-center">
-            <div className="space-y-6">
-              <p className="text-[4rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.done}</p>
-              <p className="text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">casos</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 mb-12 md:mb-24 text-center">
+            <div className="space-y-2 md:space-y-6">
+              <p className="text-[3.5rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.done}</p>
+              <p className="text-[12px] md:text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">casos</p>
             </div>
-            <div className="space-y-6">
-              <p className="text-[4rem] md:text-[5rem] text-primary font-semibold tracking-[-0.04em] tabular-nums leading-none">{accuracy}%</p>
-              <p className="text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">precisión</p>
+            <div className="space-y-2 md:space-y-6">
+              <p className="text-[3.5rem] md:text-[5rem] text-primary font-semibold tracking-[-0.04em] tabular-nums leading-none">{accuracy}%</p>
+              <p className="text-[12px] md:text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">precisión</p>
             </div>
-            <div className="space-y-6">
-              <p className="text-[4rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.correct}</p>
-              <p className="text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">correctos</p>
+            <div className="space-y-2 md:space-y-6">
+              <p className="text-[3.5rem] md:text-[5rem] text-foreground font-semibold tracking-[-0.04em] tabular-nums leading-none">{stats.correct}</p>
+              <p className="text-[12px] md:text-[13px] font-semibold text-foreground/20 tracking-[-0.04em]">correctos</p>
             </div>
           </div>
 

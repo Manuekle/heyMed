@@ -78,7 +78,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
       subtitle: 'Practica diagnóstico clínico con IA. Antes de empezar, cuéntanos algo.',
       content: (
         <div className="space-y-6">
-          <label className="block text-text4 font-semibold tracking-[-0.04em] text-foreground/20 ">
+          <label className="block text-text3 font-semibold tracking-[-0.04em] text-foreground/20 ">
             ¿Cómo te llamamos?
           </label>
           <div className="relative group">
@@ -116,7 +116,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
                 <div className={`w-12 h-12 rounded-2xl glass border border-white/[0.05] flex items-center justify-center transition-all duration-700 ${active ? 'text-primary scale-110' : 'text-foreground/10 group-hover:text-foreground/30'}`}>
                   <HugeiconsIcon icon={s.icon} size={22} />
                 </div>
-                <span className={`text-text4 tracking-[-0.04em] font-semibold transition-all duration-700  ${active ? 'text-foreground' : 'text-foreground/20'}`}>
+                <span className={`text-text3 tracking-[-0.04em] font-semibold transition-all duration-700  ${active ? 'text-foreground' : 'text-foreground/20'}`}>
                   {s.label}
                 </span>
 
@@ -147,7 +147,7 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
                   <p className={`font-semibold text-text2 tracking-[-0.04em] transition-all duration-700 ${active ? 'text-primary' : 'text-foreground/40'}`}>
                     {l.label}
                   </p>
-                  <p className="text-text4 font-semibold text-foreground/50 tracking-[-0.04em] ">{l.desc}</p>
+                  <p className="text-text3 font-semibold text-foreground/50 tracking-[-0.04em] ">{l.desc}</p>
                 </div>
                 <div className={`w-8 h-8 rounded-full glass flex items-center justify-center transition-all duration-700 ${active ? 'bg-primary text-primary' : 'text-foreground/10'}`}>
                   <HugeiconsIcon icon={active ? CheckmarkCircle02Icon : CircleIcon} size={18} />

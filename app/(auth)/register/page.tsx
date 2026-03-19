@@ -11,7 +11,7 @@ import { BlurFade } from '@/components/ui/blur-fade'
 import { ShinyButton } from '@/components/ui/shiny-button'
 
 const inputClass =
-  'w-full bg-transparent border-b border-white/[0.08] py-4 text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 transition-all duration-500 font-medium text-text2 tracking-[-0.04em]'
+  'w-full bg-transparent border-b border-white/[0.08] py-4 text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 transition-all duration-500 font-medium text-text1 tracking-[-0.04em]'
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('')
@@ -106,17 +106,17 @@ export default function RegisterPage() {
 
               <form onSubmit={handleSubmit} className="space-y-10">
                 <div>
-                  <label className="block text-text4 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">email</label>
+                  <label className="block text-text3 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">email</label>
                   <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
                     required placeholder="tu@email.com" className={inputClass} />
                 </div>
                 <div>
-                  <label className="block text-text4 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">contraseña</label>
+                  <label className="block text-text3 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">contraseña</label>
                   <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                     required minLength={6} placeholder="••••••••" className={inputClass} />
                 </div>
                 <div>
-                  <label className="block text-text4 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">confirmar contraseña</label>
+                  <label className="block text-text3 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">confirmar contraseña</label>
                   <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)}
                     required placeholder="••••••••" className={inputClass} />
                 </div>

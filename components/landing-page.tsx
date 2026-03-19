@@ -175,9 +175,9 @@ export function LandingPage() {
       </header>
 
       {/* ── Hero Section ──────────────────────────────────────── */}
-      <section className="pt-32 pb-12 px-4 md:px-6">
+      <section className="pt-24 md:pt-32 pb-12 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-card rounded-[3.5rem] md:rounded-[4.5rem] shadow-sm border border-foreground/[0.01] px-6 py-24 md:py-32 flex flex-col items-center text-center relative overflow-hidden">
+          <div className="bg-card rounded-[2.5rem] md:rounded-[4.5rem] shadow-sm border border-foreground/[0.01] px-6 py-16 md:py-32 flex flex-col items-center text-center relative overflow-hidden">
 
             {/* Avatar Tag */}
             <BlurFade delay={0.4}>
@@ -195,7 +195,7 @@ export function LandingPage() {
 
             {/* Heading */}
             <BlurFade delay={0.5}>
-              <h1 className="text-[2.8rem] md:text-[4.5rem] lg:text-[5.5rem] font-semibold tracking-[-0.05em] leading-[0.95] text-foreground max-w-4xl mx-auto mb-10 lowercase">
+              <h1 className="text-[2.2rem] md:text-[4.5rem] lg:text-[5.5rem] font-semibold tracking-[-0.05em] leading-[0.95] text-foreground max-w-4xl mx-auto mb-10 lowercase">
                 entrena tu razonamiento clínico con inteligencia artificial.
               </h1>
             </BlurFade>
@@ -236,8 +236,8 @@ export function LandingPage() {
       {/* ── Mock Case Preview ─────────────────────────────────── */}
       <section className="py-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-8 md:px-20 py-16 md:py-24 relative overflow-hidden group">
-            <div className="max-w-3xl mx-auto space-y-12">
+          <div className="bg-card rounded-[2.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-6 md:px-20 py-12 md:py-24 relative overflow-hidden group">
+            <div className="max-w-3xl mx-auto space-y-8 md:space-y-12">
               <BlurFade delay={0.2}>
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em] lowercase italic border-b border-foreground/5 pb-1">#04 · caso clínico</span>
@@ -253,7 +253,7 @@ export function LandingPage() {
               <BlurFade delay={0.4}>
                 <div className="space-y-6">
                   <p className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em] lowercase italic">tu diagnóstico libre</p>
-                  <div className="p-8 rounded-[2rem] bg-muted flex items-center justify-between hover:bg-muted/80 transition-colors duration-500">
+                  <div className="p-6 md:p-8 rounded-[2rem] bg-muted flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-muted/80 transition-colors duration-500">
                     <span className="text-foreground/60 font-semibold tracking-[-0.03em] lowercase">insuficiencia cardíaca congestiva...</span>
                     <div className="flex items-center gap-2 text-emerald-600">
                       <HugeiconsIcon icon={StarIcon} size={16} />
@@ -268,7 +268,7 @@ export function LandingPage() {
       </section>      {/* ── Features Section ──────────────────────────────────── */}
       <section className="py-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 md:px-20 py-20 md:py-24">
+          <div className="bg-card rounded-[2.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-6 md:px-20 py-16 md:py-24">
             <div className="max-w-3xl mb-20">
               <BlurFade delay={0.1}>
                 <div className="px-4 py-1.5 rounded-full bg-muted text-foreground/60 text-[10px] font-semibold tracking-[-0.04em] inline-block mb-8 lowercase">
@@ -306,7 +306,7 @@ export function LandingPage() {
       {/* ── Steps Section (Cómo funciona) ─────────────────────── */}
       <section className="py-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 md:px-20 py-20 md:py-24">
+          <div className="bg-card rounded-[2.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-6 md:px-20 py-16 md:py-24">
             <div className="flex flex-col items-center text-center mb-20">
               <BlurFade delay={0.1}>
                 <div className="px-4 py-1.5 rounded-full bg-muted text-foreground/60 text-[10px] font-semibold tracking-[-0.04em] mb-8 lowercase">
@@ -341,7 +341,7 @@ export function LandingPage() {
       {/* ── Modos Section ─────────────────────────────────────── */}
       <section className="py-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 md:px-20 py-20 md:py-24">
+          <div className="bg-card rounded-[2.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-6 md:px-20 py-16 md:py-24">
             <div className="flex flex-col items-center text-center mb-20">
               <BlurFade delay={0.1}>
                 <div className="px-4 py-1.5 rounded-full bg-muted text-foreground/60 text-[10px] font-semibold tracking-[-0.04em] mb-8 lowercase">
@@ -379,7 +379,7 @@ export function LandingPage() {
       {/* ── Pricing Section ─────────────────────────────────── */}
       <section className="py-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 md:px-20 py-20 md:py-24">
+          <div className="bg-card rounded-[2.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-6 md:px-20 py-16 md:py-24">
             <div className="flex flex-col items-center text-center mb-20">
               <BlurFade delay={0.1}>
                 <div className="px-4 py-1.5 rounded-full bg-muted text-foreground/60 text-[10px] font-semibold tracking-[-0.04em] mb-8 lowercase">
@@ -429,7 +429,7 @@ export function LandingPage() {
       {/* ── Final CTA Section ────────────────────────────────── */}
       <section className="py-16 px-4 md:px-6 mb-8 text-center">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-card rounded-[3.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-10 py-24 md:py-32 flex flex-col items-center">
+          <div className="bg-card rounded-[2.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-6 py-20 md:py-32 flex flex-col items-center">
 
             <BlurFade delay={0.1}>
               <div className="w-14 h-14 rounded-full bg-muted flex items-center justify-center mb-10">

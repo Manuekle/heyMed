@@ -51,7 +51,7 @@ export function CaseCard({ description, difficulty, caseNumber, variant = 'defau
         className="group relative"
       >
         <div
-          className={`glass rounded-[2rem] p-8 md:p-10 relative overflow-hidden flex flex-col border border-white/[0.05] ${isCompact ? 'max-w-3xl mx-auto' : 'h-full'}`}
+          className={`glass rounded-[2rem] p-6 md:p-10 relative overflow-hidden flex flex-col border border-white/[0.05] ${isCompact ? 'max-w-3xl mx-auto' : 'h-full'}`}
           style={!isCompact ? { aspectRatio: '1 / 1.1' } : {}}
         >
           {/* Header */}

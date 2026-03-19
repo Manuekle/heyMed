@@ -36,19 +36,19 @@ export function PageHeader({
 }: PageHeaderProps) {
   return (
     <BlurFade delay={0.1}>
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-12 mb-20">
-        <div className="space-y-4">
-          <h1 className="text-heading1 text-foreground font-semibold tracking-[-0.04em]">
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12 mb-12 md:mb-20">
+        <div className="space-y-2 md:space-y-4">
+          <h1 className="text-heading2 md:text-heading1 text-foreground font-semibold tracking-[-0.04em]">
             {title}
           </h1>
           {description && (
-            <p className="text-foreground/40 leading-relaxed max-w-2xl text-text2 font-semibold tracking-[-0.04em]">
+            <p className="text-foreground/40 leading-relaxed max-w-2xl text-text3 md:text-text2 font-semibold tracking-[-0.04em]">
               {description}
             </p>
           )}
         </div>
 
-        <div className="flex flex-col items-end gap-6">
+        <div className="flex flex-col items-start md:items-end gap-4 md:gap-6">
           {/* Right side: Either Nav or Back button */}
           {backLink ? (
             <Link
@@ -63,7 +63,7 @@ export function PageHeader({
               <span suppressHydrationWarning>{backLabel}</span>
             </Link>
           ) : showNav && (
-            <div className="flex items-center gap-8 pt-2">
+            <div className="flex flex-wrap items-center gap-4 md:gap-8 pt-2">
               <Link href="/upload" className="flex items-center gap-2 text-text4 tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
                 <HugeiconsIcon icon={Upload01Icon} size={14} />
                 <span suppressHydrationWarning>subir</span>

@@ -12,7 +12,7 @@ import { BlurFade } from '@/components/ui/blur-fade'
 import { ShinyButton } from '@/components/ui/shiny-button'
 
 const inputClass =
-  'w-full bg-transparent border-b border-white/[0.08] py-4 text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 transition-all duration-500 font-medium text-text2 tracking-[-0.04em]'
+  'w-full bg-transparent border-b border-white/[0.08] py-4 text-foreground placeholder:text-foreground/20 outline-none focus:border-primary/40 transition-all duration-500 font-medium text-text1 tracking-[-0.04em]'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -75,7 +75,7 @@ export default function LoginPage() {
         <BlurFade delay={0.3}>
           <form onSubmit={handleSubmit} className="space-y-12">
             <div>
-              <label className="block text-text4 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">
+              <label className="block text-text3 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">
                 email
               </label>
               <input
@@ -89,7 +89,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block text-text4 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">
+              <label className="block text-text3 tracking-[-0.04em] font-semibold text-foreground/20 mb-4 lowercase">
                 contraseña
               </label>
               <input

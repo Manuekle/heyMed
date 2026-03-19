@@ -278,6 +278,18 @@ html.dark {
       0% 100%
     );
   }
+
+  .mobile-mask {
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  }
+
+  @media (min-width: 768px) {
+    .mobile-mask {
+      mask-image: none !important;
+      -webkit-mask-image: none !important;
+    }
+  }
 }
 
 @layer utilities {

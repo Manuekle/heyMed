@@ -112,7 +112,7 @@ function SettingsRow({
             {icon}
           </div>
         )}
-        <span className={`text-[13px] font-semibold tracking-[-0.04em] transition-colors duration-500 ${destructive ? 'text-rose-500/80 hover:text-rose-500' : 'text-foreground/40 group-hover:text-foreground/70'}`}>
+        <span className={`text-text2 font-semibold tracking-[-0.04em] transition-colors duration-500 ${destructive ? 'text-rose-500/80 hover:text-rose-500' : 'text-foreground/40 group-hover:text-foreground/70'}`}>
           {label.toLowerCase()}
         </span>
       </div>
@@ -133,7 +133,7 @@ function SettingsRow({
 function SettingsSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="space-y-4">
-      <p className="px-6 text-[11px] font-semibold tracking-[-0.04em] text-foreground/20">
+      <p className="px-6 text-text3 font-semibold tracking-[-0.04em] text-foreground/20">
         {title.toLowerCase()}
       </p>
       <div className="glass border border-white/[0.03] rounded-[2.5rem] overflow-hidden p-2">
@@ -342,7 +342,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
               <div className="w-10 h-10 rounded-xl flex items-center justify-center glass border border-white/[0.05] transition-all duration-500 bg-white/[0.03] text-foreground/20">
                 <HugeiconsIcon icon={theme === 'dark' ? Moon01Icon : Sun01Icon} size={14} />
               </div>
-              <span className="text-[13px] font-semibold tracking-[-0.04em] text-foreground/40">tema</span>
+              <span className="text-text2 font-semibold tracking-[-0.04em] text-foreground/40">tema</span>
             </div>
 
             <div className="inline-flex rounded-full p-1 bg-white/[0.02] border border-white/[0.05] relative">
@@ -352,7 +352,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
                   <button
                     key={t}
                     onClick={() => toggleTheme(t)}
-                    className={`relative px-6 py-2 rounded-full text-[11px] font-semibold tracking-[-0.04em] transition-colors duration-500 z-10 ${active ? 'text-background' : 'text-foreground/20 hover:text-foreground'}`}
+                    className={`relative px-6 py-2 rounded-full text-text3 font-semibold tracking-[-0.04em] transition-colors duration-500 z-10 ${active ? 'text-background' : 'text-foreground/20 hover:text-foreground'}`}
                   >
                     {active && (
                       <motion.div
@@ -412,14 +412,14 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
                   value={deleteConfirm}
                   onChange={e => setDeleteConfirm(e.target.value)}
                   placeholder="ELIMINAR"
-                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-[13px] focus:outline-none px-8 py-2 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
+                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-text2 focus:outline-none px-8 py-3 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
                 />
               </div>
 
               <button
                 onClick={handleDeleteAccount}
                 disabled={deleteConfirm !== 'ELIMINAR' || deleting}
-                className={`w-full py-2 text-[13px] tracking-[-0.04em] font-semibold transition-all duration-700 rounded-full border border-rose-500/20 ${deleteConfirm === 'ELIMINAR'
+                className={`w-full py-3 text-text2 tracking-[-0.04em] font-semibold transition-all duration-700 rounded-full border border-rose-500/20 ${deleteConfirm === 'ELIMINAR'
                   ? 'bg-rose-500 text-white shadow-[0_0_30px_rgba(244,63,94,0.4)] hover:scale-[1.02] active:scale-[0.98]'
                   : 'bg-rose-500/5 text-rose-500/40 opacity-50'
                   }`}

@@ -9,6 +9,7 @@ interface CaseFolderProps {
   difficulty: 'easy' | 'medium' | 'hard'
   previewCases: { id: string; difficulty: 'easy' | 'medium' | 'hard' }[]
   onOpen: () => void
+  isFocused?: boolean
 }
 
 const difficultyGlassColors = {
@@ -23,10 +24,12 @@ const difficultyShadows = {
   hard: '0 15px 30px -10px rgba(255, 23, 68, 0.15)',
 }
 
-export function CaseFolder({ title, count, difficulty, previewCases, onOpen }: CaseFolderProps) {
+export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isFocused = false }: CaseFolderProps) {
   const [isHovered, setIsHovered] = useState(false)
   const glassColor = difficultyGlassColors[difficulty]
   const bottomShadow = difficultyShadows[difficulty]
+
+  const active = isHovered || isFocused
 
   return (
     <motion.div
@@ -61,8 +64,8 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen }: C
                 transformOrigin: 'bottom center'
               }}
               animate={{
-                rotate: isHovered ? (i - 0.5) * 12 : (i - 0.5) * 6,
-                y: isHovered ? -45 : -10,
+                rotate: active ? (i - 0.5) * 12 : (i - 0.5) * 6,
+                y: active ? -45 : -10,
                 scale: 0.9 - (i * 0.05)
               }}
               transition={{ type: 'spring', stiffness: 200, damping: 30 }}
@@ -72,12 +75,12 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen }: C
 
         {/* 3. Folder Front (Opening Glass) */}
         <motion.div
-          className="absolute inset-0 z-20"
+          className="absolute inset-0 bg-white/20 backdrop-blur-md rounded-2xl border border-white/30 shadow-2xl z-20 origin-bottom"
           animate={{
-            rotateX: isHovered ? -35 : 0,
-            y: isHovered ? 15 : 0,
+            rotateX: active ? -35 : 0,
+            y: active ? 15 : 0,
           }}
-          style={{ transformOrigin: 'bottom' }}
+          style={{ transformStyle: 'preserve-3d' }}
           transition={{ type: 'spring', stiffness: 150, damping: 20 }}
         >
           <div
@@ -86,7 +89,7 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen }: C
               backgroundColor: glassColor,
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: isHovered ? bottomShadow : 'none',
+              boxShadow: active ? bottomShadow : 'none',
               transition: 'box-shadow 0.5s ease'
             }}
           >
