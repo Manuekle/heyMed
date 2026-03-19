@@ -115,7 +115,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
   ]
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-10 md:space-y-12">
 
       <PageHeader
         label="inicio"
@@ -129,7 +129,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
       {/* Metrics */}
       {hasMetrics && (
         <BlurFade delay={0.2}>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-8 md:gap-16 mb-16 md:mb-24 px-1 md:px-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-8 md:gap-16 mb-12 md:mb-24 px-1 md:px-4">
             <div className="flex gap-12 md:gap-16">
               <div>
                 <p className="text-[2rem] md:text-[2.5rem] text-foreground font-semibold tracking-[-0.04em] leading-none">{accuracy.accuracy}%</p>
@@ -171,7 +171,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
         initial={{ scaleX: 0, opacity: 0 }}
         animate={{ scaleX: 1, opacity: 1 }}
         transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        className="w-full h-px mb-12"
+        className="w-full h-px mb-8 md:mb-12"
         style={{ background: 'var(--border)', transformOrigin: 'left' }}
       />
 
@@ -195,7 +195,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
       )}
 
       {/* Filters */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-12 px-1">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8 md:mb-12 px-1">
         <div className="flex flex-wrap items-center gap-2">
           {(['all', 'cardio', 'neuro', 'gastro', 'urgencias', 'respiratorio'] as SystemFilter[]).map(s => {
             const active = sysFilter === s

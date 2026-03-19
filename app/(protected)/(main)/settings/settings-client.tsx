@@ -412,14 +412,14 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
                   value={deleteConfirm}
                   onChange={e => setDeleteConfirm(e.target.value)}
                   placeholder="ELIMINAR"
-                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-[16px] md:text-text2 focus:outline-none px-8 py-3 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
+                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-[16px] md:text-text2 focus:outline-none px-8 py-2 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
                 />
               </div>
 
               <button
                 onClick={handleDeleteAccount}
                 disabled={deleteConfirm !== 'ELIMINAR' || deleting}
-                className={`w-full py-3 text-text2 tracking-[-0.04em] font-semibold transition-all duration-700 rounded-full border border-rose-500/20 ${deleteConfirm === 'ELIMINAR'
+                className={`w-full py-2 text-text2 tracking-[-0.04em] font-semibold transition-all duration-700 rounded-full border border-rose-500/20 ${deleteConfirm === 'ELIMINAR'
                   ? 'bg-rose-500 text-white shadow-[0_0_30px_rgba(244,63,94,0.4)] hover:scale-[1.02] active:scale-[0.98]'
                   : 'bg-rose-500/5 text-rose-500/40 opacity-50'
                   }`}

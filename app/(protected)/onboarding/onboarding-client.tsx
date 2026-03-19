@@ -166,7 +166,13 @@ export function OnboardingClient({ userId, initialUsername }: Props) {
   const isLast = step === steps.length - 1
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden">
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center px-6 relative overflow-hidden"
+      style={{ 
+        paddingTop: 'env(safe-area-inset-top)',
+        paddingBottom: 'env(safe-area-inset-bottom)'
+      }}
+    >
 
       <div className="relative w-full max-w-xl">
         <BlurFade delay={0.1}>

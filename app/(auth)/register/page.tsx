@@ -45,7 +45,13 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-5 transition-colors duration-500">
+    <div 
+      className="min-h-screen flex flex-col items-center justify-center px-5 transition-colors duration-500"
+      style={{ 
+        paddingTop: 'env(safe-area-inset-top)',
+        paddingBottom: 'env(safe-area-inset-bottom)'
+      }}
+    >
       <div
         className="fixed inset-0 pointer-events-none opacity-40 dark:opacity-100"
         style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 50%, var(--color-primary-transparent) 0%, transparent 70%)' }}

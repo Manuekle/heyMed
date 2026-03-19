@@ -153,10 +153,16 @@ function Divider() {
 
 export function LandingPage() {
   return (
-    <div className="relative min-h-screen bg-background text-foreground selection:bg-primary/20 transition-colors duration-500 font-sans">
+    <div 
+      className="relative min-h-screen bg-background text-foreground selection:bg-primary/20 transition-colors duration-500 font-sans"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+    >
 
       {/* ── Header ────────────────────────────────────────────── */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-12 py-6 pointer-events-none">
+      <header 
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-12 py-6 pointer-events-none"
+        style={{ paddingTop: 'calc(1.5rem + env(safe-area-inset-top))' }}
+      >
         <div className="flex gap-2 pointer-events-auto">
           <BlurFade delay={0.2}>
             <Link href="/login" className="px-4 py-1.5 rounded-full bg-foreground text-background text-[11px] font-semibold tracking-[-0.04em] hover:scale-105 transition-all duration-300">
