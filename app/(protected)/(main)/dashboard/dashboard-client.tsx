@@ -226,11 +226,11 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
               onScroll={(e) => {
                 const target = e.currentTarget;
                 const scrollLeft = target.scrollLeft;
-                const itemWidth = 264; // min-w-240 + gap-6 (24)
+                const itemWidth = 288; // min-w-240 + gap-12 (48)
                 const index = Math.round(scrollLeft / itemWidth);
                 setActiveIndex(index);
               }}
-              className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible gap-6 md:gap-24 py-12 md:py-16 md:py-24 mb-20 scrollbar-none snap-x snap-mandatory px-0 md:px-0 scroll-padding-x-12 mobile-mask sm:pb-0 pb-40"
+              className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible gap-12 md:gap-24 py-12 md:py-16 md:py-24 mb-20 scrollbar-none snap-x snap-mandatory px-0 md:px-0 scroll-padding-x-12 mobile-mask sm:pb-0 pb-40"
               style={{
                 WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
                 maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',

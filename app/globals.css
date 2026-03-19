@@ -7,31 +7,31 @@
 
 /* ── Zen Design Tokens ─────────────────────────────────────── */
 @theme {
-  --font-sans:  'Inter Variable', sans-serif;
+  --font-sans: 'Inter Variable', sans-serif;
 
   /* Surface */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-muted:      var(--muted-foreground);
-  --color-subtle:     var(--muted);
+  --color-muted: var(--muted-foreground);
+  --color-subtle: var(--muted);
 
   /* Glass */
-  --color-glass:        oklch(from var(--foreground) l c h / 5%);
+  --color-glass: oklch(from var(--foreground) l c h / 5%);
   --color-glass-border: oklch(from var(--foreground) l c h / 10%);
 
   /* Semantic */
-  --color-border:      var(--border);
-  --color-card:        var(--card);
-  --color-primary:     var(--primary);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-primary: var(--primary);
   --color-primary-transparent: var(--color-primary-transparent);
   --color-destructive: var(--destructive);
-  --color-success:     #22C55E;
-  --color-warning:     #EAB308;
+  --color-success: #22C55E;
+  --color-warning: #EAB308;
 
   /* Premium Shadows */
-  --shadow-sm:  0 1px 3px rgba(0,0,0,0.02);
-  --shadow-md:  0 4px 8px -2px rgba(0,0,0,0.04);
-  --shadow-lg:  0 10px 20px -6px rgba(0,0,0,0.06);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 20px -6px rgba(0, 0, 0, 0.06);
   --shadow-glass: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
 
   /* UI Norms Typography */
@@ -66,85 +66,89 @@
 
 /* ── shadcn dark overrides ──────────────────────────────────── */
 :root {
-  --background:          oklch(0.98 0 0);
-  --foreground:          oklch(0.08 0 0);
-  --card:                oklch(0.96 0 0);
-  --card-foreground:     oklch(0.08 0 0);
-  --popover:             oklch(0.96 0 0);
-  --popover-foreground:  oklch(0.08 0 0);
-  --primary:             oklch(0.50 0.18 260);
-  --primary-foreground:  oklch(0.99 0 0);
-  --secondary:           oklch(0.93 0 0);
-  --secondary-foreground:oklch(0.12 0 0);
-  --muted:               oklch(0.93 0 0);
-  --muted-foreground:    oklch(0.46 0 0);
-  --accent:              oklch(0.93 0 0);
-  --accent-foreground:   oklch(0.12 0 0);
-  --destructive:         oklch(0.58 0.22 27);
-  --border:              oklch(0 0 0 / 9%);
-  --input:               oklch(0 0 0 / 8%);
-  --ring:                oklch(0.50 0.18 260 / 35%);
-  --radius:              0.5rem;
+  --background: oklch(0.98 0 0);
+  --foreground: oklch(0.08 0 0);
+  --card: oklch(0.96 0 0);
+  --card-foreground: oklch(0.08 0 0);
+  --popover: oklch(0.96 0 0);
+  --popover-foreground: oklch(0.08 0 0);
+  --primary: oklch(0.50 0.18 260);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.93 0 0);
+  --secondary-foreground: oklch(0.12 0 0);
+  --muted: oklch(0.93 0 0);
+  --muted-foreground: oklch(0.46 0 0);
+  --accent: oklch(0.93 0 0);
+  --accent-foreground: oklch(0.12 0 0);
+  --destructive: oklch(0.58 0.22 27);
+  --border: oklch(0 0 0 / 9%);
+  --input: oklch(0 0 0 / 8%);
+  --ring: oklch(0.50 0.18 260 / 35%);
+  --radius: 0.5rem;
   --color-primary-transparent: oklch(0.50 0.18 260 / 8%);
 }
 
 @theme inline {
-  --color-background:            var(--background);
-  --color-foreground:            var(--foreground);
-  --color-card:                  var(--card);
-  --color-card-foreground:       var(--card-foreground);
-  --color-popover:               var(--popover);
-  --color-popover-foreground:    var(--popover-foreground);
-  --color-primary:               var(--primary);
-  --color-primary-foreground:    var(--primary-foreground);
-  --color-secondary:             var(--secondary);
-  --color-secondary-foreground:  var(--secondary-foreground);
-  --color-muted:                 var(--muted);
-  --color-muted-foreground:      var(--muted-foreground);
-  --color-accent:                var(--accent);
-  --color-accent-foreground:     var(--accent-foreground);
-  --color-destructive:           var(--destructive);
-  --color-border:                var(--border);
-  --color-input:                 var(--input);
-  --color-ring:                  var(--ring);
-  --radius-sm:  calc(var(--radius) * 0.6);
-  --radius-md:  calc(var(--radius) * 0.8);
-  --radius-lg:  var(--radius);
-  --radius-xl:  calc(var(--radius) * 1.6);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.6);
   --radius-2xl: calc(var(--radius) * 2.4);
 }
 
 /* ── Dark theme ─────────────────────────────────────────────── */
 html.dark {
-  --background:          #0A0A0A;
-  --foreground:          #FAFAFA;
-  --card:                rgba(255, 255, 255, 0.05);
-  --card-foreground:     #FAFAFA;
-  --popover:             oklch(0.09 0 0);
-  --popover-foreground:  oklch(0.95 0.01 80);
-  --primary:             oklch(0.58 0.18 260);
-  --primary-foreground:  oklch(0.99 0 0);
-  --secondary:           oklch(0.15 0 0);
-  --secondary-foreground:oklch(0.95 0 0);
-  --muted:               oklch(0.15 0 0);
-  --muted-foreground:    oklch(0.48 0 0);
-  --accent:              oklch(0.15 0 0);
-  --accent-foreground:   oklch(0.95 0 0);
-  --destructive:         oklch(0.64 0.22 27);
-  --border:              rgba(255, 255, 255, 0.1);
-  --input:               rgba(255, 255, 255, 0.05);
-  --ring:                oklch(0.58 0.18 260 / 40%);
-  --radius:              0.5rem;
+  --background: #0A0A0A;
+  --foreground: #FAFAFA;
+  --card: rgba(255, 255, 255, 0.05);
+  --card-foreground: #FAFAFA;
+  --popover: oklch(0.09 0 0);
+  --popover-foreground: oklch(0.95 0.01 80);
+  --primary: oklch(0.58 0.18 260);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.15 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.15 0 0);
+  --muted-foreground: oklch(0.48 0 0);
+  --accent: oklch(0.15 0 0);
+  --accent-foreground: oklch(0.95 0 0);
+  --destructive: oklch(0.64 0.22 27);
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.05);
+  --ring: oklch(0.58 0.18 260 / 40%);
+  --radius: 0.5rem;
   --color-primary-transparent: oklch(0.58 0.18 260 / 5%);
 }
 
 /* ── Hide scrollbars globally ───────────────────────────────── */
 * {
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* IE / Edge legacy */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE / Edge legacy */
 }
+
 *::-webkit-scrollbar {
-  display: none;                /* Chrome, Safari, Edge */
+  display: none;
+  /* Chrome, Safari, Edge */
 }
 
 /* ── Base ───────────────────────────────────────────────────── */
@@ -152,21 +156,30 @@ html.dark {
   * {
     @apply border-border outline-ring/50;
   }
+
   html {
     @apply font-sans;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
   body {
     background-color: var(--background);
     color: var(--foreground);
     letter-spacing: -0.02em;
     font-weight: 400;
   }
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     letter-spacing: -0.04em;
     font-weight: 600;
   }
+
   .subtitle {
     letter-spacing: -0.02em;
     font-weight: 500;
@@ -189,31 +202,37 @@ html.dark {
     line-height: var(--line-height-heading1);
     font-weight: var(--font-weight-heading1);
   }
+
   .text-heading2 {
     font-size: var(--font-size-heading2);
     line-height: var(--line-height-heading2);
     font-weight: var(--font-weight-heading2);
   }
+
   .text-heading3 {
     font-size: var(--font-size-heading3);
     line-height: var(--line-height-heading3);
     font-weight: var(--font-weight-heading3);
   }
+
   .text-text1 {
     font-size: var(--font-size-text1);
     line-height: var(--line-height-text1);
     font-weight: 400;
   }
+
   .text-text2 {
     font-size: var(--font-size-text2);
     line-height: var(--line-height-text2);
     font-weight: 400;
   }
+
   .text-text3 {
     font-size: var(--font-size-text3);
     line-height: var(--line-height-text3);
     font-weight: 400;
   }
+
   .text-text4 {
     font-size: var(--font-size-text4);
     line-height: var(--line-height-text4);
@@ -237,28 +256,29 @@ html.dark {
     box-shadow: var(--shadow-glass);
     position: relative;
   }
+
   .glass::before {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(
-      135deg,
-      oklch(from var(--foreground) l c h / 15%),
-      transparent 40%,
-      transparent 60%,
-      oklch(from var(--foreground) l c h / 10%)
-    );
+    background: linear-gradient(135deg,
+        oklch(from var(--foreground) l c h / 15%),
+        transparent 40%,
+        transparent 60%,
+        oklch(from var(--foreground) l c h / 10%));
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
   }
+
   .glass-hover {
     transition: background 500ms cubic-bezier(0.16, 1, 0.3, 1), border-color 500ms cubic-bezier(0.16, 1, 0.3, 1), transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
   }
+
   .glass-hover:hover {
     background: oklch(from var(--foreground) l c h / 6%);
     border-color: oklch(from var(--foreground) l c h / 20%);
@@ -267,16 +287,14 @@ html.dark {
 
   /* Folder Shapes */
   .folder-shape {
-    clip-path: polygon(
-      0% 20px,
-      10% 20px,
-      15% 0%,
-      45% 0%,
-      50% 20px,
-      100% 20px,
-      100% 100%,
-      0% 100%
-    );
+    clip-path: polygon(0% 20px,
+        10% 20px,
+        15% 0%,
+        45% 0%,
+        50% 20px,
+        100% 20px,
+        100% 100%,
+        0% 100%);
   }
 
   .mobile-mask {
@@ -299,6 +317,7 @@ html.dark {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
     transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
   }
+
   .crystal:hover {
     background: oklch(from var(--foreground) l c h / 8%);
     border-color: oklch(from var(--foreground) l c h / 25%);

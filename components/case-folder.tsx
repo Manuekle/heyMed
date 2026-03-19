@@ -44,7 +44,7 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isF
       <div style={{ perspective: '1200px' }} className="relative h-[180px]">
         {/* 1. Folder Back (Glass layer) */}
         <div
-          className="absolute inset-0 z-0 rounded-[1.5rem] border border-white/10 overflow-hidden"
+          className="absolute inset-0 z-0 rounded-[1.8rem] border border-white/10 overflow-hidden"
           style={{
             backgroundColor: glassColor,
             backdropFilter: 'blur(16px)',
@@ -58,7 +58,7 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isF
           {[0, 1].map((i) => (
             <motion.div
               key={i}
-              className="absolute w-[85%] aspect-[4/3] bg-white dark:bg-zinc-100 rounded-2xl shadow-sm border border-black/5"
+              className="absolute w-[85%] aspect-[4/3] bg-white dark:bg-zinc-100 rounded-[1.5rem] shadow-sm border border-black/5"
               style={{
                 zIndex: i,
                 transformOrigin: 'bottom center'
@@ -75,7 +75,7 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isF
 
         {/* 3. Folder Front (Opening Glass) */}
         <motion.div
-          className="absolute inset-0 bg-white/20 backdrop-blur-md rounded-2xl border border-white/30 shadow-2xl z-20 origin-bottom"
+          className="absolute inset-0 z-20 origin-bottom"
           animate={{
             rotateX: active ? -35 : 0,
             y: active ? 15 : 0,
@@ -83,8 +83,16 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isF
           style={{ transformStyle: 'preserve-3d' }}
           transition={{ type: 'spring', stiffness: 150, damping: 20 }}
         >
+          {/* Glass Shadow Internal */}
           <div
-            className="w-full h-full rounded-[1.5rem] border-t border-white/30 p-6 flex flex-col justify-end relative overflow-hidden"
+            className={`absolute inset-0 rounded-[1.8rem] transition-opacity duration-500 ${active ? "opacity-30" : "opacity-0"}`}
+            style={{
+              background: 'radial-gradient(circle at 50% 100%, white, transparent 70%)',
+              zIndex: 1
+            }}
+          />
+          <div
+            className="w-full h-full rounded-[1.8rem] border border-white/20 p-6 flex flex-col justify-end relative overflow-hidden"
             style={{
               backgroundColor: glassColor,
               backdropFilter: 'blur(20px)',
