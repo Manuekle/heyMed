@@ -50,6 +50,7 @@ Estudiante: ${user_answer}`,
     return new Response(JSON.stringify({ error: err }), { status: 500 })
   }
 
+  const supabase = await createClient()
   const encoder = new TextEncoder()
   const decoder = new TextDecoder()
 
@@ -111,12 +112,11 @@ Estudiante: ${user_answer}`,
         const explanation = (firstNewline !== -1 ? accumulated.slice(firstNewline + 1) : '').trim()
 
         if (['correct', 'partial', 'incorrect'].includes(verdict)) {
-          const supabase = await createClient()
-          supabase
+          // Usamos el cliente supabase inicializado arriba, fuera del callback:
+          await supabase
             .from('attempts')
             .update({ ai_result: verdict, ai_explanation: explanation })
             .eq('id', attempt_id)
-            .then(() => { })
         }
 
         controller.close()

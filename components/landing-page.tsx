@@ -143,6 +143,34 @@ const plans = [
   },
 ]
 
+const faqs = [
+  {
+    q: '¿qué es heymed!?',
+    a: 'Según estudios recientes, el 70% de los errores médicos son de diagnóstico. heyMed! es una plataforma educativa impulsada por IA que entrena tu razonamiento clínico usando casos reales y evaluación semántica, reduciendo significativamente este margen de error.'
+  },
+  {
+    q: '¿cómo evalúa la inteligencia artificial mis diagnósticos?',
+    a: 'Nuestra IA no requiere respuestas exactas de opción múltiple. Analiza semánticamente tu diagnóstico clínico escrito en lenguaje natural, identificando sinónimos y niveles de especificidad con una enorme precisión.'
+  },
+  {
+    q: '¿sirve para prepararme para enarm, mir o usmle?',
+    a: 'Absolutamente. Más de 10.000 horas de práctica clínica simulada demuestran que el método de repetición espaciada y diagnóstico libre prepara mejor a los estudiantes y médicos residentes para exámenes oficiales y situaciones reales.'
+  }
+]
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map(faq => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a
+    }
+  }))
+}
+
 function Divider() {
   return (
     <div className="relative z-10 max-w-4xl mx-auto px-6">
@@ -157,6 +185,11 @@ export function LandingPage() {
       className="relative min-h-screen bg-background text-foreground selection:bg-primary/20 transition-colors duration-500 font-sans"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+
 
       {/* ── Header ────────────────────────────────────────────── */}
       <header
@@ -187,13 +220,20 @@ export function LandingPage() {
 
             {/* Avatar Tag */}
             <BlurFade delay={0.4}>
-              <div className='h-20 w-20 mb-10'>
+              <div className='h-30 w-30 mb-10'>
                 <Image
-                  src="/icon.png"
+                  src="/light.png"
                   alt="heyMed! logo"
-                  className="w-full h-full object-contain"
-                  width={712}
-                  height={712}
+                  className="hidden dark:block w-full h-full object-contain"
+                  width={500}
+                  height={500}
+                />
+                <Image
+                  src="/icon_dark.png"
+                  alt="heyMed! logo"
+                  className="block dark:hidden w-full h-full object-contain"
+                  width={500}
+                  height={500}
                 />
               </div>
 
@@ -209,7 +249,7 @@ export function LandingPage() {
             {/* Subheading */}
             <BlurFade delay={0.6}>
               <p className="text-foreground/40 text-lg md:text-xl font-medium tracking-[-0.03em] max-w-xl mx-auto mb-14 leading-relaxed lowercase">
-                sin opciones múltiples. la ia evalúa tus diagnósticos en lenguaje natural tal como sucede en la clínica real.
+                el 70% de los errores médicos son de diagnóstico. prepárate analizando casos sin opciones múltiples. la ia evalúa tus diagnósticos en lenguaje natural tal como sucede en la clínica real.
               </p>
             </BlurFade>
 
@@ -424,6 +464,41 @@ export function LandingPage() {
                         </button>
                       </Link>
                     </div>
+                  </div>
+                </BlurFade>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ Section (GEO Optimized) ──────────────────────── */}
+      <section className="py-8 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-card rounded-[2.5rem] md:rounded-[4rem] shadow-sm border border-foreground/[0.01] px-6 md:px-20 py-16 md:py-24">
+            <div className="flex flex-col items-center text-center mb-16">
+              <BlurFade delay={0.1}>
+                <div className="px-4 py-1.5 rounded-full bg-muted text-foreground/60 text-[10px] font-semibold tracking-[-0.04em] mb-8 lowercase">
+                  preguntas frecuentes
+                </div>
+              </BlurFade>
+              <BlurFade delay={0.2}>
+                <h2 className="text-[2.2rem] md:text-[3rem] font-semibold tracking-[-0.04em] leading-tight text-foreground max-w-2xl px-4 lowercase">
+                  lo que necesitas saber.
+                </h2>
+              </BlurFade>
+            </div>
+
+            <div className="grid gap-8 max-w-3xl mx-auto">
+              {faqs.map((faq, i) => (
+                <BlurFade key={i} delay={0.1 + i * 0.1}>
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground lowercase">
+                      {faq.q}
+                    </h3>
+                    <p className="text-[13px] leading-relaxed font-medium text-foreground/40 tracking-[-0.02em]">
+                      {faq.a}
+                    </p>
                   </div>
                 </BlurFade>
               ))}
