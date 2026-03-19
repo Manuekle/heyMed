@@ -13,15 +13,15 @@ interface CaseFolderProps {
 }
 
 const difficultyGlassColors = {
-  easy: 'rgba(0, 200, 83, 0.4)',
-  medium: 'rgba(255, 171, 0, 0.4)',
-  hard: 'rgba(255, 23, 68, 0.4)',
+  easy: 'rgba(0, 200, 83, 0.48)',
+  medium: 'rgba(255, 171, 0, 0.48)',
+  hard: 'rgba(255, 23, 68, 0.48)',
 }
 
 const difficultyShadows = {
-  easy: '0 15px 30px -10px rgba(0, 200, 83, 0.15)',
-  medium: '0 15px 30px -10px rgba(255, 171, 0, 0.15)',
-  hard: '0 15px 30px -10px rgba(255, 23, 68, 0.15)',
+  easy: '0 15px 35px -10px rgba(0, 200, 83, 0.2)',
+  medium: '0 15px 35px -10px rgba(255, 171, 0, 0.2)',
+  hard: '0 15px 35px -10px rgba(255, 23, 68, 0.2)',
 }
 
 export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isFocused = false }: CaseFolderProps) {
@@ -47,9 +47,10 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isF
           className="absolute inset-0 z-0 rounded-[1.8rem] border border-white/10 overflow-hidden"
           style={{
             backgroundColor: glassColor,
-            backdropFilter: 'blur(16px)',
-            WebkitBackdropFilter: 'blur(16px)',
-            boxShadow: bottomShadow
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            boxShadow: bottomShadow,
+            transform: 'translateZ(0)'
           }}
         />
 
@@ -94,9 +95,10 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isF
           <div
             className="w-full h-full rounded-[1.8rem] border border-white/20 p-6 flex flex-col justify-end relative overflow-hidden"
             style={{
-              backgroundColor: glassColor,
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
+              backgroundColor: glassColor, // Asegúrate que sea semi-transparente
+              backdropFilter: 'blur(32px)',
+              WebkitBackdropFilter: 'blur(32px)',
+              transform: 'translateZ(0)', // <--- Añade esto para "despertar" a la GPU en móvil
               boxShadow: active ? bottomShadow : 'none',
               transition: 'box-shadow 0.5s ease'
             }}

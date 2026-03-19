@@ -230,11 +230,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
                 const index = Math.round(scrollLeft / itemWidth);
                 setActiveIndex(index);
               }}
-              className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible gap-12 md:gap-24 py-12 md:py-16 md:py-24 mb-20 scrollbar-none snap-x snap-mandatory px-0 md:px-0 scroll-padding-x-12 mobile-mask sm:pb-0 pb-40"
-              style={{
-                WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-                maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
-              }}
+              className="flex md:grid md:grid-cols-3 overflow-x-auto md:overflow-visible gap-12 md:gap-24 py-12 md:py-16 md:py-24 mb-20 scrollbar-none snap-x snap-mandatory px-0 md:px-0 scroll-padding-x-12 sm:pb-0 pb-40"
             >
               {folderData.map((f, i) => (
                 <motion.div
@@ -255,8 +251,6 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
                 </motion.div>
               ))}
             </motion.div>
-
-
           </div>
         ) : (
           <motion.div
@@ -285,7 +279,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
               </div>
             ) : (
               <div className="relative">
-                <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 overflow-x-auto md:overflow-visible gap-4 md:gap-6 scrollbar-none snap-x snap-mandatory px-0 md:px-0 scroll-padding-x-8 mobile-mask sm:pb-0 pb-12">
+                <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 overflow-x-auto md:overflow-visible gap-4 md:gap-6 scrollbar-none snap-x snap-mandatory px-0 md:px-0 scroll-padding-x-8 sm:pb-0 pb-12">
                   {filteredCases.map((c, i) => (
                     <motion.div
                       key={c.id}
