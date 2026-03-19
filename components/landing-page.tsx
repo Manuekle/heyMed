@@ -153,13 +153,13 @@ function Divider() {
 
 export function LandingPage() {
   return (
-    <div 
+    <div
       className="relative min-h-screen bg-background text-foreground selection:bg-primary/20 transition-colors duration-500 font-sans"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
 
       {/* ── Header ────────────────────────────────────────────── */}
-      <header 
+      <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 md:px-12 py-6 pointer-events-none"
         style={{ paddingTop: 'calc(1.5rem + env(safe-area-inset-top))' }}
       >
@@ -231,7 +231,7 @@ export function LandingPage() {
         <BlurFade delay={0.8}>
           <div className="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-x-10 gap-y-6 text-muted-foreground">
             {['cardiología', 'neurología', 'gastroenterología', 'neumología', 'urgencias', 'pediatría'].map((specialty) => (
-              <span key={specialty} className="text-[15px] font-semibold tracking-[-0.04em] lowercase italic">
+              <span key={specialty} className="text-[12px] font-semibold tracking-[-0.04em] lowercase italic">
                 {specialty}
               </span>
             ))}
@@ -297,7 +297,7 @@ export function LandingPage() {
                     </div>
                     <div className="space-y-3">
                       <h3 className="text-lg font-semibold tracking-[-0.03em] text-foreground lowercase">{f.title}</h3>
-                      <p className="text-[14px] leading-relaxed font-medium text-foreground/30 tracking-[-0.02em] group-hover:text-foreground/50 transition-colors">
+                      <p className="text-[12px] leading-relaxed font-medium text-foreground/30 tracking-[-0.02em] group-hover:text-foreground/50 transition-colors">
                         {f.body}
                       </p>
                     </div>
@@ -333,7 +333,7 @@ export function LandingPage() {
                     <span className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em]  italic">{step.n}</span>
                     <div className="space-y-4">
                       <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground lowercase">{step.title}</h3>
-                      <p className="text-[14px] leading-relaxed font-medium text-foreground/40 tracking-[-0.02em]">{step.body}</p>
+                      <p className="text-[12px] leading-relaxed font-medium text-foreground/40 tracking-[-0.02em]">{step.body}</p>
                       <p className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em] leading-relaxed">{step.detail}</p>
                     </div>
                   </div>
@@ -368,7 +368,7 @@ export function LandingPage() {
                     <div className="rounded-[2rem] bg-card p-10 flex flex-col md:flex-row md:items-center gap-10">
                       <div className="flex-1">
                         <p className="text-xl font-semibold text-foreground mb-3 tracking-[-0.03em] lowercase">{m.label}</p>
-                        <p className="text-foreground/40 text-[15px] leading-relaxed max-w-xl font-medium tracking-[-0.02em]">{m.desc}</p>
+                        <p className="text-foreground/40 text-[12px] leading-relaxed max-w-xl font-medium tracking-[-0.02em]">{m.desc}</p>
                       </div>
                       <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center group-hover:translate-x-2 transition-transform duration-500 shrink-0">
                         <HugeiconsIcon icon={ArrowRight01Icon} size={20} />

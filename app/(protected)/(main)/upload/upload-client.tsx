@@ -462,7 +462,7 @@ export function UploadClient({ userId }: { userId: string }) {
               >
                 <div className="flex items-center gap-2.5">
                   <HugeiconsIcon icon={SparklesIcon} size={16} />
-                  <span className="font-semibold tracking-[-0.04em] text-[14px]">
+                  <span className="font-semibold tracking-[-0.04em] text-[12px]">
                     {processing ? 'procesando...' : 'analizar con ia'}
                   </span>
                 </div>
@@ -501,7 +501,7 @@ export function UploadClient({ userId }: { userId: string }) {
                   <div className="w-10 h-10 rounded-xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary/60">
                     <HugeiconsIcon icon={AiIdeaIcon} size={20} />
                   </div>
-                  <h4 className="text-[15px] font-semibold tracking-[-0.04em] text-foreground/80">instrucciones de caso</h4>
+                  <h4 className="text-[12px] font-semibold tracking-[-0.04em] text-foreground/80">instrucciones de caso</h4>
                 </div>
                 {(() => {
                   const conf = difficultyConfig[preview.difficulty]
@@ -583,7 +583,7 @@ export function UploadClient({ userId }: { userId: string }) {
                   className="px-8 py-2 rounded-full"
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className="font-semibold text-[15px] tracking-[-0.04em]">
+                    <span className="font-semibold text-[12px] tracking-[-0.04em]">
                       {saving ? 'guardando...' : 'confirmar y guardar'}
                     </span>
                   </div>

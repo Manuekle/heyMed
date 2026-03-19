@@ -48,7 +48,7 @@ export function ResultCard({
               <HugeiconsIcon icon={current.icon} size={18} strokeWidth={2.5} />
             </div>
             <div>
-              <p className="text-[15px] tracking-[-0.04em] text-muted-foreground/60 font-semibold">Análisis</p>
+              <p className="text-[12px] tracking-[-0.04em] text-muted-foreground/60 font-semibold">Análisis</p>
               <h3 className="text-sm font-medium text-foreground tracking-[-0.04em]">{current.label}</h3>
             </div>
           </div>
@@ -90,7 +90,7 @@ export function ResultCard({
                 animate={{ opacity: 1 }}
                 className="pt-4 border-t border-black/[0.03] dark:border-white/[0.03]"
               >
-                <span className="text-[15px] tracking-[-0.04em] text-muted-foreground/40 font-semibold block mb-1">
+                <span className="text-[12px] tracking-[-0.04em] text-muted-foreground/40 font-semibold block mb-1">
                   Referencia Clínica
                 </span>
                 <p className="text-[12px] text-foreground/60 italic font-light leading-snug">

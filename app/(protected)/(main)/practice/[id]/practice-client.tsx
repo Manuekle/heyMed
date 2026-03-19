@@ -144,7 +144,7 @@ function DifferentialInput({
                 onChange={e => updateDiff(i, e.target.value)}
                 disabled={disabled}
                 placeholder={i === 0 ? 'principal alternativa' : i === 1 ? 'segunda opción' : 'tercera opción'}
-                className="flex-1 bg-transparent text-foreground placeholder:text-foreground/20 focus:outline-none font-medium text-[14px] md:text-text1 tracking-[-0.04em] disabled:opacity-40 transition-colors border-b border-border/30 focus:border-yellow-500/20 pb-2 md:pb-3"
+                className="flex-1 bg-transparent text-foreground placeholder:text-foreground/20 focus:outline-none font-medium text-[12px] md:text-text1 tracking-[-0.04em] disabled:opacity-40 transition-colors border-b border-border/30 focus:border-yellow-500/20 pb-2 md:pb-3"
               />
             </div>
           ))}
@@ -662,7 +662,7 @@ export function PracticeClient({
             <ShinyButton
               onClick={() => handleSubmit()}
               disabled={!canSubmit || loading}
-              className={`w-full sm:w-auto rounded-full px-8 py-3 md:py-2 transition-all duration-500 ${resolvedMode === 'quick' ? 'hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
+              className={`w-full sm:w-auto rounded-full text-[12px] px-6 py-2 transition-all duration-500 ${resolvedMode === 'quick' ? 'hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
                 resolvedMode === 'differential' ? 'hover:shadow-[0_0_20px_rgba(234,179,8,0.2)]' :
                   'hover:shadow-[0_0_20px_rgba(34,197,94,0.2)]'
                 }`}
@@ -702,7 +702,7 @@ export function PracticeClient({
             className="flex flex-col items-center gap-12 pt-16"
           >
             {resolvedMode === 'quick' && autoAdvanceIn !== null ? (
-              <p className="text-[13px] font-semibold text-foreground/10 tracking-[-0.04em] tabular-nums">
+              <p className="text-[12px] font-semibold text-foreground/10 tracking-[-0.04em] tabular-nums">
                 siguiente caso en {autoAdvanceIn}...
               </p>
             ) : (
@@ -710,16 +710,16 @@ export function PracticeClient({
                 <div className="flex flex-row items-center gap-4 sm:gap-8 w-full sm:w-auto px-6 sm:px-0">
                   <button
                     onClick={handleRetry}
-                    className="w-full sm:w-auto text-[15px] font-semibold text-foreground/20 hover:text-foreground transition-all duration-700 tracking-[-0.04em] px-8 py-3 rounded-full hover:bg-foreground/[0.03]"
+                    className="w-full sm:w-auto text-[12px] font-semibold text-foreground/20 hover:text-foreground transition-all duration-700 tracking-[-0.04em] px-8 py-2 rounded-full hover:bg-foreground/[0.03]"
                   >
                     intentar de nuevo
                   </button>
                   <ShinyButton
                     onClick={handleNextCase}
-                    className="w-full sm:w-auto px-8 py-3 rounded-full"
+                    className="w-full sm:w-auto px-8 py-2 rounded-full"
                   >
                     <div className="flex items-center justify-center gap-3">
-                      <span className="font-semibold text-[15px] tracking-[-0.04em]">
+                      <span className="font-semibold text-[12px] tracking-[-0.04em]">
                         {nextCaseId ? 'siguiente caso' : 'ver resumen'}
                       </span>
                       <HugeiconsIcon icon={ArrowRight01Icon} size={18} />
@@ -796,7 +796,7 @@ function SessionSummary({ stats, difficultyFilter, mode, onReturn }: {
           onClick={onReturn}
           className="px-6 py-2 rounded-full"
         >
-          <div className="flex items-center gap-3 font-semibold text-[15px] tracking-[-0.04em]">
+          <div className="flex items-center gap-3 font-semibold text-[12px] tracking-[-0.04em]">
             <HugeiconsIcon icon={ArrowLeft01Icon} size={18} />
             <span>terminar sesión</span>
           </div>
