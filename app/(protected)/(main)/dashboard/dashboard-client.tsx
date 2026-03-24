@@ -191,7 +191,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
           >
             <Link
               href={`/practice/${firstReviewCase.id}?mode=review`}
-              className="inline-flex items-center gap-3 text-text4 tracking-[-0.01em] font-medium  py-2.5 rounded-xl transition-all duration-300 text-rose-500/80 hover:bg-rose-500/5 hover:text-rose-500"
+              className="inline-flex items-center gap-3 text-xs md:text-sm tracking-[-0.01em] font-medium  py-2.5 rounded-xl transition-all duration-300 text-rose-500/80 hover:bg-rose-500/5 hover:text-rose-500"
               style={{ background: 'oklch(var(--color-destructive) / 5%)', border: '1px solid oklch(var(--color-destructive) / 10%)' }}
             >
               <span className="lowercase">revisar {reviewCases.length} caso{reviewCases.length !== 1 ? 's' : ''} pendientes</span>
@@ -211,14 +211,14 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
                 <button
                   key={s}
                   onClick={() => setSysFilter(s)}
-                  className={`text-text4 tracking-[-0.02em] font-medium px-4 md: py-2 rounded-full transition-all duration-300 ${active ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-muted-foreground hover:bg-foreground/5'}`}
+                  className={`text-xs md:text-sm tracking-[-0.02em] font-medium px-4 md: py-2 rounded-full transition-all duration-300 ${active ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-muted-foreground hover:bg-foreground/5'}`}
                 >
                   {systemLabels[s]}
                 </button>
               )
             })}
           </div>
-          <span className="text-text4 font-medium text-muted-foreground tabular-nums">{filteredCases.length} casos</span>
+          <span className="text-xs md:text-sm font-medium text-muted-foreground tabular-nums">{filteredCases.length} casos</span>
         </div>
       </div>
 
@@ -274,7 +274,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
                 <h2 className="text-heading2 font-semibold tracking-[-0.04em]">{difficultyLabels[expandedDifficulty]}</h2>
                 <button
                   onClick={() => setExpandedDifficulty(null)}
-                  className="flex items-center gap-2 text-text4 font-medium text-muted hover:text-muted/80 transition-all px-5 py-2 rounded-full bg-foreground border border-border"
+                  className="flex items-center gap-2 text-xs md:text-sm font-medium text-muted hover:text-muted/80 transition-all px-5 py-2 rounded-full bg-foreground border border-border"
                 >
                   <HugeiconsIcon icon={ArrowLeft01Icon} size={14} />
                   <span>volver a carpetas</span>
