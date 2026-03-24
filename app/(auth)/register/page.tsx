@@ -45,9 +45,9 @@ export default function RegisterPage() {
   }
 
   return (
-    <div 
+    <div
       className="min-h-screen flex flex-col items-center justify-center px-5 transition-colors duration-500"
-      style={{ 
+      style={{
         paddingTop: 'env(safe-area-inset-top)',
         paddingBottom: 'env(safe-area-inset-bottom)'
       }}
@@ -66,7 +66,7 @@ export default function RegisterPage() {
                 size={14}
                 className="transition-transform duration-500 group-hover:-translate-x-1"
               />
-              <span className="lowercase">página inicial</span>
+              <span className="lowercase text-xs">página inicial</span>
             </Link>
           </div>
         </BlurFade>
@@ -146,7 +146,7 @@ export default function RegisterPage() {
                 <GoogleButton />
               </form>
 
-              <p className="mt-20 text-center text-text4 tracking-[-0.04em] font-medium text-foreground/20 lowercase">
+              <p className="mt-20 text-xs text-center text-text4 tracking-[-0.04em] font-medium text-foreground/20 lowercase">
                 ¿ya tienes cuenta?{' '}
                 <Link href="/login" className="inline-flex items-center gap-2 text-foreground/40 hover:text-primary transition-all duration-300 ml-3 group">
                   <span className="font-semibold tracking-[-0.04em] lowercase">iniciar sesión</span>
