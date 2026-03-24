@@ -650,13 +650,13 @@ export function PracticeClient({
             <ShinyButton
               onClick={() => handleSubmit()}
               disabled={!canSubmit || loading}
-              className={`w-full sm:w-auto rounded-full text-xs md:text-sm px-6 py-2 transition-all duration-500 ${resolvedMode === 'quick' ? 'hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
+              className={`w-full sm:w-auto rounded-full px-6 py-2 transition-all duration-500 ${resolvedMode === 'quick' ? 'hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]' :
                 resolvedMode === 'differential' ? 'hover:shadow-[0_0_20px_rgba(234,179,8,0.2)]' :
                   'hover:shadow-[0_0_20px_rgba(34,197,94,0.2)]'
                 }`}
             >
               <div className="flex items-center justify-center gap-3">
-                <span className="font-semibold tracking-[-0.04em]">
+                <span className="font-semibold text-xs md:text-sm tracking-[-0.04em]">
                   {loading ? 'evaluando...' : 'evaluar ahora'}
                 </span>
               </div>

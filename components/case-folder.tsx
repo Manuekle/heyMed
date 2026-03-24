@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 
 interface CaseFolderProps {
   title: string
@@ -26,6 +26,7 @@ const difficultyShadows = {
 
 export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isFocused = false }: CaseFolderProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const touchStart = useRef<{ x: number; y: number } | null>(null)
   const glassColor = difficultyGlassColors[difficulty]
   const bottomShadow = difficultyShadows[difficulty]
 
@@ -36,8 +37,24 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isF
       className="relative cursor-pointer group w-full max-w-[240px] mx-auto"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onTouchStart={() => setIsHovered(true)}
-      onTouchEnd={() => { setTimeout(() => setIsHovered(false), 600); onOpen(); }}
+      onTouchStart={(e) => {
+        const t = e.touches[0]
+        touchStart.current = { x: t.clientX, y: t.clientY }
+      }}
+      onTouchEnd={(e) => {
+        const start = touchStart.current
+        if (!start) return
+        const t = e.changedTouches[0]
+        const dx = Math.abs(t.clientX - start.x)
+        const dy = Math.abs(t.clientY - start.y)
+        // Only treat as tap if finger moved < 10px (not a swipe)
+        if (dx < 10 && dy < 10) {
+          setIsHovered(true)
+          setTimeout(() => setIsHovered(false), 600)
+          onOpen()
+        }
+        touchStart.current = null
+      }}
       onClick={onOpen}
       whileTap={{ scale: 1.05 }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
