@@ -73,11 +73,19 @@ export async function POST(req: NextRequest) {
   const text = textBlock?.text ?? ''
 
   try {
-    const processed: ProcessedCase = JSON.parse(text)
+    // Strip markdown code fences that the AI sometimes wraps around JSON
+    const cleaned = text
+      .replace(/^```(?:json)?\s*\n?/i, '')
+      .replace(/\n?```\s*$/i, '')
+      .trim()
+
+    const processed: ProcessedCase = JSON.parse(cleaned)
     if (!processed.description || !processed.correct_diagnosis) throw new Error('Respuesta incompleta')
     if (!processed.system) processed.system = 'otro'
     return NextResponse.json(processed)
-  } catch {
+  } catch (err) {
+    console.error('[process-case] Failed to parse AI response:', text)
+    console.error('[process-case] Parse error:', err)
     return NextResponse.json({ error: 'La IA devolvió un formato inesperado.' }, { status: 500 })
   }
 }
