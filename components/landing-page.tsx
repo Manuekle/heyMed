@@ -198,7 +198,7 @@ export function LandingPage() {
       >
         <div className="flex gap-2 pointer-events-auto">
           <BlurFade delay={0.2}>
-            <Link href="/login" className="px-4 py-1.5 rounded-full bg-foreground text-background text-[11px] font-semibold tracking-[-0.04em] hover:scale-105 transition-all duration-300">
+            <Link href="/login" className="px-4 py-1.5 rounded-full bg-foreground text-background text-xs font-semibold tracking-[-0.04em] hover:scale-105 transition-all duration-300">
               entrar
             </Link>
           </BlurFade>
@@ -206,7 +206,7 @@ export function LandingPage() {
 
         <div className="hidden md:flex items-center gap-6 pointer-events-auto">
           <BlurFade delay={0.3}>
-            <div className="flex gap-6 text-[11px] font-semibold text-foreground/20 tracking-[-0.04em]">
+            <div className="flex gap-6 text-xs font-semibold text-foreground/20 tracking-[-0.04em]">
               <span className="cursor-pointer hover:text-foreground transition-colors lowercase italic">instagram</span>
             </div>
           </BlurFade>
@@ -256,7 +256,7 @@ export function LandingPage() {
             {/* CTA */}
             <BlurFade delay={0.7}>
               <Link href="/register">
-                <button className="px-10 py-2 rounded-full bg-foreground text-background text-[13px] font-semibold tracking-[-0.04em] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-3 group shadow-xl shadow-foreground/10">
+                <button className="px-10 py-2 rounded-full bg-foreground text-background text-sm font-semibold tracking-[-0.04em] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center gap-3 group shadow-xl shadow-foreground/10">
                   <span>Comenzar gratis</span>
                   <HugeiconsIcon icon={ArrowRight01Icon} size={16} className="group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -271,7 +271,7 @@ export function LandingPage() {
         <BlurFade delay={0.8}>
           <div className="max-w-6xl mx-auto flex flex-wrap justify-center items-center gap-x-10 gap-y-6 text-muted-foreground">
             {['cardiología', 'neurología', 'gastroenterología', 'neumología', 'urgencias', 'pediatría'].map((specialty) => (
-              <span key={specialty} className="text-[12px] font-semibold tracking-[-0.04em] lowercase italic">
+              <span key={specialty} className="text-xs font-semibold tracking-[-0.04em] lowercase italic">
                 {specialty}
               </span>
             ))}
@@ -303,7 +303,7 @@ export function LandingPage() {
                     <span className="text-foreground/60 font-semibold tracking-[-0.03em] lowercase">insuficiencia cardíaca congestiva...</span>
                     <div className="flex items-center gap-2 text-emerald-600">
                       <HugeiconsIcon icon={StarIcon} size={16} />
-                      <span className="text-[13px] font-semibold tracking-[-0.04em]">91/100</span>
+                      <span className="text-sm font-semibold tracking-[-0.04em]">91/100</span>
                     </div>
                   </div>
                 </div>
@@ -337,7 +337,7 @@ export function LandingPage() {
                     </div>
                     <div className="space-y-3">
                       <h3 className="text-lg font-semibold tracking-[-0.03em] text-foreground lowercase">{f.title}</h3>
-                      <p className="text-[12px] leading-relaxed font-medium text-foreground/30 tracking-[-0.02em] group-hover:text-foreground/50 transition-colors">
+                      <p className="text-xs leading-relaxed font-medium text-foreground/30 tracking-[-0.02em] group-hover:text-foreground/50 transition-colors">
                         {f.body}
                       </p>
                     </div>
@@ -373,7 +373,7 @@ export function LandingPage() {
                     <span className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em]  italic">{step.n}</span>
                     <div className="space-y-4">
                       <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground lowercase">{step.title}</h3>
-                      <p className="text-[12px] leading-relaxed font-medium text-foreground/40 tracking-[-0.02em]">{step.body}</p>
+                      <p className="text-xs leading-relaxed font-medium text-foreground/40 tracking-[-0.02em]">{step.body}</p>
                       <p className="text-[10px] font-semibold text-foreground/20 tracking-[-0.04em] leading-relaxed">{step.detail}</p>
                     </div>
                   </div>
@@ -408,7 +408,7 @@ export function LandingPage() {
                     <div className="rounded-[2rem] bg-card p-10 flex flex-col md:flex-row md:items-center gap-10">
                       <div className="flex-1">
                         <p className="text-xl font-semibold text-foreground mb-3 tracking-[-0.03em] lowercase">{m.label}</p>
-                        <p className="text-foreground/40 text-[12px] leading-relaxed max-w-xl font-medium tracking-[-0.02em]">{m.desc}</p>
+                        <p className="text-foreground/40 text-xs leading-relaxed max-w-xl font-medium tracking-[-0.02em]">{m.desc}</p>
                       </div>
                       <div className="w-12 h-12 rounded-full bg-foreground text-background flex items-center justify-center group-hover:translate-x-2 transition-transform duration-500 shrink-0">
                         <HugeiconsIcon icon={ArrowRight01Icon} size={20} />
@@ -447,19 +447,19 @@ export function LandingPage() {
                       <p className={`text-[10px] font-semibold tracking-[-0.04em]  mb-12 italic ${plan.highlight ? 'text-background/40' : 'text-foreground/20'}`}>{plan.name}</p>
                       <div className="mb-14">
                         <p className="text-[3rem] font-semibold tracking-[-0.04em] leading-none">{plan.price}</p>
-                        <p className={`text-[11px] font-semibold mt-4 tracking-[-0.04em]  ${plan.highlight ? 'text-background/40' : 'text-foreground/20'}`}>{plan.period}</p>
+                        <p className={`text-xs font-semibold mt-4 tracking-[-0.04em]  ${plan.highlight ? 'text-background/40' : 'text-foreground/20'}`}>{plan.period}</p>
                       </div>
                       <div className={`w-full h-px mb-14 ${plan.highlight ? 'bg-background/10' : 'bg-foreground/5'}`} />
                       <ul className="space-y-5 flex-1 mb-16">
                         {plan.features.map(f => (
                           <li key={f} className="flex items-start gap-4">
                             <HugeiconsIcon icon={Tick01Icon} size={14} className={plan.highlight ? 'text-primary' : 'text-foreground/20'} />
-                            <span className={`text-[13px] font-medium tracking-[-0.04em] leading-relaxed ${plan.highlight ? 'text-background/60' : 'text-foreground/60'}`}>{f}</span>
+                            <span className={`text-sm font-medium tracking-[-0.04em] leading-relaxed ${plan.highlight ? 'text-background/60' : 'text-foreground/60'}`}>{f}</span>
                           </li>
                         ))}
                       </ul>
                       <Link href={plan.href}>
-                        <button className={`w-full py-2 rounded-full text-[12px] font-semibold tracking-[-0.04em] transition-all duration-300 ${plan.highlight ? 'bg-background text-foreground hover:bg-background/80' : 'bg-foreground text-background hover:bg-foreground/80'}`}>
+                        <button className={`w-full py-2 rounded-full text-xs font-semibold tracking-[-0.04em] transition-all duration-300 ${plan.highlight ? 'bg-background text-foreground hover:bg-background/80' : 'bg-foreground text-background hover:bg-foreground/80'}`}>
                           {plan.cta}
                         </button>
                       </Link>
@@ -496,7 +496,7 @@ export function LandingPage() {
                     <h3 className="text-xl font-semibold tracking-[-0.03em] text-foreground lowercase">
                       {faq.q}
                     </h3>
-                    <p className="text-[13px] leading-relaxed font-medium text-foreground/40 tracking-[-0.02em]">
+                    <p className="text-sm leading-relaxed font-medium text-foreground/40 tracking-[-0.02em]">
                       {faq.a}
                     </p>
                   </div>
@@ -527,12 +527,12 @@ export function LandingPage() {
             <BlurFade delay={0.3}>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link href="/register">
-                  <button className="px-12 py-2 rounded-full bg-foreground text-background text-[13px] font-semibold tracking-[-0.04em] hover:scale-105 transition-all shadow-xl shadow-foreground/10">
+                  <button className="px-12 py-2 rounded-full bg-foreground text-background text-sm font-semibold tracking-[-0.04em] hover:scale-105 transition-all shadow-xl shadow-foreground/10">
                     Comenzar gratis
                   </button>
                 </Link>
                 <Link href="/login">
-                  <button className="px-12 py-2 rounded-full bg-muted text-foreground text-[13px] font-semibold tracking-[-0.04em] hover:bg-accent transition-all">
+                  <button className="px-12 py-2 rounded-full bg-muted text-foreground text-sm font-semibold tracking-[-0.04em] hover:bg-accent transition-all">
                     Iniciar sesión
                   </button>
                 </Link>
@@ -545,12 +545,12 @@ export function LandingPage() {
       {/* ── Simple Footer ─────────────────────────────────────── */}
       <footer className="py-12 px-8 flex flex-col md:flex-row items-center justify-between gap-8 max-w-6xl mx-auto border-t border-foreground/5">
         <BlurFade delay={0.4}>
-          <p className="text-[11px] font-semibold text-foreground/20 tracking-[-0.04em]  italic whitespace-nowrap">
+          <p className="text-xs font-semibold text-foreground/20 tracking-[-0.04em]  italic whitespace-nowrap">
             © {new Date().getFullYear()} heyMed! · ia para medicina
           </p>
         </BlurFade>
 
-        <div className="flex gap-8 text-[11px] font-semibold text-foreground/20 tracking-[-0.04em] lowercase italic">
+        <div className="flex gap-8 text-xs font-semibold text-foreground/20 tracking-[-0.04em] lowercase italic">
           <span className="cursor-pointer hover:text-foreground transition-colors">instagram</span>
         </div>
       </footer>
