@@ -30,7 +30,7 @@ export function PageHeader({
   description,
   showNav = true,
   backLink,
-  backLabel = 'Atrás',
+  backLabel = 'atrás',
   avatarUrl,
   username,
   score
