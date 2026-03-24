@@ -48,7 +48,7 @@ serve(async (req: Request) => {
         'content-type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'claude-3-5-haiku-20241022',
+        model: 'MiniMax-M2.7',
         max_tokens: 800,
         messages: [
           {
@@ -101,9 +101,9 @@ Criterios de result y score:
 
     // Normalizar score: asegurar que esté en el rango correcto para su categoría
     const rawScore = typeof evaluation.score === 'number' ? evaluation.score : 50
-    const score = evaluation.result === 'correct'   ? Math.max(75, Math.min(100, rawScore))
-                : evaluation.result === 'partial'   ? Math.max(30, Math.min(74,  rawScore))
-                : Math.max(0,  Math.min(29,  rawScore))
+    const score = evaluation.result === 'correct' ? Math.max(75, Math.min(100, rawScore))
+      : evaluation.result === 'partial' ? Math.max(30, Math.min(74, rawScore))
+        : Math.max(0, Math.min(29, rawScore))
     evaluation.score = score
 
     // Actualizar intento — el trigger award_points_on_evaluation se ejecuta aquí

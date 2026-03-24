@@ -7,9 +7,11 @@ export interface ProcessedCase {
   system: 'cardio' | 'neuro' | 'gastro' | 'urgencias' | 'respiratorio' | 'otro'
 }
 
-const PROMPT = `Eres un docente de medicina. Analiza este caso clínico y transfórmalo en un caso educativo claro y conciso.
+const SYSTEM_MSG = `Eres un docente de medicina experto. SIEMPRE respondes ÚNICAMENTE con JSON válido, sin markdown, sin explicaciones, sin texto adicional.`
 
-Responde ÚNICAMENTE con este JSON válido (sin markdown):
+const BASE_INSTRUCTIONS = `Transforma el caso clínico en un caso educativo claro y conciso.
+
+Responde ÚNICAMENTE con este JSON válido (sin markdown, sin backticks, sin explicaciones):
 {
   "description": "Caso clínico redactado en español claro (máx 120 palabras). Incluye: edad, sexo, motivo de consulta, síntomas, signos vitales y hallazgos relevantes. Sin jerga excesiva.",
   "correct_diagnosis": "Diagnóstico principal preciso y específico",
@@ -30,25 +32,56 @@ Criterios de system (elige uno):
 - respiratorio: neumología, EPOC, asma, neumonía
 - otro: endocrino, reumatología, infectología, dermatología, etc.`
 
-export async function POST(req: NextRequest) {
-  const body = await req.json()
-  const { rawCase, imageBase64, imageType } = body
+const IMAGE_PROMPT = `Observa detenidamente la imagen adjunta. Contiene un caso clínico médico (puede ser una foto de un documento, una captura de pantalla, texto manuscrito, o una imagen médica con información clínica).
 
-  if (!rawCase?.trim() && !imageBase64) {
-    return NextResponse.json({ error: 'Se requiere texto o imagen del caso' }, { status: 400 })
+Extrae TODA la información clínica visible en la imagen y úsala para generar el caso educativo.
+
+${BASE_INSTRUCTIONS}`
+
+const TEXT_PROMPT = `Analiza el siguiente caso clínico proporcionado como texto.
+
+${BASE_INSTRUCTIONS}`
+
+// ── Image path: OpenAI-compatible endpoint (MiniMax Anthropic endpoint doesn't support images) ──
+async function processWithImage(imageBase64: string, imageType: string) {
+  const apiKey = process.env.ANTHROPIC_API_KEY!
+  const dataUrl = `data:${imageType};base64,${imageBase64}`
+
+  const res = await fetch('https://api.minimax.io/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'MiniMax-M2.7',
+      max_tokens: 1024,
+      messages: [
+        { role: 'system', content: SYSTEM_MSG },
+        {
+          role: 'user',
+          content: [
+            { type: 'image_url', image_url: { url: dataUrl } },
+            { type: 'text', text: IMAGE_PROMPT },
+          ],
+        },
+      ],
+    }),
+  })
+
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => 'Could not read error body')
+    console.error(`[process-case] MiniMax OpenAI API error ${res.status}:`, errBody)
+    return null
   }
 
-  type ContentBlock =
-    | { type: 'text'; text: string }
-    | { type: 'image'; source: { type: 'base64'; media_type: string; data: string } }
+  const data = await res.json()
+  // OpenAI format: data.choices[0].message.content
+  return data.choices?.[0]?.message?.content ?? ''
+}
 
-  const content: ContentBlock[] = imageBase64
-    ? [
-        { type: 'image', source: { type: 'base64', media_type: imageType ?? 'image/jpeg', data: imageBase64 } },
-        { type: 'text', text: PROMPT },
-      ]
-    : [{ type: 'text', text: `${PROMPT}\n\nTexto original:\n${rawCase}` }]
-
+// ── Text path: Anthropic-compatible endpoint ──
+async function processWithText(rawCase: string) {
   const base = process.env.ANTHROPIC_BASE_URL?.replace(/\/$/, '') ?? 'https://api.anthropic.com'
   const res = await fetch(`${base}/v1/messages`, {
     method: 'POST',
@@ -58,22 +91,42 @@ export async function POST(req: NextRequest) {
       'content-type': 'application/json',
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1000,
-      messages: [{ role: 'user', content }],
+      model: 'MiniMax-M2.7',
+      max_tokens: 1024,
+      system: SYSTEM_MSG,
+      messages: [{ role: 'user', content: `${TEXT_PROMPT}\n\nTexto original:\n${rawCase}` }],
     }),
   })
 
   if (!res.ok) {
-    return NextResponse.json({ error: 'Error procesando el caso con IA' }, { status: 500 })
+    const errBody = await res.text().catch(() => 'Could not read error body')
+    console.error(`[process-case] API error ${res.status}:`, errBody)
+    return null
   }
 
   const data = await res.json()
   const textBlock = data.content?.find((b: { type: string }) => b.type === 'text')
-  const text = textBlock?.text ?? ''
+  return textBlock?.text ?? ''
+}
+
+export async function POST(req: NextRequest) {
+  const body = await req.json()
+  const { rawCase, imageBase64, imageType } = body
+
+  if (!rawCase?.trim() && !imageBase64) {
+    return NextResponse.json({ error: 'Se requiere texto o imagen del caso' }, { status: 400 })
+  }
+
+  const text = imageBase64
+    ? await processWithImage(imageBase64, imageType ?? 'image/jpeg')
+    : await processWithText(rawCase)
+
+  if (text === null) {
+    return NextResponse.json({ error: 'Error procesando el caso con IA' }, { status: 500 })
+  }
 
   try {
-    // Strip markdown code fences that the AI sometimes wraps around JSON
+    // Strip markdown code fences the model sometimes wraps around JSON
     const cleaned = text
       .replace(/^```(?:json)?\s*\n?/i, '')
       .replace(/\n?```\s*$/i, '')
