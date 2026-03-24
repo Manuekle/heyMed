@@ -100,24 +100,29 @@ Estudiante: ${user_answer}`,
         }
         console.log('ACCUMULATED:', accumulated)
 
-        // After stream ends, update DB (fire and forget)
+        // After stream ends, update DB
         const firstNewline = accumulated.indexOf('\n')
         const firstLine = (firstNewline !== -1 ? accumulated.slice(0, firstNewline) : accumulated).trim()
         
-        // Robust extraction: find verdict and score even if line has extra text
-        const verdictMatch = firstLine.match(/(correct|partial|incorrect)/i)
-        const scoreMatch = firstLine.match(/(\d+)/)
+        // Robust extraction: search entire text for verdict, not just first line
+        const verdictMatch = accumulated.match(/(correct|partial|incorrect)/i)
+        const scoreMatch = accumulated.match(/(\d{1,3})/)
         
         const verdict = verdictMatch ? verdictMatch[0].toLowerCase() : 'incorrect'
+        const rawScore = scoreMatch ? parseInt(scoreMatch[0]) : (verdict === 'correct' ? 85 : verdict === 'partial' ? 50 : 15)
+        const score =
+          verdict === 'correct' ? Math.max(75, Math.min(100, rawScore))
+            : verdict === 'partial' ? Math.max(30, Math.min(74, rawScore))
+              : Math.max(0, Math.min(29, rawScore))
+        
         const explanation = (firstNewline !== -1 ? accumulated.slice(firstNewline + 1) : '').trim()
+          || 'Evaluación completada. Revisa el diagnóstico de referencia.'
 
-        if (['correct', 'partial', 'incorrect'].includes(verdict)) {
-          // Usamos el cliente supabase inicializado arriba, fuera del callback:
-          await supabase
-            .from('attempts')
-            .update({ ai_result: verdict, ai_explanation: explanation })
-            .eq('id', attempt_id)
-        }
+        // Save verdict, explanation AND score to DB
+        await supabase
+          .from('attempts')
+          .update({ ai_result: verdict as any, ai_explanation: explanation, ai_score: score })
+          .eq('id', attempt_id)
 
         controller.close()
       } catch (err) {

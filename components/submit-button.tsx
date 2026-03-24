@@ -23,18 +23,14 @@ export function SubmitButton({ onClick, disabled, loading }: SubmitButtonProps) 
         ref={ref}
         onClick={onClick}
         disabled={disabled || loading}
-        className="group relative overflow-hidden rounded-full px-10 py-3.5 text-[11px] tracking-[-0.01em] font-medium transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed"
-        style={{
-          background: 'rgba(255, 255, 255, 0.04)',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
-        }}
+        className="group relative overflow-hidden rounded-full px-10 py-3.5 text-[11px] tracking-[-0.01em] font-medium transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed bg-card border border-border"
       >
         {/* Magic UI shimmer sweep */}
         <span
           className="pointer-events-none absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"
           style={{
             background:
-              'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 50%, transparent 100%)',
+              'linear-gradient(90deg, transparent 0%, oklch(from var(--foreground) l c h / 6%) 50%, transparent 100%)',
           }}
         />
 
@@ -43,12 +39,12 @@ export function SubmitButton({ onClick, disabled, loading }: SubmitButtonProps) 
           className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"
           style={{
             background:
-              'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.08) 0%, transparent 70%)',
+              'radial-gradient(ellipse at center, oklch(from var(--primary) l c h / 8%) 0%, transparent 70%)',
           }}
         />
 
         {/* Content */}
-        <span className="relative flex items-center gap-3 text-zinc-400 group-hover:text-zinc-200 transition-colors duration-300">
+        <span className="relative flex items-center gap-3 text-muted-foreground group-hover:text-foreground transition-colors duration-300">
           {loading ? (
             <>
               <LoadingDots />

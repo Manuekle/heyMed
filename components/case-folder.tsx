@@ -36,8 +36,10 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isF
       className="relative cursor-pointer group w-full max-w-[240px] mx-auto"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsHovered(true)}
+      onTouchEnd={() => { setTimeout(() => setIsHovered(false), 600); onOpen(); }}
       onClick={onOpen}
-      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 1.05 }}
       transition={{ type: 'spring', stiffness: 300, damping: 25 }}
     >
       {/* Perspective Wrapper */}

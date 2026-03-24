@@ -39,9 +39,8 @@ export function CaseCard({ description, difficulty, caseNumber, variant = 'defau
   return (
     <BlurFade delay={0.1} className="w-full">
       <motion.div
-        whileHover={{
-          y: -4,
-          scale: 1.01
+        whileTap={{
+          scale: 0.98
         }}
         transition={{
           type: 'spring',

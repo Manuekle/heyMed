@@ -180,8 +180,6 @@ const MODES: Array<{ id: PracticeMode; label: string; desc: string; detail: stri
 ]
 
 function ModePreScreen({ onSelect, onBack }: { onSelect: (m: PracticeMode) => void; onBack: () => void }) {
-  const [hovered, setHovered] = useState<PracticeMode | null>(null)
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -212,51 +210,29 @@ function ModePreScreen({ onSelect, onBack }: { onSelect: (m: PracticeMode) => vo
           <motion.button
             key={m.id}
             onClick={() => onSelect(m.id)}
-            onMouseEnter={() => setHovered(m.id)}
-            onMouseLeave={() => setHovered(null)}
-            className={`w-full text-left rounded-[2rem] md:rounded-[2.5rem] px-5 md:px-10 py-5 md:py-8 group relative overflow-hidden bg-card/30 border transition-all duration-700 ${m.id === 'normal' ? 'border-border/40 hover:border-green-500/30' :
-              m.id === 'differential' ? 'border-border/40 hover:border-yellow-500/30' :
-                'border-border/40 hover:border-red-500/30'
+            className={`w-full text-left rounded-[2rem] md:rounded-[2.5rem] px-5 md:px-10 py-5 md:py-8 group relative overflow-hidden bg-card/30 border transition-all duration-700 ${m.id === 'normal' ? 'border-border/40 active:border-green-500/30' :
+              m.id === 'differential' ? 'border-border/40 active:border-yellow-500/30' :
+                'border-border/40 active:border-red-500/30'
               }`}
-            whileHover={{ y: -2 }}
             whileTap={{ scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           >
             <div className="flex items-center justify-between relative z-10">
               <div className="space-y-1">
-                <p className={`font-semibold text-heading3 tracking-[-0.04em] text-foreground/90 transition-colors duration-500 ${m.id === 'normal' ? 'group-hover:text-green-500' :
-                  m.id === 'differential' ? 'group-hover:text-yellow-500' :
-                    'group-hover:text-red-500'
-                  }`}>
+                <p className={`font-semibold text-heading3 tracking-[-0.04em] text-foreground/90`}>
                   {m.label}
                 </p>
-                <p className="text-[13px] tracking-[-0.02em] font-medium text-foreground/20 group-hover:text-foreground/40 transition-colors duration-500">
+                <p className="text-[13px] tracking-[-0.02em] font-medium text-foreground/40">
                   {m.desc}
                 </p>
               </div>
-              <motion.span
-                animate={hovered === m.id ? { x: 4, scale: 1.1 } : { x: 0, scale: 1 }}
-                className={`text-foreground/10 transition-colors duration-700 ${m.id === 'normal' ? 'group-hover:text-green-500' :
-                  m.id === 'differential' ? 'group-hover:text-yellow-500' :
-                    'group-hover:text-red-500'
-                  }`}
-              >
+              <span className="text-foreground/10">
                 <HugeiconsIcon icon={ArrowRight01Icon} size={20} />
-              </motion.span>
+              </span>
             </div>
-            <AnimatePresence>
-              {hovered === m.id && (
-                <motion.p
-                  initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                  animate={{ opacity: 1, height: 'auto', marginTop: 20 }}
-                  exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-foreground/40 text-text2 leading-relaxed font-medium tracking-[-0.04em] overflow-hidden"
-                >
-                  {m.detail}
-                </motion.p>
-              )}
-            </AnimatePresence>
+            <p className="text-foreground/30 text-text3 md:text-text2 leading-relaxed font-medium tracking-[-0.04em] mt-4">
+              {m.detail}
+            </p>
           </motion.button>
         ))}
       </div>
@@ -391,11 +367,10 @@ export function PracticeClient({
         if (done) break
         text += dec.decode(value, { stream: true })
 
-        // Robust parsing: Look for verdict and score in the text accumulated so far
+        // Robust parsing: Search the entire accumulated text for verdict
         if (!evalResult) {
-          const firstFewLines = text.split('\n').slice(0, 3).join('\n')
-          const verdictMatch = firstFewLines.match(/(correct|partial|incorrect)/i)
-          const scoreMatch = firstFewLines.match(/(\d+)/)
+          const verdictMatch = text.match(/(correct|partial|incorrect)/i)
+          const scoreMatch = text.match(/(\d{1,3})/)
 
           if (verdictMatch) {
             const verdict = verdictMatch[0].toLowerCase() as Verdict
@@ -409,8 +384,9 @@ export function PracticeClient({
             // Find where the explanation starts (after the line containing the verdict or the first newline)
             const firstNewline = text.indexOf('\n')
             const explanationStart = firstNewline !== -1 ? firstNewline + 1 : text.length
+            const explanation = text.slice(explanationStart).trim() || 'Evaluación completada. Revisa el diagnóstico de referencia.'
 
-            evalResult = { result: verdict, score, explanation: text.slice(explanationStart).trim() }
+            evalResult = { result: verdict, score, explanation }
             setResult(evalResult)
             setLoading(false)
 
@@ -423,12 +399,24 @@ export function PracticeClient({
           // Stream explanation progressively
           const firstNewline = text.indexOf('\n')
           if (firstNewline !== -1) {
-            setResult(prev => prev ? { ...prev, explanation: text.slice(firstNewline + 1).trim() } : prev)
+            setResult(prev => prev ? { ...prev, explanation: text.slice(firstNewline + 1).trim() || 'Evaluación completada. Revisa el diagnóstico de referencia.' } : prev)
           }
         }
       }
 
-      if (!evalResult) throw new Error('No se pudo evaluar la respuesta')
+      // Final fallback: if stream ended without finding a verdict, use defaults
+      if (!evalResult) {
+        const fallbackVerdict: Verdict = 'incorrect'
+        const fallbackScore = 10
+        const fallbackExplanation = text.trim() || 'No se pudo procesar la evaluación completa. Intenta de nuevo.'
+        evalResult = { result: fallbackVerdict, score: fallbackScore, explanation: fallbackExplanation }
+        setResult(evalResult)
+        setLoading(false)
+        const s = getSession()
+        const updated = { ...s, done: s.done + 1, incorrect: s.incorrect + 1 }
+        saveSession(updated)
+        setSessionStats(updated)
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'error al evaluar')
     } finally {
@@ -535,7 +523,7 @@ export function PracticeClient({
                     disabled={loading}
                     placeholder="¿cuál es tu diagnóstico?"
                     rows={6}
-                    className="w-full bg-transparent px-5 md:px-12 py-6 md:py-12 text-foreground placeholder:text-foreground/30 resize-none focus:outline-none leading-relaxed text-[1.2rem] md:text-heading3 font-semibold tracking-[-0.04em]"
+                    className="w-full bg-transparent px-5 md:px-12 py-6 md:py-12 text-foreground placeholder:text-foreground/30 resize-none focus:outline-none leading-relaxed text-text1 md:text-heading3 font-semibold tracking-[-0.04em]"
                   />
 
                   {/* Inner footer for word count/metadata */}

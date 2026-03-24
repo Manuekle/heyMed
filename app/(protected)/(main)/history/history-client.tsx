@@ -88,7 +88,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
   }
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-8">
       <PageHeader
         label="registros"
         title="Mis registros"
@@ -100,7 +100,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
       <BlurFade delay={0.1}>
         <div className="flex justify-center mb-12 md:mb-16">
           <div className="w-full max-w-full overflow-x-auto scrollbar-none px-6 md:px-0">
-            <div className="inline-flex rounded-full p-1 bg-white/[0.02] border border-white/[0.05] relative min-w-max md:min-w-0">
+            <div className="inline-flex rounded-full p-1 bg-foreground/[0.02] border border-foreground/[0.05] relative min-w-max md:min-w-0">
               {(['all', 'correct', 'partial', 'incorrect'] as const).map(f => {
                 const active = activeFilter === f
                 return (
@@ -127,14 +127,14 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
 
       {attempts.length === 0 ? (
         <BlurFade delay={0.2}>
-          <div className="text-center py-40 glass rounded-[3rem] border border-white/[0.03] space-y-8">
+          <div className="text-center py-40 glass rounded-[3rem] border border-foreground/[0.03] space-y-8">
             <div className="relative w-20 h-20 mx-auto">
               <motion.div
                 animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.2, 0.1] }}
                 transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
                 className="absolute inset-0 rounded-full bg-primary/20 blur-2xl"
               />
-              <div className="relative w-full h-full rounded-full glass border border-white/[0.05] flex items-center justify-center text-foreground/10">
+              <div className="relative w-full h-full rounded-full glass border border-foreground/[0.05] flex items-center justify-center text-foreground/10">
                 <HugeiconsIcon icon={Search01Icon} size={28} />
               </div>
             </div>
@@ -153,7 +153,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
             return (
               <BlurFade key={a.id} delay={0.1 + i * 0.04}>
                 <div
-                  className={`rounded-[2.5rem] overflow-hidden glass transition-all duration-700 group border ${isOpen ? 'border-primary/20 bg-white/[0.02]' : 'border-white/[0.03]'
+                  className={`rounded-[2.5rem] overflow-hidden glass transition-all duration-700 group border ${isOpen ? 'border-primary/20 bg-foreground/[0.02]' : 'border-foreground/[0.03]'
                     } ${!isOpen ? a.aiResult === 'correct' ? 'hover:border-emerald-500/20' : a.aiResult === 'partial' ? 'hover:border-amber-500/20' : 'hover:border-rose-500/20' : ''}`}
                 >
                   {/* Row header */}
@@ -168,7 +168,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                         <span className={`text-[11px] font-semibold tracking-[-0.04em] opacity-40 ${res.color}`}>
                           {res.label}
                         </span>
-                        <div className="h-1 w-1 rounded-full bg-white/5" />
+                        <div className="h-1 w-1 rounded-full bg-foreground/5" />
                         <span className="text-[11px] font-semibold text-foreground/20 tabular-nums tracking-[-0.04em]">
                           {formatDate(a.createdAt)}
                         </span>
@@ -197,7 +197,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                         className="overflow-hidden"
                       >
-                        <div className="px-6 md:px-10 pb-8 md:pb-12 border-t border-white/[0.03]">
+                        <div className="px-6 md:px-10 pb-8 md:pb-12 border-t border-foreground/[0.03]">
                           <motion.div
                             initial="hidden"
                             animate="visible"
@@ -270,11 +270,11 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                                 hidden: { opacity: 0, y: 10 },
                                   visible: { opacity: 1, y: 0 }
                               }}
-                              className="pt-8 border-t border-white/[0.03] flex justify-end"
+                              className="pt-8 border-t border-foreground/[0.03] flex justify-end"
                             >
                               <Link
                                 href={`/practice/${a.caseId}`}
-                                className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-3 rounded-full glass border border-white/[0.05] text-[13px] font-semibold text-primary/60 hover:text-primary hover:border-primary/20 tracking-[-0.04em] transition-all duration-500 group"
+                                className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-3 rounded-full glass border border-foreground/[0.05] text-[13px] font-semibold text-primary/60 hover:text-primary hover:border-primary/20 tracking-[-0.04em] transition-all duration-500 group"
                               >
                                 <span>practicar de nuevo</span>
                                 <HugeiconsIcon icon={ArrowRight01Icon} size={14} className="group-hover:translate-x-1 transition-transform" />

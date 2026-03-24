@@ -26,11 +26,11 @@ export function BottomNav() {
   // Only show on mobile (hidden on md and up)
   return (
     <div 
-      className="md:hidden fixed bottom-4 left-0 right-0 z-50 px-6 flex items-center justify-center gap-4"
+      className="md:hidden fixed bottom-4 left-0 right-0 z-50 px-4 flex items-center justify-center gap-3"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       {/* Main Nav Pill */}
-      <nav className="flex items-center gap-1 p-1.5 rounded-full border border-white/[0.05] shadow-2xl backdrop-blur-3xl bg-white/[0.03]">
+      <nav className="flex items-center gap-1 p-1.5 rounded-full border border-foreground/[0.05] shadow-2xl backdrop-blur-3xl bg-background/80">
         {NAV_ITEMS.map((item) => {
           const isActive = pathname === item.href
           
@@ -38,7 +38,7 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className="relative flex items-center gap-2 px-5 py-2.5 rounded-full transition-all duration-500 group"
+              className="relative flex items-center gap-2 px-4 py-2.5 rounded-full transition-all duration-500 group"
             >
               {isActive && (
                 <motion.div
@@ -69,11 +69,11 @@ export function BottomNav() {
       {/* FAB (+) */}
       <Link
         href="/upload"
-        className="w-14 h-14 rounded-full bg-foreground flex items-center justify-center text-background shadow-2xl shadow-foreground/20 hover:scale-[1.05] active:scale-[0.95] transition-all duration-300 group"
+        className="w-12 h-12 rounded-full bg-foreground flex items-center justify-center text-background shadow-2xl shadow-foreground/20 hover:scale-[1.05] active:scale-[0.95] transition-all duration-300 group"
       >
         <HugeiconsIcon 
           icon={Add01Icon} 
-          size={24} 
+          size={20} 
           className="group-hover:rotate-90 transition-transform duration-500" 
         />
       </Link>

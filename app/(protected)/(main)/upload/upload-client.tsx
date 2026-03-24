@@ -228,7 +228,7 @@ export function UploadClient({ userId }: { userId: string }) {
   }
 
   return (
-    <div className="space-y-24">
+    <div className="space-y-10">
       <PageHeader
         label="nuevo"
         title="Subir caso"
@@ -243,7 +243,7 @@ export function UploadClient({ userId }: { userId: string }) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            className="space-y-16"
+            className="space-y-10"
           >
             {/* Mode Toggle */}
             <div className="flex justify-center">

@@ -222,7 +222,7 @@ export function LandingPage() {
             <BlurFade delay={0.4}>
               <div className='h-30 w-30 mb-10'>
                 <Image
-                  src="/light.png"
+                  src="/icon_light.png"
                   alt="heyMed! logo"
                   className="hidden dark:block w-full h-full object-contain"
                   width={500}

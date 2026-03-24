@@ -50,7 +50,7 @@ function Avatar({
       onClick={onEdit && !uploading ? onEdit : undefined}
     >
       <div
-        className="relative rounded-full overflow-hidden flex items-center justify-center bg-white/[0.02] glass shadow-2xl transition-all duration-500"
+        className="relative rounded-full overflow-hidden flex items-center justify-center bg-foreground/[0.02] glass shadow-2xl transition-all duration-500"
         style={{ width: size, height: size }}
       >
         <div className={`w-full h-full transition-all duration-700 ease-out ${onEdit && !uploading ? 'group-hover/avatar:blur-sm group-hover/avatar:scale-110' : ''}`}>
@@ -61,7 +61,7 @@ function Avatar({
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-white/[0.03]">
+            <div className="w-full h-full flex items-center justify-center bg-foreground/[0.03]">
               <HugeiconsIcon
                 icon={UserCircleIcon}
                 size={size * 0.5}
@@ -105,11 +105,11 @@ function SettingsRow({
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center justify-between py-5 px-6 md:px-8 group transition-all duration-500 ${onClick ? 'cursor-pointer hover:bg-white/[0.03]' : 'cursor-default'}`}
+      className={`w-full flex items-center justify-between py-5 px-6 md:px-8 group transition-all duration-500 ${onClick ? 'cursor-pointer hover:bg-foreground/[0.03]' : 'cursor-default'}`}
     >
       <div className="flex items-center gap-5">
         {icon && (
-          <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center border border-white/[0.05] transition-all duration-500 bg-white/[0.03] ${destructive ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' : 'text-foreground/20 group-hover:text-foreground/40 group-hover:border-white/10'}`}>
+          <div className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center border border-foreground/[0.05] transition-all duration-500 bg-foreground/[0.03] ${destructive ? 'bg-rose-500/10 text-rose-500 border-rose-500/20' : 'text-foreground/20 group-hover:text-foreground/40 group-hover:border-foreground/10'}`}>
             {icon}
           </div>
         )}
@@ -138,7 +138,7 @@ function SettingsSection({ title, children }: { title: string; children: React.R
         {title.toLowerCase()}
       </p>
       <div className="glass rounded-[2rem] md:rounded-[2.5rem] overflow-hidden">
-        <div className="divide-y divide-white/[0.02]">
+        <div className="divide-y divide-foreground/[0.02]">
           {children}
         </div>
       </div>
@@ -293,8 +293,8 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
             <span className="text-[12px] font-semibold text-foreground/20 tracking-[-0.04em]">
               {email}
             </span>
-            <div className="h-1 w-1 rounded-full bg-white/5" />
-            <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-white/[0.02]">
+            <div className="h-1 w-1 rounded-full bg-foreground/5" />
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-foreground/[0.02]">
               <HugeiconsIcon icon={StarIcon} size={10} className="text-primary/60" />
               <span className="text-[10px] font-semibold text-primary/60 tracking-[-0.04em]">
                 {score} pts
@@ -346,13 +346,13 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
         <SettingsSection title="Personalización">
           <div className="px-6 md:px-8 py-5 flex items-center justify-between">
             <div className="flex items-center gap-4 md:gap-5">
-              <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center border border-white/[0.05] transition-all duration-500 bg-white/[0.03] text-foreground/20">
+              <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center border border-foreground/[0.05] transition-all duration-500 bg-foreground/[0.03] text-foreground/20">
                 <HugeiconsIcon icon={theme === 'dark' ? Moon01Icon : Sun01Icon} size={14} />
               </div>
               <span className="text-[13px] md:text-text2 font-semibold tracking-[-0.04em] text-foreground/40">tema</span>
             </div>
 
-            <div className="inline-flex rounded-full p-1 bg-white/[0.02] border border-white/[0.05] relative">
+            <div className="inline-flex rounded-full p-1 bg-foreground/[0.02] border border-foreground/[0.05] relative">
               {(['light', 'dark'] as const).map(t => {
                 const active = theme === t
                 return (
@@ -477,7 +477,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
                 type="text"
                 value={tempUsername}
                 onChange={(e) => setTempUsername(e.target.value)}
-                className="w-full bg-black/[0.03] dark:bg-white/[0.03] border border-transparent focus:border-black/10 dark:focus:border-white/10 rounded-full px-6 py-2 text-center text-text2 font-medium focus:outline-none transition-colors duration-150 placeholder:text-black/30 dark:placeholder:text-white/30 text-black dark:text-white tracking-[-0.02em]"
+                className="w-full bg-black/[0.03] dark:bg-foreground/[0.03] border border-transparent focus:border-black/10 dark:focus:border-white/10 rounded-full px-6 py-2 text-center text-text2 font-medium focus:outline-none transition-colors duration-150 placeholder:text-black/30 dark:placeholder:text-white/30 text-black dark:text-white tracking-[-0.02em]"
                 placeholder="nuevo username"
               />
 
