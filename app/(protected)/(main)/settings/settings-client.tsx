@@ -113,12 +113,12 @@ function SettingsRow({
             {icon}
           </div>
         )}
-        <span className={`text-[13px] md:text-text2 font-semibold tracking-[-0.04em] transition-colors duration-500 ${destructive ? 'text-rose-500/80 hover:text-rose-500' : 'text-foreground/40 group-hover:text-foreground/70'}`}>
+        <span className={`text-xs md:text-sm font-semibold tracking-[-0.04em] transition-colors duration-500 ${destructive ? 'text-rose-500/80 hover:text-rose-500' : 'text-foreground/40 group-hover:text-foreground/70'}`}>
           {label.toLowerCase()}
         </span>
       </div>
       <div className="flex items-center gap-4">
-        {value && <span className="text-[12px] text-foreground/20 font-semibold tracking-[-0.02em]">{typeof value === 'string' ? value.toLowerCase() : value}</span>}
+        {value && <span className="text-xs md:text-sm text-foreground/20 font-semibold tracking-[-0.02em]">{typeof value === 'string' ? value.toLowerCase() : value}</span>}
         {showChevron && (
           <HugeiconsIcon
             icon={ArrowRight01Icon}
@@ -290,13 +290,13 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
             {username}
           </h2>
           <div className="flex items-center justify-center gap-3">
-            <span className="text-[12px] font-semibold text-foreground/20 tracking-[-0.04em]">
+            <span className="text-xs md:text-sm font-semibold text-foreground/20 tracking-[-0.04em]">
               {email}
             </span>
             <div className="h-1 w-1 rounded-full bg-foreground/5" />
             <div className="flex items-center gap-2 px-3 py-1 rounded-full border border-white/5 bg-foreground/[0.02]">
               <HugeiconsIcon icon={StarIcon} size={10} className="text-primary/60" />
-              <span className="text-[10px] font-semibold text-primary/60 tracking-[-0.04em]">
+              <span className="text-xs md:text-sm font-semibold text-primary/60 tracking-[-0.04em]">
                 {score} pts
               </span>
             </div>
@@ -349,7 +349,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
               <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center border border-foreground/[0.05] transition-all duration-500 bg-foreground/[0.03] text-foreground/20">
                 <HugeiconsIcon icon={theme === 'dark' ? Moon01Icon : Sun01Icon} size={14} />
               </div>
-              <span className="text-[13px] md:text-text2 font-semibold tracking-[-0.04em] text-foreground/40">tema</span>
+              <span className="text-xs md:text-sm font-semibold tracking-[-0.04em] text-foreground/40">tema</span>
             </div>
 
             <div className="inline-flex rounded-full p-1 bg-foreground/[0.02] border border-foreground/[0.05] relative">
@@ -359,7 +359,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
                   <button
                     key={t}
                     onClick={() => toggleTheme(t)}
-                    className={`relative px-6 py-2 rounded-full text-text3 font-semibold tracking-[-0.04em] transition-colors duration-500 z-10 ${active ? 'text-background' : 'text-foreground/20 hover:text-foreground'}`}
+                    className={`relative px-6 py-2 rounded-full text-xs md:text-sm font-semibold tracking-[-0.04em] transition-colors duration-500 z-10 ${active ? 'text-background' : 'text-foreground/20 hover:text-foreground'}`}
                   >
                     {active && (
                       <motion.div
@@ -410,8 +410,8 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
                 <HugeiconsIcon icon={Alert01Icon} size={20} />
               </div>
               <div className="space-y-1">
-                <p className="text-[10px] font-semibold tracking-[-0.04em] text-rose-500/30 ">atención</p>
-                <p className="text-[13px] text-rose-500/60 leading-relaxed tracking-[-0.04em] font-medium italic max-w-xs mx-auto">
+                <p className="text-xs md:text-sm font-semibold tracking-[-0.04em] text-rose-500/30 ">atención</p>
+                <p className="text-xs md:text-sm text-rose-500/60 leading-relaxed tracking-[-0.04em] font-medium italic max-w-xs mx-auto">
                   eliminar tu cuenta borrará permanentemente tu perfil e historial.<br />esta acción es definitiva.
                 </p>
               </div>
@@ -419,20 +419,20 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
 
             <div className="w-full max-w-sm space-y-8">
               <div className="space-y-3">
-                <p className="text-[10px] font-semibold tracking-[-0.04em] text-rose-500/20">escribe "eliminar" para confirmar</p>
+                <p className="text-xs md:text-sm font-semibold tracking-[-0.04em] text-rose-500/20">escribe "eliminar" para confirmar</p>
                 <input
                   type="text"
                   value={deleteConfirm}
                   onChange={e => setDeleteConfirm(e.target.value)}
                   placeholder="eliminar"
-                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-[13px] md:text-text2 focus:outline-none px-8 py-2 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
+                  className="w-full bg-rose-500/[0.03] text-rose-500 font-semibold text-center text-xs md:text-sm focus:outline-none px-8 py-2 rounded-full border border-rose-500/10 focus:border-rose-500/30 transition-all duration-500 placeholder:text-rose-500/10 tracking-[-0.04em]"
                 />
               </div>
 
               <button
                 onClick={handleDeleteAccount}
                 disabled={deleteConfirm !== 'eliminar' || deleting}
-                className={`w-full py-2 text-[13px] tracking-[-0.04em] font-semibold transition-all duration-700 rounded-full border border-rose-500/20 ${deleteConfirm === 'eliminar'
+                className={`w-full py-2 text-xs md:text-sm tracking-[-0.04em] font-semibold transition-all duration-700 rounded-full border border-rose-500/20 ${deleteConfirm === 'eliminar'
                   ? 'bg-rose-500 text-white shadow-[0_0_30px_rgba(244,63,94,0.4)] hover:scale-[1.02] active:scale-[0.98]'
                   : 'bg-rose-500/5 text-rose-500/40 opacity-50'
                   }`}
@@ -468,7 +468,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
               className="w-full max-w-[320px] rounded-[2.5rem] p-10 space-y-8 bg-white dark:bg-[#0f0f0f] border border-black/5 dark:border-white/5 shadow-2xl"
             >
               <div className="text-center">
-                <p className="text-[10px] font-semibold tracking-[-0.04em] text-black/40 dark:text-white/40">editar perfil</p>
+                <p className="text-xs md:text-sm font-semibold tracking-[-0.04em] text-black/40 dark:text-white/40">editar perfil</p>
                 <h3 className="text-text2 font-bold tracking-[-0.04em] text-black/80 dark:text-white/80 mt-1">cambiar nombre</h3>
               </div>
 
@@ -494,7 +494,7 @@ export function SettingsClient({ userId, email, username: initialUsername, avata
                 </button>
                 <button
                   onClick={() => setIsEditingUsername(false)}
-                  className="w-full py-2 rounded-full text-[11px] font-semibold tracking-[-0.04em] text-destructive hover:opacity-70 transition-opacity duration-150"
+                  className="w-full py-2 rounded-full text-xs md:text-sm font-semibold tracking-[-0.04em] text-destructive hover:opacity-70 transition-opacity duration-150"
                 >
                   cancelar
                 </button>

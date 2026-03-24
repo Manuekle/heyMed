@@ -48,7 +48,7 @@ export function ResultCard({
               <HugeiconsIcon icon={current.icon} size={18} strokeWidth={2.5} />
             </div>
             <div>
-              <p className="text-[12px] tracking-[-0.04em] text-muted-foreground/60 font-semibold">Análisis</p>
+              <p className="text-xs md:text-sm tracking-[-0.04em] text-muted-foreground/60 font-semibold">Análisis</p>
               <h3 className="text-sm font-medium text-foreground tracking-[-0.04em]">{current.label}</h3>
             </div>
           </div>
@@ -58,7 +58,7 @@ export function ResultCard({
               <motion.span className={`text-3xl font-light tracking-[-0.04em] tabular-nums ${current.color}`}>
                 {count}
               </motion.span>
-              <span className="text-[10px] text-muted-foreground/40 ml-1 font-medium">/100</span>
+              <span className="text-xs md:text-sm text-muted-foreground/40 ml-1 font-medium">/100</span>
             </div>
           </div>
         </div>
@@ -78,7 +78,7 @@ export function ResultCard({
           <div className="mt-6 space-y-5">
             {/* Explicación principal */}
             {explanation && (
-              <p className="text-[13px] leading-relaxed text-muted-foreground/80 font-light group-hover:text-muted-foreground transition-colors duration-300">
+              <p className="text-xs md:text-sm leading-relaxed text-muted-foreground/80 font-light group-hover:text-muted-foreground transition-colors duration-300">
                 {explanation}
               </p>
             )}
@@ -90,10 +90,10 @@ export function ResultCard({
                 animate={{ opacity: 1 }}
                 className="pt-4 border-t border-black/[0.03] dark:border-white/[0.03]"
               >
-                <span className="text-[12px] tracking-[-0.04em] text-muted-foreground/40 font-semibold block mb-1">
+                <span className="text-xs md:text-sm tracking-[-0.04em] text-muted-foreground/40 font-semibold block mb-1">
                   Referencia Clínica
                 </span>
-                <p className="text-[12px] text-foreground/60 italic font-light leading-snug">
+                <p className="text-xs md:text-sm text-foreground/60 italic font-light leading-snug">
                   {correctDiagnosis}
                 </p>
               </motion.div>

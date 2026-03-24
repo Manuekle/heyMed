@@ -135,11 +135,11 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
               <div className="flex gap-12 md:gap-16">
                 <div>
                   <p className="text-[2rem] md:text-[2.5rem] font-semibold tracking-[-0.04em] leading-none">{accuracy.accuracy}%</p>
-                  <p className="text-[10px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">precisión</p>
+                  <p className="text-xs md:text-sm tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">precisión</p>
                 </div>
                 <div>
                   <p className="text-[2rem] md:text-[2.5rem] font-semibold tracking-[-0.04em] leading-none">{accuracy.total}</p>
-                  <p className="text-[10px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">intentos</p>
+                  <p className="text-xs md:text-sm tracking-[-0.04em] font-semibold text-foreground/30 mt-3 lowercase">intentos</p>
                 </div>
               </div>
               {trend.length > 0 && (
@@ -149,7 +149,7 @@ export function DashboardClient({ cases, profile, userEmail, avatarUrl, accuracy
                       <span key={i} className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-[3px] md:rounded-[4px] ${trendColors[r]}`} />
                     ))}
                   </div>
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[9px] md:text-[10px] font-semibold text-foreground/20 tracking-[-0.02em]">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs md:text-sm font-semibold text-foreground/20 tracking-[-0.02em]">
                     <div className="flex items-center gap-1.5">
                       <div className="w-1.5 h-1.5 rounded-full bg-emerald-400/50" />
                       <span>correcto</span>

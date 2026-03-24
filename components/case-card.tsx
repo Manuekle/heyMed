@@ -56,14 +56,14 @@ export function CaseCard({ description, difficulty, caseNumber, variant = 'defau
           <div className="flex items-center justify-between mb-3 md:mb-8">
             <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${config.bg}`}>
               <HugeiconsIcon icon={Flag01Icon} size={12} className={config.color} />
-              <span className={`text-[11px] font-semibold tracking-[-0.02em] ${config.color}`}>
+              <span className={`text-xs md:text-sm font-semibold tracking-[-0.02em] ${config.color}`}>
                 {config.label}
               </span>
             </div>
             {caseNumber !== undefined && (
               <div className="flex items-center gap-2 text-foreground/20">
                 <HugeiconsIcon icon={InformationCircleIcon} size={12} />
-                <span className="text-[10px] font-medium tabular-nums tracking-[-0.02em]">
+                <span className="text-xs md:text-sm font-medium tabular-nums tracking-[-0.02em]">
                   caso #{String(caseNumber).padStart(3, '0')}
                 </span>
               </div>
@@ -75,7 +75,7 @@ export function CaseCard({ description, difficulty, caseNumber, variant = 'defau
             <h3 className="hidden md:block text-text2 font-semibold text-foreground/90 tracking-[-0.04em]">
               instrucciones de caso
             </h3>
-            <p className={`text-[13px] md:text-text1 leading-snug md:leading-relaxed text-foreground/50 font-medium tracking-[-0.04em] ${!isCompact ? 'line-clamp-4 md:line-clamp-6' : ''}`}>
+            <p className={`text-xs md:text-text1 leading-snug md:leading-relaxed text-foreground/50 font-medium tracking-[-0.04em] ${!isCompact ? 'line-clamp-4 md:line-clamp-6' : ''}`}>
               {description}
             </p>
           </div>

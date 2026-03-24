@@ -108,7 +108,7 @@ export function CaseFolder({ title, count, difficulty, previewCases, onOpen, isF
             {/* Content */}
             <div className="relative z-10">
               <h3 className="text-xl font-semibold tracking-[-0.04em] text-white mb-0.5">{title}</h3>
-              <p className="text-[11px] font-semibold text-white/50 tracking-[-0.04em]">{count} casos</p>
+              <p className="text-xs md:text-sm font-semibold text-white/50 tracking-[-0.04em]">{count} casos</p>
             </div>
 
             <div className="absolute top-6 right-6 flex gap-1 group-hover:scale-110 transition-transform">

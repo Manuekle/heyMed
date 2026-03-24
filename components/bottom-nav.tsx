@@ -56,7 +56,7 @@ export function BottomNav() {
                 <motion.span
                   initial={{ opacity: 0, x: -4 }}
                   animate={{ opacity: 1, x: 0 }}
-                  className="text-[12px] font-semibold text-background tracking-[-0.04em] lowercase"
+                  className="text-xs md:text-sm font-semibold text-background tracking-[-0.04em] lowercase"
                 >
                   {item.label}
                 </motion.span>

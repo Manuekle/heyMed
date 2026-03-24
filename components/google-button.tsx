@@ -21,7 +21,7 @@ export function GoogleButton() {
     <button
       onClick={handleGoogleLogin}
       disabled={loading}
-      className="group relative flex flex-row items-center justify-center gap-6 w-full overflow-hidden rounded-full py-2 text-[12px] tracking-[-0.01em] font-medium transition-all duration-500 disabled:opacity-10 disabled:cursor-not-allowed glass"
+      className="group relative flex flex-row items-center justify-center gap-6 w-full overflow-hidden rounded-full py-2 text-xs md:text-sm tracking-[-0.01em] font-medium transition-all duration-500 disabled:opacity-10 disabled:cursor-not-allowed glass"
     >
       {/* shimmer */}
       <span

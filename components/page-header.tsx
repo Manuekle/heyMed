@@ -63,7 +63,7 @@ export function PageHeader({
           {backLink ? (
             <Link
               href={backLink}
-              className="text-[13px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500  group flex items-center gap-2"
+              className="text-xs md:text-sm tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500  group flex items-center gap-2"
             >
               <HugeiconsIcon
                 icon={ArrowLeft01Icon}
@@ -74,15 +74,15 @@ export function PageHeader({
             </Link>
           ) : showNav && (
             <div className="hidden md:flex flex-wrap items-center gap-4 md:gap-8">
-              <Link href="/upload" className="flex items-center gap-2 text-[13px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
+              <Link href="/upload" className="flex items-center gap-2 text-xs md:text-sm tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
                 <HugeiconsIcon icon={Upload01Icon} size={isMobile ? 18 : 14} />
                 <span suppressHydrationWarning>subir</span>
               </Link>
-              <Link href="/history" className="flex items-center gap-2 text-[13px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
+              <Link href="/history" className="flex items-center gap-2 text-xs md:text-sm tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
                 <HugeiconsIcon icon={Clock01Icon} size={isMobile ? 18 : 14} />
                 <span suppressHydrationWarning>registros</span>
               </Link>
-              <Link href="/settings" className="flex items-center gap-2 text-[13px] md:text-text4 tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
+              <Link href="/settings" className="flex items-center gap-2 text-xs md:text-sm tracking-[-0.04em] font-semibold text-foreground/40 hover:text-foreground transition-all duration-500 ">
                 <HugeiconsIcon icon={UserCircleIcon} size={isMobile ? 18 : 14} />
                 <span suppressHydrationWarning>ajustes</span>
               </Link>

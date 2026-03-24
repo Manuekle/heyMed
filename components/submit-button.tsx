@@ -23,7 +23,7 @@ export function SubmitButton({ onClick, disabled, loading }: SubmitButtonProps) 
         ref={ref}
         onClick={onClick}
         disabled={disabled || loading}
-        className="group relative overflow-hidden rounded-full px-10 py-3.5 text-[11px] tracking-[-0.01em] font-medium transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed bg-card border border-border"
+        className="group relative overflow-hidden rounded-full px-10 py-3.5 text-xs md:text-sm tracking-[-0.01em] font-medium transition-all duration-500 disabled:opacity-30 disabled:cursor-not-allowed bg-card border border-border"
       >
         {/* Magic UI shimmer sweep */}
         <span

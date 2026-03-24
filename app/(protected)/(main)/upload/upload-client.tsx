@@ -252,7 +252,7 @@ export function UploadClient({ userId }: { userId: string }) {
                   <button
                     key={m}
                     onClick={() => handleModeChange(m)}
-                    className={`relative px-8 py-2.5 rounded-full text-[13px] font-semibold tracking-[-0.04em] flex items-center gap-2 z-10 transition-colors duration-500 ${mode === m ? 'text-background' : 'text-foreground/40 hover:text-foreground'}`}
+                    className={`relative px-8 py-2.5 rounded-full text-xs md:text-sm font-semibold tracking-[-0.04em] flex items-center gap-2 z-10 transition-colors duration-500 ${mode === m ? 'text-background' : 'text-foreground/40 hover:text-foreground'}`}
                   >
                     {mode === m && (
                       <motion.div
@@ -299,7 +299,7 @@ export function UploadClient({ userId }: { userId: string }) {
                         </button>
                       )}
                     </div>
-                    <div className="px-10 py-8 border-t border-border/10 flex justify-between items-center text-[10px] font-semibold text-foreground/15 tracking-[-0.02em]">
+                    <div className="px-10 py-8 border-t border-border/10 flex justify-between items-center text-xs md:text-sm font-semibold text-foreground/15 tracking-[-0.02em]">
                       <div className="flex items-center gap-6">
                         <span className="tabular-nums lowercase">{raw.length} caracteres</span>
                         <div className="flex items-center gap-2 lowercase">
@@ -338,7 +338,7 @@ export function UploadClient({ userId }: { userId: string }) {
                           <p className="text-text2 font-semibold tracking-[-0.04em] text-foreground/40 group-hover:text-foreground/60 transition-colors">
                             {dragOver ? 'suelta la imagen' : 'subir imagen clínica'}
                           </p>
-                          <p className="text-[11px] font-medium text-foreground/10 tracking-[-0.02em]">
+                          <p className="text-xs md:text-sm font-medium text-foreground/10 tracking-[-0.02em]">
                             pdf · jpg · png · {MAX_SIZE_MB}mb
                           </p>
                         </div>
@@ -358,12 +358,12 @@ export function UploadClient({ userId }: { userId: string }) {
                         </div>
                         <div className="flex items-center gap-3 px-6 py-4 rounded-xl border border-border/40 bg-foreground/[0.01]">
                           <HugeiconsIcon icon={File01Icon} size={16} className="text-foreground/20" />
-                          <span className="text-[12px] font-semibold text-foreground/60 truncate tracking-[-0.04em]">{imageFile.name}</span>
-                          <span className="text-[10px] font-semibold text-foreground/10 tabular-nums tracking-[-0.04em]">{(imageFile.size / 1024 / 1024).toFixed(2)} mb</span>
+                          <span className="text-xs md:text-sm font-semibold text-foreground/60 truncate tracking-[-0.04em]">{imageFile.name}</span>
+                          <span className="text-xs md:text-sm font-semibold text-foreground/10 tabular-nums tracking-[-0.04em]">{(imageFile.size / 1024 / 1024).toFixed(2)} mb</span>
                         </div>
                         <button
                           onClick={clearImage}
-                          className="text-[11px] font-semibold text-foreground/20 hover:text-rose-500 transition-all lowercase"
+                          className="text-xs md:text-sm font-semibold text-foreground/20 hover:text-rose-500 transition-all lowercase"
                         >
                           eliminar y subir otra
                         </button>
@@ -417,7 +417,7 @@ export function UploadClient({ userId }: { userId: string }) {
                           {isRecording ? 'escuchando...' : raw ? 'listo para analizar' : 'toca para hablar'}
                         </p>
                         {!isRecording && !raw && (
-                          <p className="text-[11px] font-medium text-foreground/10 tracking-[-0.02em]">
+                          <p className="text-xs md:text-sm font-medium text-foreground/10 tracking-[-0.02em]">
                             solo disponible en Chrome y Edge
                           </p>
                         )}
@@ -439,7 +439,7 @@ export function UploadClient({ userId }: { userId: string }) {
                             {!isRecording && (
                               <button
                                 onClick={() => setRaw('')}
-                                className="mt-4 text-[11px] font-semibold text-foreground/20 hover:text-foreground/50 tracking-[-0.04em] transition-colors w-full text-center"
+                                className="mt-4 text-xs md:text-sm font-semibold text-foreground/20 hover:text-foreground/50 tracking-[-0.04em] transition-colors w-full text-center"
                               >
                                 borrar y volver a grabar
                               </button>
@@ -462,7 +462,7 @@ export function UploadClient({ userId }: { userId: string }) {
               >
                 <div className="flex items-center gap-2.5">
                   <HugeiconsIcon icon={SparklesIcon} size={16} />
-                  <span className="font-semibold tracking-[-0.04em] text-[12px]">
+                  <span className="font-semibold tracking-[-0.04em] text-xs md:text-sm">
                     {processing ? 'procesando...' : 'analizar con ia'}
                   </span>
                 </div>
@@ -473,7 +473,7 @@ export function UploadClient({ userId }: { userId: string }) {
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="text-[12px] font-medium text-rose-500/60 tracking-[-0.04em]"
+                    className="text-xs md:text-sm font-medium text-rose-500/60 tracking-[-0.04em]"
                   >
                     {error}
                   </motion.p>
@@ -501,14 +501,14 @@ export function UploadClient({ userId }: { userId: string }) {
                   <div className="w-10 h-10 rounded-xl bg-primary/5 border border-primary/10 flex items-center justify-center text-primary/60">
                     <HugeiconsIcon icon={AiIdeaIcon} size={20} />
                   </div>
-                  <h4 className="text-[12px] font-semibold tracking-[-0.04em] text-foreground/80">instrucciones de caso</h4>
+                  <h4 className="text-xs md:text-sm font-semibold tracking-[-0.04em] text-foreground/80">instrucciones de caso</h4>
                 </div>
                 {(() => {
                   const conf = difficultyConfig[preview.difficulty]
                   return (
                     <div className={`flex items-center gap-2 px-5 py-1.5 rounded-full ${conf.bg} border border-${conf.text}/10`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${conf.dot}`} />
-                      <span className={`text-[12px] font-semibold tracking-[-0.04em] ${conf.text}`}>
+                      <span className={`text-xs md:text-sm font-semibold tracking-[-0.04em] ${conf.text}`}>
                         {conf.label}
                       </span>
                     </div>
@@ -530,7 +530,7 @@ export function UploadClient({ userId }: { userId: string }) {
                 {/* Diagnosis Section */}
                 <div className="space-y-8">
                   <div className="flex items-center justify-between">
-                    <label className="text-[11px] font-semibold text-foreground/20 tracking-[-0.02em] ml-1">diagnóstico final</label>
+                    <label className="text-xs md:text-sm font-semibold text-foreground/20 tracking-[-0.02em] ml-1">diagnóstico final</label>
                     <button
                       onClick={() => setDiagnosisRevealed(v => !v)}
                       className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-foreground/[0.03] transition-colors group"
@@ -540,7 +540,7 @@ export function UploadClient({ userId }: { userId: string }) {
                         size={14}
                         className="text-foreground/10 group-hover:text-primary/40 transition-colors"
                       />
-                      <span className="text-[11px] font-semibold text-foreground/10 group-hover:text-foreground/30 transition-colors tracking-[-0.02em]">
+                      <span className="text-xs md:text-sm font-semibold text-foreground/10 group-hover:text-foreground/30 transition-colors tracking-[-0.02em]">
                         {diagnosisRevealed ? 'ocultar' : 'revelar'}
                       </span>
                     </button>
@@ -583,7 +583,7 @@ export function UploadClient({ userId }: { userId: string }) {
                   className="px-8 py-2 rounded-full"
                 >
                   <div className="flex items-center gap-2.5">
-                    <span className="font-semibold text-[12px] tracking-[-0.04em]">
+                    <span className="font-semibold text-xs md:text-sm tracking-[-0.04em]">
                       {saving ? 'guardando...' : 'confirmar y guardar'}
                     </span>
                   </div>

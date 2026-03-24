@@ -23,7 +23,7 @@ export function DiagnosisInput({ value, onChange, disabled }: DiagnosisInputProp
     >
       {/* Label */}
       <label
-        className="block text-[11px] tracking-[-0.02em] font-medium mb-6 transition-colors duration-500"
+        className="block text-xs md:text-sm tracking-[-0.02em] font-medium mb-6 transition-colors duration-500"
         style={{ color: focused ? 'var(--foreground)' : 'var(--muted-foreground)' }}
       >
         Tu diagnóstico
@@ -60,7 +60,7 @@ export function DiagnosisInput({ value, onChange, disabled }: DiagnosisInputProp
 
         {/* Character count */}
         <div className="mt-3 text-right">
-          <span className="text-[11px] font-medium text-muted-foreground tracking-[-0.01em]">
+          <span className="text-xs md:text-sm font-medium text-muted-foreground tracking-[-0.01em]">
             {value.length} caracteres
           </span>
         </div>

@@ -107,7 +107,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                   <button
                     key={f}
                     onClick={() => setFilter(f)}
-                    className={`relative px-5 md:px-8 py-2 md:py-2.5 rounded-full text-[12px] md:text-[13px] font-semibold tracking-[-0.04em] transition-colors duration-500 z-10 ${active ? 'text-background' : 'text-foreground/30 hover:text-foreground'}`}
+                    className={`relative px-5 md:px-8 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-semibold tracking-[-0.04em] transition-colors duration-500 z-10 ${active ? 'text-background' : 'text-foreground/30 hover:text-foreground'}`}
                   >
                     {active && (
                       <motion.div
@@ -140,7 +140,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
             </div>
             <div className="space-y-2">
               <p className="text-text2 font-semibold text-foreground/20 tracking-[-0.04em]">todavía no hay registros</p>
-              <p className="text-[12px] font-medium text-foreground/10 tracking-[-0.02em] italic">tus casos resueltos aparecerán aquí para tu revisión clínica.</p>
+              <p className="text-xs md:text-sm font-medium text-foreground/10 tracking-[-0.02em] italic">tus casos resueltos aparecerán aquí para tu revisión clínica.</p>
             </div>
           </div>
         </BlurFade>
@@ -165,11 +165,11 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
 
                     <div className="flex-1 min-w-0 space-y-1">
                       <div className="flex items-center gap-3">
-                        <span className={`text-[11px] font-semibold tracking-[-0.04em] opacity-40 ${res.color}`}>
+                        <span className={`text-xs md:text-sm font-semibold tracking-[-0.04em] opacity-40 ${res.color}`}>
                           {res.label}
                         </span>
                         <div className="h-1 w-1 rounded-full bg-foreground/5" />
-                        <span className="text-[11px] font-semibold text-foreground/20 tabular-nums tracking-[-0.04em]">
+                        <span className="text-xs md:text-sm font-semibold text-foreground/20 tabular-nums tracking-[-0.04em]">
                           {formatDate(a.createdAt)}
                         </span>
                       </div>
@@ -216,7 +216,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                                 }}
                                 className="space-y-4 md:space-y-6"
                               >
-                                <p className="text-[11px] font-semibold tracking-[-0.04em] text-foreground/20">tu respuesta</p>
+                                <p className="text-xs md:text-sm font-semibold tracking-[-0.04em] text-foreground/20">tu respuesta</p>
                                 <div className="glass p-5 md:p-8 rounded-[1.8rem] md:rounded-[2.rem] border border-white/[0.02]">
                                   <p className="text-foreground/70 text-text2 font-semibold leading-relaxed tracking-[-0.04em]">
                                     {a.userAnswer}
@@ -232,7 +232,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                                 }}
                                 className="space-y-4 md:space-y-6"
                               >
-                                <p className="text-[11px] font-semibold tracking-[-0.04em] text-foreground/20">diagnóstico real</p>
+                                <p className="text-xs md:text-sm font-semibold tracking-[-0.04em] text-foreground/20">diagnóstico real</p>
                                 <div className="glass p-5 md:p-8 rounded-[1.8rem] md:rounded-[2.rem] border border-emerald-500/10 bg-emerald-500/[0.01]">
                                   <p className="text-emerald-500/60 text-text2 font-semibold leading-relaxed tracking-[-0.04em]">
                                     {a.correctDiagnosis}
@@ -252,7 +252,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                               >
                                 <div className="flex items-center gap-3">
                                   <div className="h-[1px] flex-1 bg-white/[0.03]" />
-                                  <p className="text-[11px] font-semibold tracking-[-0.04em] text-foreground/20">análisis clínico ia</p>
+                                  <p className="text-xs md:text-sm font-semibold tracking-[-0.04em] text-foreground/20">análisis clínico ia</p>
                                   <div className="h-[1px] flex-1 bg-white/[0.03]" />
                                 </div>
                                 <div className="relative px-6 md:px-12 py-2">
@@ -274,7 +274,7 @@ export function HistoryClient({ attempts, activeFilter }: HistoryClientProps) {
                             >
                               <Link
                                 href={`/practice/${a.caseId}`}
-                                className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-3 rounded-full glass border border-foreground/[0.05] text-[13px] font-semibold text-primary/60 hover:text-primary hover:border-primary/20 tracking-[-0.04em] transition-all duration-500 group"
+                                className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-3 rounded-full glass border border-foreground/[0.05] text-xs md:text-sm font-semibold text-primary/60 hover:text-primary hover:border-primary/20 tracking-[-0.04em] transition-all duration-500 group"
                               >
                                 <span>practicar de nuevo</span>
                                 <HugeiconsIcon icon={ArrowRight01Icon} size={14} className="group-hover:translate-x-1 transition-transform" />
