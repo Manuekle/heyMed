@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import Tesseract from 'tesseract.js'
 import type { ProcessedCase } from '@/app/api/process-case/route'
 import { HugeiconsIcon } from '@hugeicons/react'
 import {
@@ -151,11 +152,20 @@ export function UploadClient({ userId }: { userId: string }) {
       let body: Record<string, unknown>
 
       if (mode === 'image' && imageFile) {
-        const arrayBuffer = await imageFile.arrayBuffer()
-        const base64 = btoa(
-          new Uint8Array(arrayBuffer).reduce((s, b) => s + String.fromCharCode(b), '')
+        // Run OCR locally in the browser since MiniMax-M2.7 doesn't support images
+        const { data: { text } } = await Tesseract.recognize(
+          imageFile,
+          'spa', // Medical cases are typically in Spanish
+          { logger: m => console.log(`[OCR] ${m.status}: ${Math.round(m.progress * 100)}%`) }
         )
-        body = { imageBase64: base64, imageType: imageFile.type }
+
+        if (text.trim().length < 10) {
+          throw new Error('No se pudo extraer suficiente texto de la imagen.')
+        }
+
+        const ocrContext = `[NOTA: El siguiente texto fue extraído mediante reconocimiento óptico (OCR) de una imagen proporcionada por el usuario. Puede contener pequeños errores de reconocimiento que debes inferir por contexto.]\n\n`
+        
+        body = { rawCase: ocrContext + text }
       } else {
         if (!raw.trim()) return
         body = { rawCase: raw }

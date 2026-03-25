@@ -11,10 +11,21 @@ const SYSTEM_MSG = `Eres un docente de medicina experto. SIEMPRE respondes ÚNIC
 
 const BASE_INSTRUCTIONS = `Transforma el caso clínico en un caso educativo claro y conciso.
 
+CORRECCIÓN DE ERRORES Y FORMATO:
+- El texto de entrada puede haber sido extraído por OCR y contener errores tipográficos o caracteres basura. DEBES corregir automáticamente la ortografía, la gramática y el sentido clínico.
+- ESTRICTAMENTE: Toda tu respuesta debe estar en ESPAÑOL nativo y perfecto. NO uses caracteres chinos, ingleses ni ningún otro.
+- FORMATO NUMÉRICO: Escribe los pesos, tallas y valores de laboratorio con máximo DOS decimales. NO uses más de 2 decimales (ej. escribe "6.4 kg" o "6.40 kg", MÁS NUNCA "6,400 kg"). Usa el punto o la coma de forma consistente.
+
+PRECISIÓN CLÍNICA (¡MUY IMPORTANTE!):
+- Sé analíticamente riguroso. NO saltes a diagnósticos definitivos (ej. "Retraso del crecimiento pondoestatural" o "Desnutrición severa") si faltan criterios diagnósticos clave como percentiles OMS, Z-scores o tendencias a largo plazo.
+- Con datos limitados (ej. pocos controles de peso/talla), define el diagnóstico de forma sindrómica o como "riesgo de..." (ej. "Ganancia ponderal insuficiente para la edad", "Riesgo de desnutrición", "Talla baja en estudio").
+- La precisión clínica es tu prioridad principal. Evita aseveraciones fuertes sin el sustento clínico completo.
+- El diagnóstico debe ser MUY CONCISO Y DIRECTO (máx. 10 palabras). Solo nombra el diagnóstico principal o sindrómico (ej. "Ganancia ponderal insuficiente con riesgo nutricional"). NO incluyas la justificación, ni la edad, ni la causa dentro del campo de diagnóstico.
+
 Responde ÚNICAMENTE con este JSON válido (sin markdown, sin backticks, sin explicaciones):
 {
-  "description": "Caso clínico redactado en español claro (máx 120 palabras). Incluye: edad, sexo, motivo de consulta, síntomas, signos vitales y hallazgos relevantes. Sin jerga excesiva.",
-  "correct_diagnosis": "Diagnóstico principal preciso y específico",
+  "description": "Caso clínico redactado en español perfecto sin errores (máx 120 palabras). Incluye: edad, sexo, motivo de consulta, síntomas, signos vitales y hallazgos relevantes. Sin jerga excesiva.",
+  "correct_diagnosis": "Diagnóstico principal clínico preciso, corto y directo (máx 10 palabras. Ej: 'Ganancia ponderal insuficiente' en lugar de 'Retraso del crecimiento' si faltan percentiles). NO justifiques ni describas la etiología aquí.",
   "difficulty": "easy",
   "system": "cardio"
 }
@@ -32,52 +43,25 @@ Criterios de system (elige uno):
 - respiratorio: neumología, EPOC, asma, neumonía
 - otro: endocrino, reumatología, infectología, dermatología, etc.`
 
-const IMAGE_PROMPT = `Observa detenidamente la imagen adjunta. Contiene un caso clínico médico (puede ser una foto de un documento, una captura de pantalla, texto manuscrito, o una imagen médica con información clínica).
-
-Extrae TODA la información clínica visible en la imagen y úsala para generar el caso educativo.
-
-${BASE_INSTRUCTIONS}`
-
 const TEXT_PROMPT = `Analiza el siguiente caso clínico proporcionado como texto.
 
 ${BASE_INSTRUCTIONS}`
 
-// ── Image path: OpenAI-compatible endpoint (MiniMax Anthropic endpoint doesn't support images) ──
-async function processWithImage(imageBase64: string, imageType: string) {
-  const apiKey = process.env.ANTHROPIC_API_KEY!
-  const dataUrl = `data:${imageType};base64,${imageBase64}`
+/**
+ * Strip <think>...</think> reasoning blocks that MiniMax-M2.7 wraps around its output.
+ * Then strip markdown code fences. Returns the cleaned text for JSON parsing.
+ */
+function cleanModelOutput(raw: string): string {
+  // Remove <think>...</think> blocks (including multiline)
+  let cleaned = raw.replace(/<think>[\s\S]*?<\/think>/gi, '')
 
-  const res = await fetch('https://api.minimax.io/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'MiniMax-M2.7',
-      max_tokens: 1024,
-      messages: [
-        { role: 'system', content: SYSTEM_MSG },
-        {
-          role: 'user',
-          content: [
-            { type: 'image_url', image_url: { url: dataUrl } },
-            { type: 'text', text: IMAGE_PROMPT },
-          ],
-        },
-      ],
-    }),
-  })
+  // Strip markdown code fences
+  cleaned = cleaned
+    .replace(/^```(?:json)?\s*\n?/i, '')
+    .replace(/\n?```\s*$/i, '')
+    .trim()
 
-  if (!res.ok) {
-    const errBody = await res.text().catch(() => 'Could not read error body')
-    console.error(`[process-case] MiniMax OpenAI API error ${res.status}:`, errBody)
-    return null
-  }
-
-  const data = await res.json()
-  // OpenAI format: data.choices[0].message.content
-  return data.choices?.[0]?.message?.content ?? ''
+  return cleaned
 }
 
 // ── Text path: Anthropic-compatible endpoint ──
@@ -111,33 +95,28 @@ async function processWithText(rawCase: string) {
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { rawCase, imageBase64, imageType } = body
+  const { rawCase } = body
 
-  if (!rawCase?.trim() && !imageBase64) {
-    return NextResponse.json({ error: 'Se requiere texto o imagen del caso' }, { status: 400 })
+  if (!rawCase?.trim()) {
+    return NextResponse.json({ error: 'Se requiere texto del caso' }, { status: 400 })
   }
 
-  const text = imageBase64
-    ? await processWithImage(imageBase64, imageType ?? 'image/jpeg')
-    : await processWithText(rawCase)
+  const text = await processWithText(rawCase)
 
   if (text === null) {
     return NextResponse.json({ error: 'Error procesando el caso con IA' }, { status: 500 })
   }
 
   try {
-    // Strip markdown code fences the model sometimes wraps around JSON
-    const cleaned = text
-      .replace(/^```(?:json)?\s*\n?/i, '')
-      .replace(/\n?```\s*$/i, '')
-      .trim()
+    const cleaned = cleanModelOutput(text)
+    console.log('[process-case] Cleaned output:', cleaned.slice(0, 300))
 
     const processed: ProcessedCase = JSON.parse(cleaned)
     if (!processed.description || !processed.correct_diagnosis) throw new Error('Respuesta incompleta')
     if (!processed.system) processed.system = 'otro'
     return NextResponse.json(processed)
   } catch (err) {
-    console.error('[process-case] Failed to parse AI response:', text)
+    console.error('[process-case] Failed to parse AI response:', text.slice(0, 500))
     console.error('[process-case] Parse error:', err)
     return NextResponse.json({ error: 'La IA devolvió un formato inesperado.' }, { status: 500 })
   }
